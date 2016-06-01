@@ -1,0 +1,643 @@
+﻿@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <title>货币反假在线培训考试系统</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- basic styles -->
+    <link href="/content/Manage/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/content/Manage/css/font-awesome.css" />
+    <link rel="stylesheet" href="/content/Manage/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="/content/Manage/redactor2/redactor.css" />
+
+    <link rel="stylesheet" href="/content/Manage/css/datepicker.css" />
+    <link rel="stylesheet" href="/content/Manage/css/bootstrap-timepicker.css" />
+    <link rel="stylesheet" href="/content/Manage/css/daterangepicker.css" />
+    <link rel="stylesheet" href="/content/Manage/css/jquery.gritter.css" />
+	<link rel="stylesheet" href="/content/Manage/css/jquery-ui-1.10.3.custom.min.css" />
+
+
+
+    <link rel="stylesheet" href="/content/Manage/css/ace.min.css" />
+    <link rel="stylesheet" href="/content/Manage/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/content/Manage/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="/content/Manage/css/plus.css" />
+
+
+
+    <script src="/content/Manage/js/ace-extra.min.js"></script>
+
+    <script src='/content/Manage/js/jquery-2.0.3.min.js'></script>
+
+
+
+    <script src="/content/Manage/redactor2/redactor.min.js"></script>
+	@*<script src="/Content/Manage/redactor/lang/zh_cn.js"></script>*@
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='/content/Manage/js/jquery.mobile.custom.min.js'>" + "<" + "script>");
+    </script>
+
+    <script src="/content/Manage/js/bootstrap.min.js"></script>
+
+    <script src="/content/Manage/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/content/Manage/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/content/Manage/js/jquery.slimscroll.min.js"></script>
+
+
+    <script src="/content/Manage/js/bootbox.min.js"></script>
+    <script src="/content/Manage/js/jquery.gritter.min.js"></script>
+
+
+    @*<script src="/content/Manage/js/jquery.easy-pie-chart.min.js"></script>*@
+    <script src="/content/Manage/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/content/Manage/js/date-time/daterangepicker.min.js"></script>
+    <script src="/content/Manage/js/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="/content/Manage/js/date-time/moment.min.js"></script>
+
+
+    <!-- ace scripts -->
+	<script src="/content/Manage/js/ace.min.js"></script>
+    <script src="/content/Manage/js/ace-elements.min.js"></script>
+
+    <script src="/content/Manage/script/my.js"></script>
+
+
+    <style>
+        div,p,span,i,label,b,a{font-family:"微软雅黑","宋体"}
+    </style>
+</head>
+
+<body class="skin-3">
+	<div class="navbar navbar-default" id="navbar">
+		<script type="text/javascript">
+			try { ace.settings.check('navbar', 'fixed') } catch (e) { }
+		</script>
+
+		<div class="navbar-container" id="navbar-container">
+			<div class="navbar-header pull-left">
+				<a href="#" class="navbar-brand">
+					<small>
+						<i class="icon-leaf"></i>
+						Currency Anti-fake Training system 货币反假在线培训考试系统
+					</small>
+				</a><!-- /.brand -->
+			</div><!-- /.navbar-header -->
+
+			<div class="navbar-header pull-right" role="navigation">
+				<ul class="nav ace-nav">
+
+
+					<li class="light-blue ">
+						<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+							<img class="nav-user-photo" src="/content/Manage/avatars/user.jpg" alt="Jason's Photo" />
+							<span class="user-info">
+								<small>欢迎光临,</small>
+								@*@JULONG.TRAIN.WEB.Areas.Manage.Models.AccountUser.ManageUser.Name*@
+							</span>
+
+							<i class="icon-caret-down"></i>
+						</a>
+
+						<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+							@*<li>
+					<a href="#">
+						<i class="icon-cog"></i>
+						设置
+					</a>
+				</li>
+
+				<li>
+					<a href="#">
+						<i class="icon-user"></i>
+						个人资料
+					</a>
+				</li>*@
+
+							<li class="divider"></li>
+
+							<li>
+								<a href="/manage/home/logout">
+									<i class="icon-off"></i>
+									退出
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul><!-- /.ace-nav -->
+			</div><!-- /.navbar-header -->
+		</div><!-- /.container -->
+	</div>
+
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+		</script>
+
+		<div class="main-container-inner">
+			<a class="menu-toggler" id="menu-toggler" href="#">
+				<span class="menu-text"></span>
+			</a>
+
+			<div class="sidebar" id="sidebar">
+				<script type="text/javascript">
+					try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+				</script>
+				<!---->
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<button class="btn btn-success">
+							<i class="icon-signal"></i>
+						</button>
+
+						<button class="btn btn-info">
+							<i class="icon-pencil"></i>
+						</button>
+
+						<button class="btn btn-warning">
+							<i class="icon-group"></i>
+						</button>
+
+						<button class="btn btn-danger">
+							<i class="icon-cogs"></i>
+						</button>
+					</div>
+
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<span class="btn btn-success"></span>
+
+						<span class="btn btn-info"></span>
+
+						<span class="btn btn-warning"></span>
+
+						<span class="btn btn-danger"></span>
+					</div>
+				</div><!-- #sidebar-shortcuts -->
+				<style>
+					.nav-list>li>a>[class*="fa-"]:first-child{
+						display: inline-block;
+						vertical-align: middle;
+						min-width: 30px;
+						text-align: center;
+						font-size: 18px;
+						font-weight: normal;
+						margin-right: 2px;
+					}
+				</style>
+				<ul class="nav nav-list" id="page_nav">
+					<li>
+						<a href="~/manage/Material" class="dropdown-toggle">
+							<i class="icon-flag"></i>
+							<span class="menu-text"> 教材列表 </span>
+
+						</a>
+
+					</li>
+					<li>
+						<a href="#" class="dropdown-toggle">
+
+							<i class="fa fa-th"></i>
+
+							<span>题库</span>
+							<b class="arrow icon-angle-down"></b>
+						</a>
+						<ul class="submenu">
+							<li>
+
+								<a href="###">
+									<i class="icon-double-angle-right"></i>
+									试题列表
+								</a>
+
+							</li>
+							<li>
+								<a href="###">
+									<i class="icon-double-angle-right"></i>
+									试题组
+								</a>
+
+							</li>
+							<li>
+								<a href="###">
+									<i class="icon-double-angle-right"></i>
+									试题标签
+								</a>
+
+							</li>
+
+						</ul>
+					</li>
+					<li>
+						<a href="#" class="dropdown-toggle">
+
+							<i class="icon-pencil"></i>
+
+							<span>模拟考题</span>
+							<b class="arrow icon-angle-down"></b>
+						</a>
+						<ul class="submenu">
+							<li>
+
+								<a href="###">
+									<i class="icon-double-angle-right"></i>
+									考题套别
+								</a>
+
+							</li>
+							<li>
+								<a href="###">
+									<i class="icon-double-angle-right"></i>
+									考题列表
+								</a>
+
+							</li>
+
+
+						</ul>
+					</li>
+
+
+
+					<li>
+						<a href="#" class="dropdown-toggle">
+							<i class="icon-picture"></i>
+							<span class="menu-text"> 学员</span>
+
+							<b class="arrow icon-angle-down"></b>
+						</a>
+						<ul class="submenu">
+							<li>
+
+								<a href="/manage/Students/">
+									<i class="icon-double-angle-right"></i>
+									学员管理
+								</a>
+
+							</li>
+							<li>
+
+								<a href="/manage/StudentGroup">
+									<i class="icon-double-angle-right"></i>
+									学员组管理
+								</a>
+
+							</li>
+						</ul>
+
+					</li>
+
+					<li>
+						<a href="/manage/News">
+							<i class="icon-fire  "></i>
+							<span class="menu-text">培训新闻</span>
+						</a>
+					</li>
+					<li>
+						<a href="/manage/AntiFakeDynamic">
+							<i class="icon-fire  "></i>
+							<span class="menu-text">反假动态</span>
+						</a>
+					</li>
+					<li>
+						<a href="/manage/Achievement">
+							<i class="icon-fire  "></i>
+							<span class="menu-text">培训成果</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="#" class="dropdown-toggle">
+							<i class="icon-user"></i>
+							<span class="menu-text"> 用户管理 </span>
+
+							<b class="arrow icon-angle-down"></b>
+						</a>
+
+						<ul class="submenu">
+
+							<li>
+								<a href="/manage/member/LastLogin">
+									<i class="icon-double-angle-right"></i>
+									操作员
+								</a>
+							</li>
+							<li>
+								<a href="/manage/member/LastLogin">
+									<i class="icon-double-angle-right"></i>
+									管理员
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li>
+						<a href="#" class="dropdown-toggle">
+							<i class="icon-flag"></i>
+							<span class="menu-text"> 界页UI例子 </span>
+
+							<b class="arrow icon-angle-down"></b>
+						</a>
+						<ul class="submenu">
+							<li>
+
+								<a href="~/manage/sample">
+									<i class="icon-double-angle-right"></i>
+									1
+								</a>
+
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+
+				<!-- /.nav-list -->
+
+				<div class="sidebar-collapse" id="sidebar-collapse">
+					<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+				</div>
+
+				<script type="text/javascript">
+					try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+				</script>
+			</div>
+
+			<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+					</script>
+
+					<ul class="breadcrumb">
+						<li>
+							<i class="icon-home home-icon"></i>
+							<a href="#">@ViewBag.menuName</a>
+						</li>
+						<li class="active">@ViewBag.subMenuName</li>
+					</ul><!-- .breadcrumb -->
+
+				</div>
+
+				<div class="page-content">
+					<!--
+						<div class="page-header">
+							<h1>
+								控制台
+								<small>
+									<i class="icon-double-angle-right"></i>
+									查看
+								</small>
+							</h1>
+						</div>
+						/.page-header -->
+
+					<div class="row">
+						<div class="col-xs-12 col-md-12 col-lg-12">
+							<!-- PAGE CONTENT BEGINS -->
+							<!--
+														<div class="alert alert-block alert-success">
+															<button type="button" class="close" data-dismiss="alert">
+																<i class="icon-remove"></i>
+															</button>
+
+															<i class="icon-ok green"></i>
+
+															欢迎使用
+															<strong class="green">
+																Ace后台管理系统
+																<small>(v1.2)</small>
+															</strong>
+															,轻量级好用的后台管理系统模版.
+														</div>
+							-->
+							@using PagedList
+							@using PagedList.Mvc
+							@{
+								ViewBag.Title = "例子";
+								//Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+
+								var dropDownList = new SelectList(new string[] { "aa", "bbb" }, "aa");
+							}
+
+							<h2>列表</h2>
+
+							<p>
+								@Html.ActionLink("新建", "Create")
+							</p>
+							<table class="table">
+								<tr>
+									<th class="center">
+
+									</th>
+
+									<th>
+										名称
+									</th>
+
+									<th>
+										说明
+									</th>
+
+									<th>
+										AAA
+									</th>
+
+									<th>
+										BBB
+									</th>
+
+									<th></th>
+								</tr>
+
+								<tr class="disabled">
+									<td class="center">
+										<i class="icon-ok bigger-120"></i>
+									</td>
+									<td>
+										asdf
+									</td>
+
+									<td title="" class="datetime">
+										1977-12-06 55:44:11
+									</td>
+
+									<td>
+										adfasdfasd
+									</td>
+
+
+									<td>
+										@Html.ActionLink("修改", "Edit", new { id = 11 })
+									</td>
+								</tr>
+
+
+							</table>
+							@*@Html.PagedListPager((IPagedList)Model, pageIndex => Url.Action("index", new { pageIndex }))*@
+
+							<h2>表单</h2>
+							@using (Html.BeginForm())
+							{
+								@Html.AntiForgeryToken()
+
+								<div class="form-horizontal">
+									<h4>AAAA</h4>
+									<hr />
+									@Html.ValidationSummary(true)
+									@*@Html.HiddenFor(model => model.Id)*@
+
+									<div class="form-group">
+
+										<label class="control-label col-md-2">类型</label>
+										<div class="col-md-10">
+											@Html.DropDownList("dropDownList", dropDownList, "请选择")
+											@*@Html.ValidationMessageFor(model => model.TGDocumentTypeId)*@
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-2">价格参考</label>
+										@*@Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })*@
+										<div class="col-md-10">
+											<input type="text" value="adfasdf" class=" input-xxlarge" />
+											@*@Html.TextBoxFor(model => model.Title, new { @class = "input-xxlarge" })
+						@Html.ValidationMessageFor(model => model.Content)*@
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-2">价格参考</label>
+
+										<div class="col-md-10">
+											<textarea></textarea>
+											@*@Html.TextBoxFor(model => model.Bak)
+						@Html.ValidationMessageFor(model => model.Bak)*@
+											<div class="exp-info">
+												为空时不显示
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										@Html.Label("HeadPics", "图片(多张)", new { @class = "control-label col-md-2" })
+										<div class="col-md-10">
+											<input name="HeadPics" type="hidden" value="" />
+											<input class="picUpload" data-target="HeadPics" data-title="点击上传图片（支技多张图片）" data-path="TGDocument" multiple="" type="file">
+											<div class="exp-info">建议图片宽高为4:3比例 ，支技多张图片</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-2">XXXXX</label>
+										@*@Html.LabelFor(model => model.Content, new { @class = "control-label col-md-2" })*@
+										<div class="col-md-10">
+											<textarea data-toggle="redactor" name="aaa" style="min-height:100px;width:100%">
+												xxxxxx
+											</textarea>
+											@*@Html.EditorFor(model => model.Content, "ace_TextArea")
+						@Html.ValidationMessageFor(model => model.Content)*@
+										</div>
+									</div>
+
+
+
+									<div class="form-group">
+										<label class="control-label col-md-2">XXXXX</label>
+										@*@Html.LabelFor(model => model.Enable, new { @class = "control-label col-md-2" })*@
+										<div class="col-md-10">
+											<label>
+												<input class="ace ace-switch ace-switch-7" name="aaa" type="checkbox" checked="checked" value="true" />
+												<span class="lbl"></span>
+											</label>
+											@*@Html.EditorFor(model => model.Enable, "ace_boolean_checkbox")
+						@Html.ValidationMessageFor(model => model.Enable)*@
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-2">XXXXX</label>
+										@*@Html.LabelFor(model => model.Index, new { @class = "control-label col-md-2" })*@
+										<div class="col-md-10">
+											<input type="text" value="adfasdf" />
+											@*@Html.EditorFor(model => model.Index)
+						@Html.ValidationMessageFor(model => model.Index)*@
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-offset-2 col-md-10">
+											<input type="submit" value="Save" class="btn btn-primary" />
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-offset-1 col-md-10">
+											<button type="submit" data-original-title="直接保存" data-rel="tooltip" data-placement="right" class="btn btn-primary btn-sm tooltip-warning">
+												<i class="icon-save"></i>
+												保存
+											</button>
+										</div>
+									</div>
+								</div>
+							}
+						<script src="~/Content/Manage/redactor2/plugins/fontcolor/fontcolor.js"></script>
+						<script src="~/Content/Manage/redactor2/plugins/fullscreen/fullscreen.js"></script>
+							<script src="~/Content/Manage/redactor2/plugins/video/video.js"></script>
+							<script>
+
+								$(function () {
+									regUpload();
+									//在线编辑器上传
+									$('textarea[data-toggle=redactor]').redactor({
+										focus: true,
+										uploadImageFields: { path: "TGDocument" },
+										uploadFileFields: { path: "TGDocument" },
+										imageUpload: '/Manage/Upload/ImageUpload',
+										fileUpload: '/Manage/Upload/Upload/',
+										plugins: ['video'],
+										minHeight: 400
+									});
+								})
+
+							</script>
+
+							<!-- PAGE CONTENT ENDS -->
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.page-content -->
+			</div><!-- /.main-content -->
+
+
+		</div><!-- /.main-container-inner -->
+
+		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+			<i class="icon-double-angle-up icon-only bigger-110"></i>
+		</a>
+	</div><!-- /.main-container -->
+
+
+
+	<script>
+		function showErrorAlert(reason, detail) {
+			var msg = '';
+			if (reason === 'unsupported-file-type') { msg = "Unsupported format " + detail; }
+			else {
+				console.log("error uploading file", reason, detail);
+			}
+			$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
+             '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
+		}
+
+		jQuery(function ($) {
+			$("[data-rel=tooltip]").data("placement", "top").tooltip();
+
+		});
+		activeLeftMenu('@( ViewBag.menuUrl)');
+
+	</script>
+
+
+</body>
+
+</html>

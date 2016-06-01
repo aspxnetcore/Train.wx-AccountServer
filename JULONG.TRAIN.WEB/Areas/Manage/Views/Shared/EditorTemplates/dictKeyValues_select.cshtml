@@ -1,0 +1,7 @@
+﻿
+@using JULONG.TRAIN.Model;
+@model System.Int32?
+
+@Html.DropDownList("",
+			new SelectList(PublicCache.GetDictKeyValues(ViewData["ClassName"].ToString()), "Id", "Name", Model == null ? "" : Model.ToString())
+)

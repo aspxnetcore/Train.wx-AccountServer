@@ -1,0 +1,390 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			-webkit-font-smoothing: antialiased;
+			background-color:#000;
+			overflow-x:hidden;
+		}
+		.shake-text{
+width:100%; height:100%;background-image:-webkit-linear-gradient(90deg,	transparent 98%,#111 98%,#333 100%);
+background-size:36px 36px; border:0;box-sizing: border-box;
+color:#eee;line-height:36px;font-size:24px; -webkit-appearance:none;
+			-webkit-animation:infinite;
+			-webkit-animation-play-state:paused;
+			outline:0;
+			background-color:transparent;
+			padding-left:1rem;
+			padding-right:1rem;
+		}
+		.shake {
+			-webkit-animation-name: shake;
+			-webkit-animation-fill-mode: both ;
+			-webkit-animation-duration: .3s;
+			-webkit-animation-iteration-count:1;
+			-webkit-animation-play-state:running;
+			-webkit-transform: translate3d(0,0,0);
+		}
+		.grain-canvas{
+			position:absolute;
+			top:0px;
+			left:0px;
+			background-color:transparent;
+			pointer-events:none;
+			/*border:1px solid red;*/
+		}
+
+		@-webkit-keyframes shake {
+
+			0% {
+				-webkit-transform: translate3d(3px,2px,0);
+			}
+
+			50% {
+				-webkit-transform: translate3d(-1px,-2px,0);
+			}
+
+			70% {
+				-webkit-transform: translate3d(1px,-1px,0);
+			}
+			100% {
+				-webkit-transform: translate3d(0,0,0);
+			}
+		}
+
+	</style>
+</head>
+
+<body >
+	<textarea id="typingTarget" style=""  spellcheck="false" oninput="typing(event)" class="shake-text"></textarea>
+</body>
+</html>
+<script>
+	/*说明*/
+	console.log("2051.12.24 by windbell2 QQ738337460")
+	console.log("参照xcode亮瞎眼插件 ，很乱，没整理，剽窃请注明出处 谢谢")
+	console.log("只在chrome下测试过");
+	
+	HTMLElement.prototype.hasClass = function (cls) {
+		return this.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+	}
+	HTMLElement.prototype.addClass = function (cls) {
+		if (!this.hasClass(cls)) this.className += " " + cls;
+	}
+
+	HTMLElement.prototype.removeClass = function (cls) {
+		if (this.hasClass(cls)) {
+			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+			this.className = this.className.replace(reg, ' ');
+		}
+	}
+
+	//document.getElementById("typingTarget").addEventListener("webkitAnimationEnd", function () {
+		//alert();
+	//})
+
+	function typing(evt) {
+	
+		evt.target.removeClass("shake")
+		setTimeout(function () {
+			evt.target.addClass("shake")
+		}, 20)
+		//var start = evt.target.selectionStart;
+		var end = evt.target.selectionEnd;
+
+		var postion = getCaretCoordinates(evt.target, end);
+
+		ProtonsFrame.One(postion.x, postion.y);
+	}
+	document.addEventListener("myProtonAnimationEnd", function (e) {
+		document.body.removeChild(ProtonsFrame.Protons[0].c);
+		ProtonsFrame.Protons.splice(0, 1);
+	})
+	var ProtonsFrame = {
+		hueStart:0,
+		hueEnd : 2220,
+		hue : 0,
+		Protons: [],
+		One: function (x, y) {
+			var canvas = document.createElement("canvas");
+			canvas.width = 300;
+			canvas.height = 200;
+			canvas.className = "grain-canvas";
+			canvas.style.top = y - canvas.height/2 +18 + "px";
+			canvas.style.left = x - canvas.width / 2 + "px";
+			document.body.appendChild(canvas);
+			var p = new myProton(canvas);
+			p.hue = this.hue;
+			//if (_this.hue == _this.hueEnd) { _this.hue = _this.hueStart };
+			this.Protons.push(p);
+			p.star();
+			
+		}
+	}
+
+	//粒子喷射 基一个loader.js 提取其粒子实现部分，并做了修改
+	var myProton = function (c) {
+		this.pool = [];
+		if (!c) {
+			console.log("lost canvas");
+		}
+		var _this = this;
+		this.c = c;
+		this.ctx = c.getContext('2d');
+		this.cw = c.offsetWidth;
+		this.ch = c.offsetHeight;
+
+		this.ParticleXY = {
+			x: (this.cw / 2),
+			y: (this.ch / 2)
+		};
+
+		this.particles = [];
+		this.particleLift = 140;
+		//this.hueStart = 0
+		//this.hueEnd = 220;
+		//this.hue = 0;
+		this.gravity = .15;
+		this.particleRate = 4;
+		this.particleNumber = 60;
+		this.isEnd = false;
+
+		this.rand = function (rMi, rMa) { return ~~((Math.random() * (rMa - rMi + 1)) + rMi); };
+		this.hitTest = function (x1, y1, w1, h1, x2, y2, w2, h2) { return !(x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1); };
+
+
+		this.star = function () {
+			this.loop();
+		}
+		this.loop = function () {
+			var loopIt = function () {
+				_this.clearCanvas();
+				if (_this.particleNumber >1) {
+					_this.createParticles();
+
+				} else {
+					if (_this.isEnd) {
+						var evt = document.createEvent("Events");
+						evt.initEvent('myProtonAnimationEnd', true, true);
+						document.dispatchEvent(evt);
+						return;
+					}
+				}
+				requestAnimationFrame(loopIt, _this.c);
+				//_this.updateLoader();
+				_this.updateParticles();
+
+				//_this.renderLoader();
+				_this.renderParticles();
+
+			};
+			loopIt();
+		};
+		this.clearCanvas = function () {
+			this.ctx.globalCompositeOperation = 'source-over';
+			this.ctx.clearRect(0, 0, this.cw, this.ch);
+			this.ctx.globalCompositeOperation = 'lighter';
+		};
+
+		this.Particle = function () {
+			this.live = 100;
+			this.x = _this.ParticleXY.x + _this.rand(-12,12);
+			this.y = _this.ParticleXY.y + _this.rand(-7, 7);
+			this.vx = (_this.rand(-220, 220) - 2) / 100;
+			this.vy = (_this.rand(0, _this.particleLift) - _this.particleLift * 2) / 100;
+			this.width = _this.rand(2, 8) / 2;
+			this.height = _this.rand(2, 8) / 2;
+			this.hue = ProtonsFrame.hue++;
+			if (ProtonsFrame.hue == ProtonsFrame.hueEnd) { ProtonsFrame.hue = ProtonsFrame.hueStart };
+			_this.particleNumber--;
+			
+		};
+
+		this.Particle.prototype.update = function (i) {
+			this.vx += (_this.rand(0, 6) - 3) / 100;
+			this.vy += _this.gravity;
+			this.x += this.vx;
+			this.y += this.vy;
+
+			if (this.live < 0) {
+				_this.particles.splice(i, 1);
+				if (_this.particles.length== 0) {
+					_this.isEnd = true;
+				}
+			}
+			//if (this.y > _this.ch) {
+			//	_this.particles.splice(i, 1);
+			//}
+		};
+
+		this.Particle.prototype.render = function () {
+			this.live -= 2;
+			_this.ctx.fillStyle = 'hsla(' + this.hue + ', 100%, ' + _this.rand(50, 70) + '%, ' + (this.live) / 100 + ')';
+			_this.ctx.fillRect(this.x, this.y, this.width, this.height);
+		};
+
+		this.createParticles = function () {
+			var i = this.particleRate;
+			while (i--) {
+				this.particles.push(new this.Particle());
+			};
+		};
+
+		this.updateParticles = function () {
+			var i = this.particles.length;
+			while (i--) {
+				var p = this.particles[i];
+				p.update(i);
+			};
+		};
+
+		this.renderParticles = function () {
+
+			var i = this.particles.length;
+			while (i--) {
+				var p = this.particles[i];
+				p.render();
+			};
+		};
+	}
+	//帧动画驱动
+	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+	//帧动画另一种写法
+	(function () {
+		var lastTime = 0;
+		var vendors = ['ms', 'moz', 'webkit', 'o'];
+		for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+			window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+			window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+		};
+
+		if (!window.requestAnimationFrame) {
+			window.requestAnimationFrame = function (callback, element) {
+				var currTime = new Date().getTime();
+				var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+				var id = window.setTimeout(function () { callback(currTime + timeToCall); }, timeToCall);
+				lastTime = currTime + timeToCall;
+				return id;
+			};
+		};
+
+		if (!window.cancelAnimationFrame) {
+			window.cancelAnimationFrame = function (id) {
+				clearTimeout(id);
+			};
+		};
+	})();
+
+	//坐标 by https://github.com/component/textarea-caret-position 部分修改
+	(function () {
+
+		var properties = [
+		  'direction',  // RTL support
+		  'boxSizing',
+		  'width',  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+		  'height',
+		  'overflowX',
+		  'overflowY',  // copy the scrollbar for IE
+
+		  'borderTopWidth',
+		  'borderRightWidth',
+		  'borderBottomWidth',
+		  'borderLeftWidth',
+		  'borderStyle',
+
+		  'paddingTop',
+		  'paddingRight',
+		  'paddingBottom',
+		  'paddingLeft',
+
+		  // https://developer.mozilla.org/en-US/docs/Web/CSS/font
+		  'fontStyle',
+		  'fontVariant',
+		  'fontWeight',
+		  'fontStretch',
+		  'fontSize',
+		  'fontSizeAdjust',
+		  'lineHeight',
+		  'fontFamily',
+
+		  'textAlign',
+		  'textTransform',
+		  'textIndent',
+		  'textDecoration',  // might not make a difference, but better be safe
+
+		  'letterSpacing',
+		  'wordSpacing',
+
+		  'tabSize',
+		  'MozTabSize'
+
+		];
+
+		var isFirefox = window.mozInnerScreenX != null;
+
+		window.getCaretCoordinates=function(element, position) {
+
+
+			// mirrored div
+			var div = document.createElement('div');
+			div.id = 'input-textarea-caret-position-mirror-div';
+			document.body.appendChild(div);
+
+			var style = div.style;
+			var computed = window.getComputedStyle ? getComputedStyle(element) : element.currentStyle;  // currentStyle for IE < 9
+
+			// default textarea styles
+			style.whiteSpace = 'pre-wrap';
+			if (element.nodeName !== 'INPUT')
+				style.wordWrap = 'break-word';  // only for textarea-s
+
+			// position off-screen
+			style.position = 'absolute';  // required to return coordinates properly
+
+
+			// transfer the element's properties to the div
+			properties.forEach(function (prop) {
+				style[prop] = computed[prop];
+			});
+
+			if (isFirefox) {
+
+				if (element.scrollHeight > parseInt(computed.height))
+					style.overflowY = 'scroll';
+			} else {
+				style.overflow = 'hidden';  // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
+			}
+
+			div.textContent = element.value.substring(0, position);
+
+			if (element.nodeName === 'INPUT')
+				div.textContent = div.textContent.replace(/\s/g, "\u00a0");
+
+			var span = document.createElement('span');
+
+			span.textContent = element.value.substring(position) || '.';  // || because a completely empty faux span doesn't render at all
+			div.appendChild(span);
+
+			var coordinates = {
+				y: span.offsetTop + parseInt(computed['borderTopWidth']),
+				x: span.offsetLeft + parseInt(computed['borderLeftWidth'])
+			};
+
+			document.body.removeChild(div);
+
+			return coordinates;
+		}
+
+
+	})();
+
+
+</script>

@@ -1,0 +1,412 @@
+﻿@{
+	ViewBag.Title = "Home Page";
+}
+
+<div ng-app="mainApp">
+
+	<div class="site-wrapper" ng-controller="mainCTL">
+		<div class="site-wrapper-inner">
+			<div class="cover-container" style="position:relative">
+				<div style="position:absolute;right:0" class="menu-nav">
+					<div class="list-group" style="position:fixed;top:100px">
+						<a href="#add" class="list-group-item">
+							<i class="glyphicon glyphicon-plus"></i>
+						</a>
+						<a href="#list" class="btn list-group-item">
+							<i class="glyphicon glyphicon-th-list"></i>
+						</a>
+						<a href="#poolList" class="btn list-group-item">
+							<i class="glyphicon glyphicon-alert"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="masthead clearfix">
+					<div class="inner">
+						<h3 class="masthead-brand">员工账号接口服务</h3>
+						<nav>
+							<ul class="nav masthead-nav">
+								<li class="active"><a href="#">授权管理</a></li>
+								@*<li><a href="#login">登录</a></li>*@
+								<li><a href="" ng-click="logout()">退出</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+
+				<div class="inner cover" ng-view>
+
+
+				</div>
+
+				<div class="mastfoot">
+					<div class="inner">
+						<p>2016 julong.cc copyright</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<script type="text/ng-template" id="list">
+			<h2>授权应用列表</h2>
+			<table class="table app-list">
+				<tr>
+					<th>
+						应用名
+					</th>
+					<th>
+						AppId
+					</th>
+					<th>
+						密钥
+					</th>
+					<th>
+						说明
+					</th>
+					<th>
+						创建
+					</th>
+					<th>
+						过期
+					</th>
+					<th>
+						有效
+					</th>
+					@*<th>
+							请求数
+						</th>*@
+					<th></th>
+				</tr>
+				<tr ng-repeat="an in RAs">
+					<td ng-bind="an.AppName"></td>
+					<td ng-bind="an.AppId"></td>
+					<td><i class="glyphicon glyphicon-eye-close"></i></td>
+					<td ng-bind="an.Exp"></td>
+					<td ng-bind="an.Date | date:'yyyy-MM-dd'"></td>
+					<td ng-bind="an.ExpiryDate | date:'yyyy-MM-dd'"></td>
+					<td>
+						<div ng-switch="an.Disabled">
+							<span ng-switch-when="false"><i class="glyphicon glyphicon-ok" style="color:#1bb52f"></i></span>
+							<span ng-switch-default><i class="glyphicon glyphicon-remove"></i></span>
+						</div>
+					</td>
+					@*<td ng-bind="an.RquestCount"></td>*@
+					<td>
+						<a class="btn btn-primary btn-sm" href="#edit/{{an.AppId}}">
+							<i class="glyphicon glyphicon-edit"> </i> 编辑
+						</a>
+						<button class="btn btn-danger  btn-sm" ng-click="del(an,$index)">
+							<i class="glyphicon glyphicon-remove"></i> 删除
+						</button>
+					</td>
+				</tr>
+
+
+			</table>
+
+		</script>
+		<script type="text/ng-template" id="edit">
+			<h2>编辑账号</h2>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="exampleInputEmail1" class="col-md-2">名称</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" ng-model="RA.AppName" placeholder="应用名称(中文)" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1" class="col-md-2">AppId</label>
+					<div class="col-md-8">
+						<input type="text" disabled class="form-control" ng-model="RA.AppId" placeholder="应用ID" style="color:#aaa" />
+					</div>
+					@*<div class="col-md-2">
+							<button class="btn btn-primary" type="button" ng-click="newAppId()">生成</button>
+						</div>*@
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1" class="col-md-2">AppSecretKey</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" ng-model="RA.SecretKey" placeholder="密钥" />
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-primary" type="button" ng-click="newSecrectKey()">生成</button>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="exampleInputEmail1" class="col-md-2">备注说明</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" ng-model="RA.Exp" placeholder="" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2">过期时间</label>
+					<div class="col-md-8">
+						<div class='input-group date' ng-w2datepicker ng-w2datepicker-format="YYYY-MM-DD" ng-model="RA.ExpiryDate">
+							<input type='text' class="form-control" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+
+					</div>
+				</div>
+				<div class="checkbox form-group">
+					<label>
+						<input type="checkbox" ng-model="RA.Disabled">作废
+					</label>
+				</div>
+				<button type="submit" class="btn btn-danger" ng-click="save()">保存</button>
+				<button type="submit" class="btn btn-primary" onclick='self.history.back()'>返回</button>
+			</form>
+
+		</script>
+		<script type="text/ng-template" id="poolList">
+			<h2>实例状态</h2>
+			<table class="table">
+				<tr>
+					<th>
+						应用名
+					</th>
+					<th>
+						AppId
+					</th>
+					<th>
+						密钥
+					</th>
+					<th>
+						Token
+					</th>
+
+					<th>
+						颁发
+					</th>
+					<th>
+						实例过期
+					</th>
+					<th>
+						请求凭证
+					</th>
+					<th>
+						请求
+					</th>
+					@*<th>
+
+						</th>*@
+					<th></th>
+				</tr>
+				<tr ng-repeat="an in CIs">
+					<td ng-bind="an.AppName"></td>
+					<td ng-bind="an.certificate.AppId"></td>
+					<td>查看</td>
+
+					<td>查看</td>
+					<td ng-bind="an.certificate.IssueDate | date:'HH:mm'"></td>
+					<td ng-bind="an.ExpiryDate | date:'HH:mm'"></td>
+					<td ng-bind="an.RequestIssueCount"></td>
+					<td ng-bind="an.RequestCount"></td>
+					@*<td>
+							<a class="btn btn-primary" href="#edit/{{an.AppId}}"></a>
+							<button class="btn btn-danger" ng-click="del(an,$index)"></button>
+						</td>*@
+				</tr>
+
+
+			</table>
+
+		</script>
+		<script type="text/ng-template" id="login">
+			<h2>登录</h2>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="exampleInputEmail1" class="col-md-2 control-label">用户名</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" ng-model="name" placeholder="用户名" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1" class="col-md-2  control-label">密码</label>
+					<div class="col-md-8">
+						<input type="password" class="form-control" ng-model="password" placeholder="密码" />
+					</div>
+
+				</div>
+
+				<button type="submit" class="btn btn-danger" ng-click="submit()">提交</button>
+
+			</form>
+
+		</script>
+	</div>
+
+</div>
+
+@section footer{
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/angular-w2lib.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script>
+	/*
+	$.fn.datetimepicker.dates['en'] = {
+		days: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+		daysShort: ["日", "一", "二", "三", "四", "五", "六", "日"],
+		daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
+		months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+		monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+		today: "今天"
+	};
+	*/
+	bootbox.setDefaults("locale", "zh_CN");
+	var mainApp = angular.module("mainApp", ['ngRoute','ngW2lib']);
+
+	mainApp.config(['$routeProvider',"$httpProvider",
+	   function ($routeProvider) {
+	   	$routeProvider.
+		when('/edit/:id', {
+			templateUrl: 'edit',
+			controller: "editCTL"
+		}).
+		when('/add', {
+			templateUrl: 'edit',
+			controller: "editCTL"
+		}).
+		when("/list", {
+			templateUrl: 'list',
+			controller:"listCTL"
+		}).
+		when("/poolList", {
+			templateUrl: 'poolList',
+			controller: "poolListCTL"
+		}).
+	   	when("/login", {
+	   		templateUrl: 'login',
+	   		controller: "loginCTL"
+	   	})
+			.otherwise({
+		   		redirectTo: '/list'
+	   	});
+
+	   }]);
+
+	//mainApp.config(function (w2lib) {
+	//	//w2lib.ajax.filterInjector(function (data) {
+	//	//	self.location.href = "/login";
+	//	//})
+	//})
+	//定义全局1
+	//mainApp.service("public", function (w2lib) {
+	//	this.logout = function ($scope) {
+	//		self.location.href = "/login";
+	//	}
+	//})
+	//定义全局2
+	//mainApp.run
+	mainApp.controller("mainCTL", function ($scope, w2lib) {
+		//定义w2lib.ajax action过滤器
+		w2lib.ajax.filterInjector("relogin", function (data) {
+			self.location.href = "/manage#/login";
+			return true;//强制跳出
+		});
+
+		$scope.del = function (item,i) {
+
+			bootbox.prompt("输入[ del ]确认删除 " + item.AppName, function (res) {
+				if (res==null ) {}
+				else if(res!=null && res.toLowerCase() != 'del'){
+					//alert("输入不正确");
+				}
+				else {
+						var xx = w2lib.ajax.post("/manage/del", { id: item.AppId }).success(function (data) {
+							self.location.href = "#";
+						}).error()
+
+				}
+				
+			}	
+			)
+		}
+		$scope.logout = function ($scope) {
+			var xx = w2lib.ajax.get("/manage/logout", {  }).success(function (data) {
+				self.location.href = "/manage#/login";
+			}).error()
+		}
+	})
+	mainApp.controller("listCTL", function ($scope, w2lib) {
+
+		$scope.isNew = true;
+		$scope.index = 0;
+		$scope.size = 12;
+		$scope.gets = function () {
+			var xx = w2lib.ajax.get("/manage/list", { index: $scope.index }).success(function (data) {
+				$scope.RAs = data;
+				$scope.index += data.length;
+			})
+		}
+		$scope.gets();
+	})
+	mainApp.controller("poolListCTL", function ($scope, w2lib) {
+		$scope.index = 0;
+		$scope.size = 12;
+		$scope.gets = function () {
+			var xx = w2lib.ajax.get("/manage/poollist", { index: $scope.index }).success(function (data) {
+				$scope.CIs = data;
+				$scope.index += data.length;
+			}).error()
+		}
+		$scope.gets();
+	})
+	mainApp.controller("loginCTL", function ($scope, w2lib) {
+		$scope.submit = function () {
+			var xx = w2lib.ajax.post("/manage/login", { name: $scope.name, password: $scope.password }).success(function (data) {
+				angular.element(".masthead-nav").show();
+				angular.element(".menu-nav").show();
+				self.location.href = "/manage#/list";
+			}).error();
+		}
+		angular.element(".masthead-nav").hide();
+		angular.element(".menu-nav").hide();
+	})
+	mainApp.controller("editCTL", function ($scope, w2lib, $routeParams) {
+		$scope.RA = {}
+		if (!("id" in $routeParams)) {
+			$scope.RA={}
+		} else {
+			w2lib.ajax.get("/manage/get/"+$routeParams.id).success(
+					function (data) {
+						$scope.RA = data;
+					}
+				)
+		}
+
+		$scope.newSecrectKey = function () {
+			w2lib.ajax.get("/manage/newSecretKey").success(
+					function (data) { $scope.RA.SecretKey = data; }
+				)
+		}
+		$scope.newAppId = function () {
+			w2lib.ajax.get("/manage/newAppid").success(
+					function (data) { $scope.RA.AppId = data; }
+				)
+		}
+		$scope.save = function () {
+			if (!$scope.RA.ExpiryDate) {
+				bootbox.alert("需要设定过期时间");
+				return;
+			}
+			w2lib.ajax.post("/manage/edit", $scope.RA).success(function () {
+				bootbox.alert("成功");
+				self.location.href = "#";
+			}).error(function (res) {
+				bootbox.alert(res);
+			})
+		}
+	})
+
+
+
+</script>
+}

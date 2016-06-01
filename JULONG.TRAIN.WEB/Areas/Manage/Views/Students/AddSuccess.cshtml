@@ -1,0 +1,15 @@
+﻿@using JULONG.TRAIN.Model;
+@model Student
+
+<div class="text-center">
+	<h3>姓名：@Model.Name</h3>
+	<h4>学员编号:@Model.StudentGroup.Code - @Model.Id</h4>
+	<h2 class="header smaller lighter green">
+		添加成功
+	</h2>
+</div>
+<div class="text-center">
+	<button class="btn btn-info" onclick="window.location.href='.'">返回全学员列表</button>
+	<button class="btn btn-warning" onclick="window.location.href='edit?groupId=@Model.StudentGroupId'">继续添加</button>
+	<button class="btn-success btn" onclick="window.location.href='/manage/studentGroup/home/@Model.StudentGroupId'">返回学员组</button>
+</div>

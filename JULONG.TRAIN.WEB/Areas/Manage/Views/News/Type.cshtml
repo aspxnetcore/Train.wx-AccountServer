@@ -1,0 +1,71 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<DictKeyValue>
+@using JULONG.TRAIN.WEB.Models;
+@{
+    ViewBag.Title = "Type";
+	var items = PublicCache.GetDictKeyValues<NewsType>();
+	}
+<p>
+    @Html.ActionLink("Create New", "TypeEdit")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bak)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsDisabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Index)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsLock)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in items)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bak)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDisabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Index)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLock)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "typeEdit", new { id = item.Id }) |
+			<a href="###" onclick="del(@item.Id)">删除</a>
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+	function del(id) {
+		if(confirm("确认删它吗?")){
+			myAjaxPost("TypeDel/",{id:id})
+		}
+	}
+</script>

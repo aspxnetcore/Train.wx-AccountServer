@@ -1,0 +1,51 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+
+@{
+	Layout = null;
+	ViewBag.Title = "通知公告";
+
+}
+
+<div class="page" id="page-news-list">
+	<header class="bar bar-nav nav-nice">
+		<div class="pull-left">
+			<a class="icon icon-left back" href="/">
+			</a>
+
+		</div>
+		<div class="pull-right">
+
+			<span class="right-title">通知公告</span>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="list-block media-list news-list" style="margin:0">
+			<ul class="f7AjaxList" id="contentT7Dom" data-auto="true" data-url="/news/gets" data-size="2" data-arg=""></ul>
+			
+		</div>
+		@*<div class="content-block text-center"><button id="moreBtn">更多 >></button></div>*@
+		<script type="text/template7" id="contentT7">
+			{{#each this}}
+			<li class="">
+				<a href="/news/detail/{{this.Id}}" class="item-content item-link">
+					<div class="item-media"><i class="icon icon-tongzhi"></i></div>
+					<div class="item-inner">
+
+						<div class="item-title-row">
+							<div class="item-title time">{{this.Title}}</div>
+							@*<div class="item-after">$15</div>*@
+						</div>
+						<div class="item-subtitle">{{this.Content}}</div>
+						<div class="item-text">{{this.Date}}</div>
+					</div>
+				</a>
+			</li>
+			{{/each}}
+		</script>
+
+	</div>
+</div>
+

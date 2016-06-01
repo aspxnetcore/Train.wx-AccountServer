@@ -1,0 +1,141 @@
+﻿@using JULONG.TRAIN.Model;
+@model Question
+@{
+    ViewBag.Title = "Create";
+	QuestionGroup qg = ViewBag.qg;
+    //var groups = ViewBag.groups as IEnumerable<SelectListItem>;
+	ViewBag.menuName = "题库";
+	ViewBag.subMenuName = (qg == null ? "" : qg.Name);
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+		<h4>编辑试题</h4>
+		<hr />
+        @Html.HiddenFor(model => model.Id)
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">套题名称</label>
+            <div class="col-md-10">
+                @Html.DropDownList("QuestionGroupId")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea name="Content" data-toggle="redactor" style="min-height:100px;width:100%">
+                    @Html.Raw(Model.Content)
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Index, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.Index, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Index, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsDisabled, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsDisabled)
+                    @Html.ValidationMessageFor(model => model.IsDisabled, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">同时更新题库</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <input type="checkbox" name="isUpdate" @*checked="checked"*@ />
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="AnswerReals" />
+        <div id="AnswerList">
+            @if (Model.Answers.Any())
+            {
+                for (int i = 0; i < Model.Answers.Count; i++)
+                {
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Answers</label>
+                        <div class="col-md-10">
+                            <input name="" type="text"  value="@Model.Answers[i]" />
+                            <input name="answersR" type="checkbox" class="text-danger" @(Model.AnswerReals.Contains((i+1).ToString()) ? "checked='checked'" : "") />
+                            <input type="button" onclick="add(this)" value="+" class="btn btn-default" />
+                            @if (i != 0)
+                            {
+                                <input type="button" onclick="del(this)" value="-" class="btn btn-default" />
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="formSubmitBtn" value="提交" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@if (qg != null)
+{ 
+<div>
+    @Html.ActionLink("Back to List", "Details", new { id = qg.Id })
+</div>
+}
+<script type="text/javascript">
+    var answer_item_html = "<div class='form-group'><label class='control-label col-md-2'>Answers</label><div class='col-md-10'><input type='text' />&nbsp<input name='answersR' type='checkbox' class='text-danger' />&nbsp<input type='button' onclick='add(this)' value='+' class='btn btn-default' />&nbsp<input type='button' onclick='del(this)' value='-' class='btn btn-default' /></div></div>";
+    $(function () {
+        //在线编辑器，带上传
+        var r_edit = $('textarea[data-toggle=redactor]').redactor({
+        	focus: true,
+        	uploadImageFields: { path: "QuestionImg" },
+            plugins: ['fontcolor'],
+            imageUpload: '/Manage/Upload/ImageUpload',
+            minHeight: 200
+        })
+    })
+    function add(it) {
+        $(it).closest(".form-group").after(answer_item_html);
+    }
+    function del(it) {
+        $(it).closest(".form-group").remove();
+    }
+    $("#formSubmitBtn").click(function (e) {
+        var obj = document.getElementsByName("answersR");
+        var vals = [];
+        for (var i = 0; i < obj.length; i++) {
+            obj[i].value=i+1;
+            if (obj[i].checked) {
+                vals.push(obj[i].value);
+            }
+        }
+        /*处理answer*/
+        var _idx = 0;
+        $("#AnswerList input[type=text]").each(function () {
+            $(this).attr("name", "Answers[" + _idx + "]");
+            _idx++;
+        })
+        $("input[name=AnswerReals]").val(vals.join(","));
+        document.forms[0].submit();
+    })
+</script>

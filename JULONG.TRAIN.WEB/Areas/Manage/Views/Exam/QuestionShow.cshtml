@@ -1,0 +1,68 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<ExamQuestion>
+@using JULONG.TRAIN.LIB
+@{
+    ViewBag.Title = "QuestionShow";
+}
+
+<h2>QuestionShow</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OriginId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model._Answers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model._AnswerReals)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Index)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDisabled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OriginId)
+        </td>
+        <td>
+            @item.Content.reHtmlCode();
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item._Answers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item._AnswerReals)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Index)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDisabled)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "DeleteQueston", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,56 @@
+﻿@using JULONG.TRAIN.Model
+@model IQueryable<Test>
+@{
+
+
+	ViewBag.Title = "materials";
+
+}
+<div class="page" id="testList">
+
+	<header class="bar bar-nav nav-nice">
+		<a class="icon icon-left pull-left back" href="/"></a>
+		<h1 class="title"></h1>
+		<div class="right-title pull-right">
+			考场
+		</div>
+	</header>
+
+	<div class="content">
+		<div class="content-block">
+
+			<div class="test-list" >
+				@{
+					int i = 1;
+				}
+				@foreach (var test in Model)
+				{
+					<a href="/test/test/@test.Id" class="upup-s@(i) test">
+						<div class="test-header">No.@test.Id
+						<div class="right">已@(test.JoinCount)人参于</div>
+						</div>
+						<div class="test-body">
+							<div class="test-left">@i</div>
+							<div class="test-middle">
+								<div class="test-title">@test.Name</div>
+								<div class="exp">@test.Exp</div>
+							</div>
+							<div class="line"></div>
+							<div class="test-right">
+								<div>
+									@test.Exam.Time.ToString()
+								<span class="icon icon-clock"></span>
+							</div>
+							<div>@test.OpenDate.Value.ToString("yyyy-MM-dd")</div>
+						</div>
+					</div>
+						<div class="test-bottom"></div>
+					</a>
+					i++;
+				}
+
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+﻿@using JULONG.TRAIN.Model;
+@model Enum
+@{
+			   
+	var a = 1;
+	Type t = ViewData.ModelMetadata.ModelType;
+}
+<select class="form-control input-small input-inline" name="@ViewData.TemplateInfo.HtmlFieldPrefix">
+	@foreach (var item in Enum.GetValues(t))
+	{
+		<option @(item == Model)>@item</option>
+	}
+</select>

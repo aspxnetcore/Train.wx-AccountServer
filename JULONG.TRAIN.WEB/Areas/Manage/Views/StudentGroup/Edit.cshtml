@@ -1,0 +1,136 @@
+﻿@using JULONG.TRAIN.Model;
+@model StudentGroup
+
+@{
+    ViewBag.Title = "Edit";
+    if (Model.Id == 0) { Model.RegDate = DateTime.Now; }
+    ViewBag.menuName = "学员";
+    ViewBag.subMenuName = "学员组";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>编辑</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Exp, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Exp, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Exp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <div class="input-group">
+                    @Html.EditorFor(model => model.RegDate, new { htmlAttributes = new { @class = "form-control date-picker", data_date_format = "yyyy-mm-dd" } })
+                    @*<input class="form-control date-picker" name="RegDate" value="@(Model.RegDate.ToString("yyyy-MM-dd"))" type="text" data-date-format="yyyy-mm-dd">*@
+                    <span class="input-group-addon">
+                        <i class="icon-calendar bigger-110"></i>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.RegDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExamCount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.ExamCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExamCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsDisabled, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsDisabled)
+                    @Html.ValidationMessageFor(model => model.IsDisabled, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    /*
+    jQuery(function ($) {
+        $.datepicker.regional['zh-CN'] = {
+            closeText: '关闭',
+            prevText: '<上月',
+            nextText: '下月>',
+            currentText: '今天',
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+            '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            monthNamesShort: ['一', '二', '三', '四', '五', '六',
+            '七', '八', '九', '十', '十一', '十二'],
+            dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+            weekHeader: '周',
+            dateFormat: 'yy-mm-dd',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: true,
+            yearSuffix: '年'
+        };
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+    });*/
+    function add(id) {
+
+        //var count = $("#Permissions li").length;
+
+
+        myAjaxPost("/StudentGroup/AddExamTime/",{Exam_startDate:$("[name=daterangepicker_start]").val(),type:"Group",Exam_endDate:$("[name=daterangepicker_end]").val(),StudentGroupId:@Model.Id}, function (data) {
+            if(data!=null)
+            {
+
+                self.location.reload();
+            }
+        })
+    }
+    function del(id) {
+        myAjaxPost("/StudentGroup/DelTrainingTime/",{id:id,sid:@Model.Id}, function (data) {
+
+            //$(it).closest("#Permissions li").remove();
+            self.location.reload();
+        })
+    }
+
+    $('.date-picker').datepicker({ autoclose: true }).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    })
+</script>
+

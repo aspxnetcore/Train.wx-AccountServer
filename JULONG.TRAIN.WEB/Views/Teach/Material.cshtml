@@ -1,0 +1,73 @@
+﻿@using JULONG.TRAIN.Model
+@model Material
+@{
+	Layout = null;
+	ViewBag.Title = "在线教材";
+
+}
+
+@*<meta name="viewport"
+	content="height=device-width,width=device-height;  initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">*@
+<div class="page no-tabbar" id="material" data-materilid="@Model.Id">
+	<header class="bar bar-nav nav-nice">
+		<a class="icon icon-left pull-left back" href="/teach/materials"></a>
+		<h1 class="title"></h1>
+		<div class="right-title pull-right">
+			@Model.Title
+		</div>
+	</header>
+	<div class="content">
+		<div class="tm-pageHeader">
+			<div class="chipDie chipDie-right-org tm-pagerHeader">
+				<div class="tm-page-tools">
+
+				</div>
+				<div class="tm-pagePath hiddeScroll">
+					<div id="tmPagePath"></div>
+				</div>
+			</div>
+			<button class="open-panel" style="background-color:transparent;color:#06ac90;border:0px; position:absolute;right:0px;top:0px;font-size:.8rem">
+				<i class="icon icon-menu"></i>
+			</button>
+		</div>
+
+		<div class="tmPage">
+
+			<div id="tmPageContent" class="tm-pageContent" style=""></div>
+			<div id="tmPageTitle" class="tm-pageTitle"></div>
+			<div class="tm-pageNav">
+				<button class="arrow-left" onclick="TMFrame.prev()"><i class="am-icon-arrow-left"></i></button>
+				<button class="arrow-right" onclick="TMFrame.next()"><i class="am-icon-arrow-right"></i></button>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="bottom-toolbar">
+
+		@*<span id="gotoTopBtn" onclick="window.scrollTo(0,0)" class="am-gotop "><i class="icon icon-up"></i></span>*@
+
+		<a class="open-panel"><i class="icon icon-menu"></i></a>
+		<a id="prevBtn" onclick = "TMFrame.prev()"><i class="icon iconfont icon-arrow-left"></i></a>
+		<a id="nextBtn" onclick="TMFrame.next()"><i class="icon iconfont icon-arrow-right"></i></a>
+	</div>
+</div>
+	
+	<script>
+
+	//$("html").width(window.innerHeight).height(window.innerWidth);
+
+	//增加上一页，下一页
+		/*
+	$(".bottom-toolbar").children().eq(0).after(' <span id="turnBtn"><i class="am-icon-laptop"></i></span> <span onclick="windbellOffcanvas()"><i class="am-icon-bars"></i></span> <span id="prevBtn"><i class="am-icon-arrow-left"></i></span> <span id="nextBtn" ><i class="am-icon-arrow-right"></i></span> ');
+	$(".bottom-toolbar").children().eq(0).remove();
+
+	$("#prevBtn").click(function () { TMFrame.prev() })
+	$("#nextBtn").click(function () { TMFrame.next() })
+	$("#turnBtn").click(function () {
+		//windbell.popup( "如果您的屏目较小，<br/>建议在微信的通用设置中，准许横屏浏览", [], {style:"info",tipTitle:"关于横屏浏览："})
+
+	})
+	*/
+		
+</script>

@@ -1,0 +1,276 @@
+﻿
+@model JULONG.TRAIN.Model.Vote
+
+@{
+    ViewBag.Title = "Details";
+	ViewBag.menu1 = "调查投票";
+	ViewBag.menu2 = Model.Name;
+	ViewBag.menu11 = "投票编辑";
+}
+<style>
+    .voteItem-list{
+    }
+    .voteItem-list .item{
+
+       position:relative;
+    }
+    .voteItem-list .item .avatar{
+        outline:1px solid #e0e0e0;
+        border:2px solid #fff;
+		vertical-align:top
+    }
+    .voteItem-list .title{
+        display:inline-block;
+        text-align:center;
+		margin-left:4px;
+    }
+    .voteItem-list .titleEx{
+        display:block;
+        text-align:center;
+    }
+    .voteItem-list .item .count{
+		display:inline-block;
+		vertical-align:top;
+        font-style:italic;
+
+		padding:5px;
+        color:gray;
+
+		vertical-align:top
+    }
+	    .voteItem-list .item .exp{
+			display:inline-block;
+			vertical-align:top
+	    }
+</style>
+<div ng-app="app" ng-controller="main">
+	<div>
+		<div class="portlet solid green">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-gift"></i>
+					@Model.Name
+				</div>
+				<div class="actions">
+					<a href="javascript:;" class="btn default btn-sm">
+						<i class="fa fa-pencil icon-black"></i>编辑
+					</a>
+					<button class="btn btn-warning btn-sm" ng-click="addItem()">
+						<i class="fa fa-plus"></i>
+					投票项</button>
+					@*<div class="btn-group">
+						<a class="btn btn-sm red" href="javascript:;" data-toggle="dropdown">
+							<i class="fa fa-user"></i> User <i class="fa fa-angle-down "></i>
+						</a>
+						<ul class="dropdown-menu pull-right">
+							<li>
+								<a href="javascript:;">
+									<i class="fa fa-pencil"></i> Edit
+								</a>
+							</li>
+							<li>
+								<a href="javascript:;">
+									<i class="fa fa-trash-o"></i> Delete
+								</a>
+							</li>
+							<li>
+								<a href="javascript:;">
+									<i class="fa fa-ban"></i> Ban
+								</a>
+							</li>
+							<li class="divider">
+							</li>
+							<li>
+								<a href="javascript:;">
+									<i class="i"></i> Make admin
+								</a>
+							</li>
+						</ul>
+					</div>*@
+				</div>
+			</div>
+			<div class="portlet-body">
+				@Model.Content
+			</div>
+		</div>
+
+
+		<hr />
+
+		<ol class="voteItem-list list-group">
+
+			@foreach (var xx in Model.VoteItems.OrderByDescending(d=>d.Index).ThenByDescending(d=>d.Id))
+			{
+				<li class="item list-group-item" >
+
+					<a href="@xx.Avatar" target="_blank"><img class="avatar tooltips" src="@xx.Avatar" data-container="body" data-placement="top" data-original-title="点击查看大图" /></a>
+					<div class="exp">
+						<div class="title">
+							@xx.Title
+						</div>
+						<div class="titleEx">
+							@xx.TitleEx
+						</div>
+						<i class="count">投票： @xx.Count</i>
+					</div>
+					
+					<button type="button" class="btn  btn-sm pull-right" ng-click="editItem(@xx.Id)" style="margin-left:.5rem;">
+						<i class="fa fa-edit"></i>
+					</button> 
+					
+					<button type="button" class="btn red btn-sm pull-right" ng-click="delItem(@xx.Id,'@xx.Title')">
+						<i class="fa fa-remove"></i>
+					</button> 
+					&#160;
+					<button type="button" class="btn purple btn-sm pull-right" onclick="toTop(@xx.Id)">
+						<i class="fa fa-long-arrow-up"></i>
+					</button> 
+				</li>
+			}
+
+		</ol>
+	</div>
+
+	<!--弹出框-->
+	<div id="template-voteItem" class="modal fade">
+		<div class="modal-dialog" style="width:800px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" ng-bind="modalTitle"></h4>
+
+				</div>
+				<!-- dialog body -->
+				<form id="voteItem_form" class="modal-body">
+
+
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label class="col-md-2 control-label">标题</label>
+							<div class="col-md-8">
+								<input class="form-control" ng-model="Item.Title" type="text" name="Title">
+							</div>
+							
+
+						</div>
+						@*<div class="form-group">
+
+							<label class="col-md-2 control-label">副标题</label>
+							<div class="col-md-8">
+								<input class="form-control" ng-model="Item.Title2" type="text" name="TitleEx">
+							</div>
+
+						</div>*@
+						<div class="form-group" style="position:relative">
+
+							<label class="col-md-2 control-label">图片</label>
+							<div class="col-md-1">
+								<span class="imgUpload" style="background-image: url({{Item.Avatar}});">
+									<input class="valueInput" type="hidden" ng-model="Item.Avatar" />
+									<input class="fileInput" type="file" style="opacity: 0" accept="image/*" ngf-select="upload($file,$event,newPicFun)" />
+								</span>
+								@*<div class="exp-info">宽高比须4:3，建议160*120</div>*@
+							</div>
+							<label class="col-md-1 control-label">票数</label>
+							<div class="col-md-2">
+								<input class="form-control" type="text" ng-model="Item.Count" value="0">
+							</div>
+
+						</div>
+
+						<div class="form-group">
+
+							<label class="col-md-2 control-label">描述</label>
+							<div class="col-md-8">
+								<textarea ng-model="Item.Content" class="autosize-transition form-control " style=" height:80px;"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- dialog buttons -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" ng-click="submitItem()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section footer{
+<script src="~/Content/j/angular.min.js"></script>
+<script src="~/Content/j/ng-file-upload-all.min.js"></script>
+<script>
+	function toTop(id) {
+		myAjaxPost("/manage/vote/voteItem", { id: id ,action:"totop"}, function () {
+			self.location.reload();
+		})
+	}
+
+	var mxApp = angular.module("app", ['ngFileUpload']);
+	mxApp.controller("main", ["$scope", "$http", 'Upload', function ($scope, $http, $upload) {
+		ngInit($scope, $http, $upload);
+		$scope.safeApply = function (fn) {
+			var phase = this.$root.$$phase;
+			if (phase == '$apply' || phase == '$digest') {
+				if (fn && (typeof (fn) === 'function')) {
+					fn();
+				}
+			} else {
+				this.$apply(fn);
+			}
+		}
+		$scope.modalTitle="";
+		$scope.Item={}
+		//新建
+		$scope.addItem=function() {
+			$scope.Item={Id:0,Count:0,Index:0};
+			$scope.modalTitle="新建投票项";
+			$("#template-voteItem").modal();
+			$scope.ajaxAction = "add";
+		}
+		//修改
+		$scope.editItem = function(id) {
+
+			$scope.myAjax($http.post("/manage/vote/voteItem", { id: id, action: "get" }),function (res) {
+				$scope.ajaxAction = "edit";
+				$scope.modalTitle="编辑投票项"
+				$("#template-voteItem").modal();
+				$scope.Item = res;
+			},function(err){
+				alert(err);
+			})
+		}
+
+		$scope.delItem=function(id,title) {
+			
+			bootbox.confirm("确认删除 [ " + title + " ] 吗?", function (res) {
+				if (res === true) {
+					$scope.Item={Id:id}
+					$scope.ajaxAction = "del";
+					$scope.submitItem();
+				}
+			});
+		}
+
+		$scope.submitItem = function() {
+			$scope.Item.VoteId=@(Model.Id);
+			$scope.myAjax($http.post("/manage/vote/voteItem", {tp:$scope.Item,action:$scope.ajaxAction}),function (res) {
+
+				$("#template-voteItem").modal("hide");
+
+				self.location.reload();
+
+			},function (err) {
+				alert(err)
+			})
+		}
+	}])
+
+
+
+
+
+
+</script>
+}

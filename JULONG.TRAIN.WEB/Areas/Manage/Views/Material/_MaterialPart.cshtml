@@ -1,0 +1,40 @@
+﻿@*后台使用*@
+
+@using JULONG.TRAIN.Model;
+@model ICollection<MaterialChapter>
+<ol class="dd-list">
+	@foreach (var tmc in Model.OrderBy(d => d.Index))
+	{
+		Boolean hasSub = tmc.Subs.Any();
+		<li class="dd-item dd3-item" data-id="@tmc.Id">
+			<div class="dd-handle dd3-handle">
+				
+			</div>
+			<div class="dd3-content">
+				@tmc.Title
+				<div class="pull-right action-buttons">
+					<a href="###" title="修改" onclick="editTMC(@tmc.Id)"><i class="bigger-130 icon-pencil"></i></a>
+					@if (!hasSub)
+					{
+						<a href="## " title="删除" onclick="delTMC(this)">
+							<i class="bigger-130 icon-trash"></i>
+						</a>
+					}
+					else
+					{
+						<a><i class="bigger-130 icon-trash" style="color:gray"></i></a>
+					}
+					<a href="##" title="添加子章节" onclick="addSubTMC(this)"><i class="bigger-130 icon-plus"></i></a>
+					<a href="../editPage/@tmc.Id" title="编辑内容"><i class="bigger-130 fa fa-reorder"></i></a>
+				</div>
+			</div>
+			@if (hasSub)
+			{
+
+					@Html.Partial("_MaterialPart", tmc.Subs)
+
+			}
+		</li>
+
+	}
+</ol>

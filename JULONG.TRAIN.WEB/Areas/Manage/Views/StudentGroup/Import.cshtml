@@ -1,0 +1,29 @@
+﻿@using JULONG.TRAIN.Model;
+@{
+    ViewBag.Title = "学员导入";
+    //ViewBag.table=
+    
+}
+
+@using (Html.BeginForm("Import", "StudentGroup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @*<div>
+        <fieldset id="myfieldset">
+            <legend>excel模版格式 </legend><font color="red">导入基站的模板格式如下，若模板格式不正确，则相应的基站不能导入!</font><br />
+            <p style="color: Red; text-align: center;">@Html.ActionLink("下载模版", "GetFile")</p>
+        </fieldset>
+    </div>*@
+    <div style="margin-top: 20px;">
+        <fieldset id="myfieldset1">
+            <legend>学员信息批量导入</legend>
+            <p>
+                选择文件：<input id="FileUpload" type="file" name="files" style="width: 250px; height: 24px;
+                    background: White" class="easyui-validatebox" />
+            </p>
+            <p>
+                <input id="btnImport" type="submit" value="导入" style="width: 60px; height: 28px;" />
+            </p>
+            <p style="color: Red; text-align: center;">@ViewBag.error</p>
+        </fieldset>
+    </div>
+}

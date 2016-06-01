@@ -1,0 +1,68 @@
+﻿@using JULONG.TRAIN.Model
+@using PagedList.Mvc;
+@{
+	ViewBag.Title = "online";
+	int pageIndex = Request["pageindex"]==null?0:int.Parse(Request["pageindex"]);
+	int pageSize = 20;
+	ViewBag.menuName = "学员日志";
+
+	BaseContext db = new BaseContext();
+}
+
+<h2>学员日志<span>@db.StudentLog.Count() 条</span></h2>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				
+			</th>
+			<th>
+				时间
+			</th>
+			<th>
+				学员Id
+			</th>
+			<th>
+				学员名
+			</th>
+			<th>
+				学员组
+			</th>
+			<th>
+				ip
+			</th>
+			<th>
+				url
+			</th>
+
+			<th>
+				动作
+			</th>
+			<th>
+				备注
+			</th>
+		</tr>
+		
+	</thead>
+	<tbody>
+		@foreach(studentLog sl in db.StudentLog.OrderByDescending(d=>d.Id).Skip(pageSize*pageIndex).Take(pageSize))
+		{
+		<tr>
+			<td>@sl.Id</td>
+			<td>@sl.date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+			<td>@sl.studentId</td>
+			<td>@sl.studentName</td>
+			<td>@sl.studentGroup</td>
+			<td>@sl.userIP</td>
+			<td>@sl.url</td>
+			<td>@sl.action</td>
+			<td>@sl.bak</td>
+		</tr>
+		}	
+	</tbody>
+</table>
+<div>
+	<a href="?pageIndex=@(pageIndex-1)" class="btn btn-info" @(pageIndex==0?" disabled='disabled'":"")>上一页</a>
+	<a href="?pageIndex=@(pageIndex +1)" class="btn btn-info">下一页</a>
+</div>

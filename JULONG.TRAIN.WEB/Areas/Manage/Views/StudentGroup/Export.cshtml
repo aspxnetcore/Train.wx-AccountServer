@@ -1,0 +1,56 @@
+﻿@using JULONG.TRAIN.Model;
+@{
+    ViewBag.Title = "Export";
+    Dictionary<Student, string> ss = ViewBag.ss;
+    string name = ViewBag.name;
+}
+
+<h2>导出数据</h2>
+<table class="table">
+    <tr>
+
+        <th>
+            用户名
+        </th>
+        <th>
+            姓名
+        </th>
+        <th>
+            电话
+        </th>
+        <th>
+            注册时间
+        </th>
+        <th>
+            登录密码
+        </th>
+    </tr>
+
+    @foreach (var item in ss)
+    {
+        <tr>
+            <td>
+                @item.Key.Id
+            </td>
+            <td>
+                @item.Key.Name
+            </td>
+            <td>
+                @item.Key.Phone
+            </td>
+            <td>
+                @item.Key.RegDate
+            </td>
+            <td>
+                @item.Value
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+           @Html.ActionLink("导出", "downLoad", new { name = @name })
+        </td>
+    </tr>
+</table>
+
+

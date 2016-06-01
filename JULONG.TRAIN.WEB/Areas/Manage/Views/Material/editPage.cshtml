@@ -1,0 +1,187 @@
+﻿@using JULONG.TRAIN.Model;
+@model MaterialChapter
+@{
+	var tm = (JULONG.TRAIN.Model.Material)ViewBag.tm;
+	ViewBag.menu1 = "培训";
+	ViewBag.menu11 = "教材管理";
+	ViewBag.menu2 = tm.Title;
+	ViewBag.menu21 = "页编辑";
+
+}
+<style>
+	.pageList li{
+		line-height:20px;
+		font-size:14px;
+		height:24px;
+		cursor:pointer;
+		max-width:95%;
+		white-space:nowrap;
+		overflow:hidden;
+		
+	}
+	.pageList li label{
+		vertical-align:middle;
+		margin-bottom: 0px;
+				cursor:pointer; 
+	}
+</style>
+
+<div class="row">
+	<div class="col-lg-2">
+
+		<h5 class="header smaller lighter blue " style="font-weight:bold;margin-top:0px;">
+			<a href="/manage/Material/Detail/@Model.RootId"><< 返回教材</a> | 
+			<a href="#!" class="text-warning bigger-110 orange " onclick="addNew()" style="vertical-align:middle"> <i class=" icon-plus">新建</i></a>
+		</h5>
+
+		<ul class="pageList list-unstyled" style="margin-top:10px;">
+			@{int pageIndex = 1;}
+			@foreach (var page in Model.Pages.OrderBy(d => d.Index))
+			{
+				
+				<li><label onclick="edit(@page.Id,this)"><span class="badge"> @pageIndex </span> @page.Title</label></li>
+				pageIndex++;
+			}
+		</ul>
+
+		
+	</div>
+	<div class="col-lg-10" style="border-left:1px solid #f0f0f0; padding-left:20px;">
+		<form id="page_form" class="form-horizontal" >
+			<div class="form-group ">
+				<label class="control-label col-md-2">标&#160;&#160;&#160;&#160;题&#160;</label>
+				<div class="col-md-10">
+					<input type="text" name="Title" class="form-control" />
+					<input type="hidden" name="Id" />
+					<input type="hidden" name="ChapterId" value="@Model.Id" />
+					<input type="hidden" name="MaterialId" value="@tm.Id" />
+				</div>
+				
+
+			</div>
+			@*<div class="form-group">
+				<label class="control-label">作废&#160;</label>
+				<label>
+					<input class="checkbox" name="IsDisabled" type="checkbox" checked="checked" value="true" />
+				</label>
+
+			</div>*@
+			<div class="form-group  row">
+				<label class="control-label col-md-2">内&#160;&#160;&#160;&#160;容</label>
+				<div class="col-md-10">
+
+					<div id="summernote"></div>
+					@*<input type="hidden" id="page_content" name="content" />*@
+				</div>
+			</div>
+
+		</form>
+		<div class="form-group" style="margin-top:20px">
+
+				<button type="button" onclick="edit_submit()" class="btn btn-default" >提交</button>
+			<button type="button"  onclick="del()" id="delBtn" class="btn btn-danger"  style="display:none">删除</button>
+		</div>
+	</div>
+</div>
+@section footer{
+<link href="~/Content/metronicAssets/global/plugins/bootstrap-summernote/summernote.css" rel="stylesheet" />
+	<script src="~/Content/metronicAssets/global/plugins/bootstrap-summernote/summernote.min.js"></script>
+<style>
+.note-alarm {
+float: right;
+margin-top: 10px;
+margin-right: 10px;
+}
+</style>
+<script>
+	$(function () {
+		$('#summernote').summernote({
+			toolbar: [
+			['style', ['bold', 'italic', 'underline', 'clear']],
+			['font', ['strikethrough']],
+			['fontsize', ['fontsize']],
+			['color', ['color']],
+			['para', ['ul', 'ol', 'paragraph']],
+			['Insert', ['picture', 'link', 'video', 'table']],
+			['Misc', ['fullscreen','codeview']]
+			],
+			onImageUpload: function(files, editor, $editable) {
+				var file = files[0];
+				$(".note-toolbar.btn-toolbar").append('正在上传图片');
+				var filename = false;
+				try{
+					filename = file['name'];
+				} catch(e){filename = false;}
+				if(!filename){$(".note-alarm").remove();}
+				//以上防止在图片在编辑器内拖拽引发第二次上传导致的提示错误
+				//var ext = filename.substr(filename.lastIndexOf("."));
+				//ext = ext.toUpperCase();
+				var timestamp = new Date().getTime();
+				//var name = timestamp+"_"+$("#summernote").attr('aid')+ext;
+				//name是文件名，自己随意定义，aid是我自己增加的属性用于区分文件用户
+				data = new FormData();
+				data.append("file", file);
+				//data.append("key",name);
+				//data.append("token",$("#summernote").attr('token'));
+				$.ajax({
+					data: data,
+					type: "POST",
+					url: "/manage/Upload/ImageUpload",
+					cache: false,
+					dataType:"json",
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						editor.insertImage($editable,data.filelink[0]);
+
+						$(".note-alarm").html("上传成功,请等待加载");
+						setTimeout(function(){$(".note-alarm").remove();},3000);
+					},
+					error:function(){
+						$(".note-alarm").html("上传失败");
+						setTimeout(function(){$(".note-alarm").remove();},3000);
+					}
+				});
+			}
+		});
+	})
+
+
+	function addNew() {
+		
+		$("#page_form").get(0).reset();
+		$('#summernote').code("");
+		$("#page_form input[name=Id]").val(0);
+		$("#delBtn").hide();
+	}
+	var edit_it = null;
+	function edit(id,it) {
+		edit_it = it;
+		myAjaxPost("/manage/Material/getPage/", { id: id }, function (res) {
+			$("#page_form").serializeReverseForm(res);
+			$('#summernote').code(res.Content);
+			$(edit_it).parent().addClass("badge").siblings(".badge").removeClass("badge");
+			$("#delBtn").show();
+		})
+	}
+	function edit_submit() {
+		var data = $("#page_form").serializeObject();
+		data.content = $('#summernote').code(data.Content);
+		myAjaxPost("/manage/Material/editPage/",data);
+	}
+	function del(id,mId) {
+		if (confirm("确认删除?")) {
+			myAjaxPost("/manage/Material/delPage/", 
+				{
+				id: $("#page_form input[name=Id]").val(),
+				MaterialId:$("#page_form input[name=MaterialId]").val() 
+				},
+			function(){
+				self.location.reload();
+			}
+			)
+		}
+
+	}
+</script>
+}

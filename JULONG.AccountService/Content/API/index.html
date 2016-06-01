@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<link href="../bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="container">
+	<h1>
+		开发文档
+	</h1>
+	<h2>
+		规范
+	</h2>
+	<br>
+		<ul>
+			<li>
+				默认get,post方式访问接口
+			</li>
+			<li>
+				所有交互数据采用Json格式
+			</li>
+			<li>
+				返回值基本结构{code,data}
+				<br/>
+				code=0 通常表示请成功
+			</li>
+
+		</ul>
+		
+	</p>
+
+
+	<h2>
+		开始使用
+	</h2>
+
+	<p>
+		访问凭证接口申请通行凭证 =》保存凭证对本地缓存=》携带凭证访问服务接口
+	</p>
+	<h2>
+		服务接口
+	</h2>
+	<p>
+		<ul>
+			<li>
+				凭证接口
+				<br />
+				提供其它服务的访问凭证
+				
+			</li>
+			<li>
+				员工接口
+				<br />
+				提供员工相关的数据请求
+				
+			</li>
+
+		</ul>
+	</p>
+	<h2>
+		API v1.0.0.1
+	</h2>
+	<h3>凭证 </h3>
+	<p>
+		拿到通行凭证是使用所有服务功能的开始，<br />
+		需要注意的是：凭证的传递是能过加密的token字符串完成的，需要将此token 以“jlacs-token”为key，存放在http Request的Headers中<br />
+		当token被验证为无效时（过期等原因)，需要重新获取<br />
+	</p>
+		<table class="table">
+			<tr>
+				<th></th>
+				<th>接口</th>
+				<th>方式</th>
+				<th>参数</th>
+				<th>说明</th>
+				<th>返回值</th>
+			</tr>
+			<tbody>
+				<tr>
+					<td>获取通行凭证</td>
+					<td>/Certificate/Get</td>
+					<td>get<br/>post</td>
+					<td>
+						appid:应用id
+					<br/>
+						secretkey：密钥
+						<br />
+						[force]:可否强制更新
+					</td>
+
+					<td>
+						通过appid secretKey正确校验，颁发通行凭证，并将凭证Token，返回给请求方，
+						<br />默认会优先从缓存池中查找，并使用已经颁发过的token
+					</td>
+					<td>
+<pre>
+{
+	code:0,
+	data:{
+		"asdfasdklfjlkjewor"
+	}
+}
+</pre>
+					</td>
+				</tr>
+				<tr>
+					<td>验证凭证token</td>
+					<td>/Certificate/verifiy</td>
+					<td>get<br />post</td>
+					<td>
+						token:凭证token
+					</td>
+
+					<td>
+						通过appid secretKey正确校验，颁发通行凭证，并将凭证Token，返回给请求方，
+						<br />默认会优先从缓存池中查找，并使用已经颁发过的token
+					</td>
+					<td>
+<pre>
+{
+	code:0,
+	data:{
+		"凭证有效"
+	}
+}
+
+code值：
+凭证有效 =0,
+凭证不存在 = 5001,
+凭证无效 = 5002,
+请求超出限制 = 5003,
+凭证请求超出限制 = 5004,
+凭证过期 = 5005,
+</pre>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<h3>员工 </h3>
+	<p>员工相关的接口</p>
+	<table class="table">
+		<tr>
+			<th></th>
+			<th>接口</th>
+			<th>方式</th>
+			<th>参数</th>
+			<th>说明</th>
+			<th>返回值</th>
+		</tr>
+		<tbody>
+			<tr>
+				<td>验证工号密码</td>
+				<td>/worker/verifiy</td>
+				<td>get<br />post</td>
+				<td>
+					workid:工号
+					<br />
+					password：登录密码
+					<br />
+					
+				</td>
+
+				<td>
+					根据员工的工号和密码 验证其正确性，适用于员工在你的应用登录
+					<br/>
+					注：password暂为考勤系统的密码
+				</td>
+				<td>
+<pre>
+{
+	code:0,
+	data:{
+		"成功"
+	}
+}
+</pre>
+				</td>
+			</tr>
+			<tr>
+				<td>获取员工信息</td>
+				<td>/worker/get</td>
+				<td>get<br />post</td>
+				<td>
+					workid:工号
+				</td>
+
+				<td>
+					根据工号获取员工基本信息
+				</td>
+				<td>
+<pre>
+{
+	code:0,
+	data:{
+		emplname:"王小毛"
+		workid:1,
+		deptid:1,
+		deptno:1
+		deptname:"研发",
+		sex:1
+	}
+}
+
+</pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2>
+		SDK (C#) 
+	</h2>
+	<h3>JULONG.AccountServiceApi.DLL v1.0.0.1 [<a href="AccountServiceSDK.dll">下载</a>]</h3>
+
+	<p>使用<b>ASConsoLe.RequestProxy</b>访问各项服务时，token将实现自动管理 </p>
+	<p>控制台<b>ASConsoLe</b>需要先初始化</p>
+	<table class="table">
+		<tr>
+
+			<th></th>
+			<th>参数</th>
+			<th>说明</th>
+			<th>返回值</th>
+		</tr>
+		<tbody>
+			<tr>
+
+				<td>Init</td>
+				<td>appid,secretKey</td>
+				<td>出始化，并获取凭证</td>
+				<td>
+<pre>
+	string:token
+</pre>
+				</td>
+			</tr>
+			<tr>
+				<td>getToken</td>
+				<td>[force] bool 强制获取</td>
+				<td>
+					获取凭证Token
+				</td>
+
+
+				<td>
+<pre>
+	string:token
+</pre>
+				</td>
+			</tr>
+			<tr>
+				<td>RequestProxy</td>
+				<td>
+					url:接口地址,<br/>
+					arg:参数,{a=1&b=2}<br/>
+					[resutlType]反回格式，默认为json，可为"text"<br />
+					[requestType]:提交方式，默认"Post"<br />
+					[again]:保留<br />
+				</td>
+				<td>
+					附带凭证token的代理请求,返回myjson(string),
+					<br/>
+					首次凭证验证失败时，将尝试重新获取凭证，再次失败时将抛出异常
+				</td>
+
+
+				<td>
+<pre>
+myJson的string格式<br/>
+"{code:0,data:{a=1,b=2}}"
+</pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

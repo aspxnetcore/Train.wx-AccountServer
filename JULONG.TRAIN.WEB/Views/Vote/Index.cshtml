@@ -1,0 +1,60 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@model IEnumerable<JULONG.TRAIN.WEB.Controllers.StudentVote>
+@{
+
+    ViewBag.Title = "投票列表";
+}
+
+<div class="page" id="voteList">
+
+	<header class="bar bar-nav nav-nice nav-nice2">
+		<div class="">
+			<div class="n0"></div>
+			<div class="n1"></div>
+			<div class="n2"></div>
+			<div class="n3"></div>
+		</div>
+		<div class="fix">
+			<a class="icon icon-left pull-left back" href="/"></a>
+			<h1 class="title"></h1>
+			<div class="right-title pull-right">
+				调果投票
+			</div>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="vote-list content-block">
+
+			@{
+				int i = 1;
+			}
+			@foreach (var svote in Model)
+			{
+				var items = svote.Vote.VoteItems.Select(d => d.Count);
+				<a href="/vote/detial/@svote.Vote.Id" class="upup upup-s@(i) vote" @(svote.Vote.IsOpen ? "" : "disabled")>
+
+					<div class="vote-left">
+						<div class="vote-title">@svote.Vote.Name</div>
+						@*<div class="exp">@svote.Vote.Exp</div>*@
+					</div>
+
+					<div class="vote-right">
+						@(svote.Vote.IsOpen ? svote.isNew ? "投票" : "已投" : "结束")
+					</div>
+					<div class="vote-middle vote-chart" @(!svote.isNew ? "data-data=" + (svote.Vote.Count) + "|" + string.Join(",", items) : "")>
+
+					</div>
+
+
+				</a>
+				i++;
+			}
+
+		</div>
+
+	</div>
+</div>
+

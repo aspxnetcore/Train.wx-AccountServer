@@ -1,0 +1,139 @@
+﻿@model JULONG.TRAIN.Model.WxArtcle
+
+@using Senparc.Weixin.MP.Entities;
+@using JULONG.TRAIN.Model
+@using JULONG.TRAIN.WEB.Models
+@{
+    ViewBag.Title = "Edit";
+    Article at = new Article();
+    if (@Model.Id != 0)
+    {
+        at = ArticleHelper.StringToArticle(Model.Description);
+    }
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>微信图文字典</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="hidden" name="ty" value="@Model.type" />
+                <input class="am-radio" type="radio" id="radio1" name="type" value="0" />图文
+                <input class="am-radio" type="radio" id="radio2" name="type" value="1" />文本
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="control-label col-md-2">Title</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="title" data-picurl="@at.Title" value="@at.Title" />
+            </div>
+        </div>
+        <div id="hidediv" class="am-hide">
+            <div class="form-group">
+                <label class="control-label col-md-2">PicUrl</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="picurl" data-picurl="@at.PicUrl" value="@at.PicUrl" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Description</label>
+                <div class="col-md-10">
+                    <textarea  class="form-control" name="descript" data-picurl="@at.Description">@at.Description</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Url</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="url" data-picurl="@at.Url" value="@at.Url" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <input type="hidden" name="Description" />
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bak, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Bak, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.Bak, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Index, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Index,new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.Index, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" id="formSubmitBtn" value="提交" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section footer{
+<script>
+    window.onload = function () {
+        if ($("#Id").val() != 0) {
+            if ($('input[name="ty"]').val() == "图文") {
+                $("#radio1").attr("checked", true);
+                $("#hidediv").removeClass("hide");
+            }
+            else {
+                $("#radio2").attr("checked", true);
+                $("#hidediv").addClass("hide");
+            }
+        }
+        else {
+            $("#radio1").attr("checked", true);
+            $("#hidediv").removeClass("hide");
+        }
+    }
+    $(".am-radio").change(function () {
+        if ($('input[name ="type"]:checked').val() != 0) {
+            $("#hidediv").addClass("hide");
+        }
+        else {
+            $("#hidediv").removeClass("hide");
+        }
+    })
+    $("#formSubmitBtn").click(function (e) {
+        /*Description*/
+        var title =$("input[name ='title']").val();
+        if ($('input[name ="type"]:checked ').val() == 0) {
+        	$('input[name="Description"]').val($("input[name='title']").val() + "|$" + $("input[name='picurl']").val() + "|$" + $("textarea[name ='descript']").val() + "|$" + $("input[name ='url']").val())
+        }
+        else {
+            $('input[name="Description"]').val(title);
+        }
+        document.forms[1].submit();
+    })
+</script>
+
+	}

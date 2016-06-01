@@ -1,0 +1,245 @@
+﻿@model IEnumerable<JULONG.TRAIN.Model.Test>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+<div ng-app="app" ng-controller="main">
+
+<p>
+	<a href="#!" ng-click="Test_edit()">组织考试</a>
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            名称
+        </th>
+		<th>
+			试卷名称
+		</th>
+
+		<th>
+			考题数
+		</th>
+		<th>
+			总分数
+		</th>
+		<th>
+			建立时间
+		</th>
+        <th>
+            状态
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JoinCount)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Exam.Name)
+		</td>
+		<td>
+			@item.Exam.QuestionCount
+		</td>
+		<td>
+			@item.Exam.Value
+		</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+			@if (item.IsOpen)
+			{
+				<i class="font-green fa fa-bell"></i>
+				@item.OpenDate.Value.ToShortDateString()
+			}
+			else
+			{
+				<i class="color-grey fa fa-bell"></i>
+			}
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JoinCount)
+        </td>
+
+        <td>
+			<button type="button" class="btn purple btn-xs" onclick="toTop(@item.Id)">
+				<i class="fa fa-long-arrow-up"></i>
+			</button> 
+
+			<button class="btn green btn-xs" ng-click="Test_edit(@item.Id,'@item.Name','@item.Exp',@item.ExamId+'',@item.Index)"><i class="fa fa-edit"></i></button> 
+			<button class="btn red btn-xs" ng-click="Test_del(@(item.Id),'@item.Name',$event)"><i class="fa fa-remove"></i></button> 
+
+
+            @Html.ActionLink("进入", "Detail", new { id=item.Id }) |
+
+        </td>
+    </tr>
+}
+
+</table>
+@Html.PagedListPager((IPagedList)Model, pageIndex => Url.Action("index", new { pageIndex}))
+
+<div id="Panel" class="modal fade" style="overflow:hidden">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="partPanl-title"><span></span> 组织考试</h4>
+			</div>
+			<!-- dialog body -->
+			<form id="part_form" class="modal-body">
+
+				<div class="form-horizontal">
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">名称</label>
+						<div class="col-md-4">
+							<input class="form-control" type="text" placeholder="名称" name="Name" ng-model="Test.Name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">说明</label>
+						<div class="col-md-4">
+							<input class="form-control" type="text" placeholder="说明" name="Exp" ng-model="Test.Exp">
+						</div>
+					</div>
+					<div class="form-group" >
+
+						<label class="control-label col-md-2">采用试卷</label>
+
+						<div class="col-md-4">
+							<select class="bs-select form-control" data-show-subtext="true" >
+								<option data-content="选择试卷" value="0"></option>
+								<option ng-repeat="exam in Exams" value="{{exam.Id}}" data-content="<div><i class='{{exam.IsDisabled?' fa fa-ban':'fa fa-circle green'}}'></i> {{exam.Name}} </div>"></option>
+							</select>
+						</div>
+
+
+
+				</div>
+
+		</div>
+
+
+		</form>
+		<!-- dialog buttons -->
+		<div class="modal-footer">
+
+			<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			<button type="button" class="btn btn-primary" ng-click="Test_submit()">保存</button>
+		</div>
+	</div>
+</div>
+	</div>
+</div>
+@section footer{
+
+<link href="~/Content/metronicAssets/global/plugins/bootstrap-select/1.7.2/bootstrap-select.min.css" rel="stylesheet" />
+@*<script src="~/Content/metronicAssets/global/plugins/bootstrap-select/1.7.2/bootstrap-select.min.js"></script>*@
+<script src="~/Content/metronicAssets/global/plugins/bootstrap-select/1.7.2/bootstrap-select.js"></script>
+	<script src="~/Content/j/angular.min.js"></script>
+	<script>
+
+		function toTop(id) {
+			myAjaxPost("/manage/test/totop", { id: id }, function () {
+				self.location.reload();
+			})
+		}
+
+		var mxApp = angular.module("app", []);
+		mxApp.controller("main", ["$scope", "$http", function ($scope, $http) {
+			ngInit($scope, $http);
+			$scope.Test={}
+			$scope.Test_edit = function (id,name,exp,examId,index) {
+				if (id) {
+					$scope.Test = { Id: id,Name:name,Exp:exp, ExamId: examId, Index: index };
+				} else {
+					$scope.Test = { Id: 0, Index: 0, ExamId: 0 };
+
+				}
+				
+				//{
+				//iconBase: 'fa',
+				//tickIcon: 'fa-check'
+				//}
+				$scope.safeApply();
+				
+				$('.bs-select').selectpicker('val', $scope.Test.ExamId);
+
+				$("#Panel").modal();
+			}
+			$scope.Test_del = function (id, name, evt) {
+				var it = evt.target;
+				$http.post("/manage/test/del", { id: id }).success(function (json) {
+					if (json.code == 0) {
+						$(it).parents("tr").remove();
+					} else if (json.code == 200) {
+						bootbox.confirm({
+							message:name + "已存在考试记录，强制删除将会清除所以记录，确认？",
+							buttons: {  
+								confirm: {  
+									label: '强制删除',  
+									className: 'btn-warning'  
+								},  
+								cancel: {  
+									label: '取消',  
+									className: 'btn-default'  
+								}  
+							},  
+							callback: function (res) {
+								if (result) {
+									$scope.myAjax($http.post('/manage/test/forcedel', { id: id }), function () {
+										$(it).parents("tr").remove();
+									})
+								}
+							}
+						})
+					}
+					else {
+						alert(json.content);
+					}
+				})
+				
+
+			}
+
+			$scope.Test_submit = function () {
+				$scope.Test.ExamId = parseInt($('.bs-select').val(),10);
+				$scope.myAjax($http.post('/manage/test/edit', $scope.Test),function(){
+					self.location.href = "/manage/test";
+				})
+			}
+			$scope.Exams = [];
+			$scope.getExams = function () {
+				$scope.myAjax($http.post('/manage/exam/gets', {}), function (res) {
+					$scope.Exams = res;
+					$scope.$apply()
+					//$scope.safeApply()
+					$('.bs-select').selectpicker();
+				})
+			}
+
+			$scope.getExams()
+		}]);
+
+
+
+	</script>
+}

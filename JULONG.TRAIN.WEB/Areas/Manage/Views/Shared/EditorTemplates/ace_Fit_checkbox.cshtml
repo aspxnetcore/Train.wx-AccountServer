@@ -1,0 +1,21 @@
+﻿
+@using sunTravel.web.Models;
+
+@{
+	ICollection<DictKeyValue> data = ViewData["data"] as ICollection<DictKeyValue>;
+	string className = ViewBag.ClassName;
+	IEnumerable<DictKeyValue> dkf = PublicCache.GetDictKeyValues(className);
+    int ii = 0;
+}
+
+@foreach (var item in dkf)
+{
+    <label>
+        <input class="form-field-checkbox" type="checkbox" name="@(ViewData.TemplateInfo.HtmlFieldPrefix)Id" value="@item.Id"
+               @{ string v = ""; if (data != null) { if (data.Where(d => d.Id == item.Id).Count() > 0) { v = "checked='checked'"; } } }
+               @v />
+
+        <span class="lbl">@item.Name</span>
+    </label>
+    ii++;
+}

@@ -1,0 +1,66 @@
+﻿
+@{
+
+    ViewBag.Title = "Bind";
+	
+	JULONG.TRAIN.WEB.Models.AccountSession account = ViewBag.account;
+}
+
+<div class="page page-my-bind" id="myBind">
+	<header class="bar bar-nav nav-nice">
+		<a class="icon icon-left pull-left back" href="/"></a>
+		<h1 class="title"></h1>
+		<div class="right-title pull-right">
+			绑定员工账号
+		</div>
+	</header>
+	<div class="content">
+
+
+		<div class="content-block">
+			<div class="avatar">
+			</div>
+			<div style="display:inline-block;vertical-align: middle;">
+
+				<span class="f2">@account.name </span>
+				<div class="color-brown">@account.workId</div>
+			</div>
+			<div style="display:inline-block">
+
+			</div>
+		</div>
+
+		<div class="list-block">
+			<ul>
+				<li>
+					<div class="item-content">
+						<div class="item-media"><i class="icon icon-form-name"></i></div>
+						<div class="item-inner">
+							<div class="item-title label">工号</div>
+							<div class="item-input">
+								<input type="tel" placeholder="你的工号" id="input_workId">
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="item-content">
+						<div class="item-media"><i class="icon icon-form-password"></i></div>
+						<div class="item-inner">
+							<div class="item-title label">密码</div>
+							<div class="item-input">
+								<input type="text" placeholder="你的工号登录密码" id="input_password">
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="content-block">
+			<button class="btn btn-main2 btn-full " onclick="ITC.pageAction.bind()">绑定工号</button>
+
+		</div>
+	</div>
+</div>
+
+

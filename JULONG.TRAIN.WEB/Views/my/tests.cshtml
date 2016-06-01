@@ -1,0 +1,52 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@model IEnumerable<TestResult>
+@{
+
+	ViewBag.Title = "历史成绩";
+	
+}
+
+<div class="page" id="myTests">
+	<header class="bar bar-nav nav-nice">
+		<div class="pull-left">
+			<a class="icon icon-left back" href="/">
+			</a>
+
+		</div>
+		<div class="pull-right">
+
+			<span class="right-title">历史成绩</span>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="list-block media-list mytest-list" style="margin:0">
+
+			<ul>
+				@foreach (TestResult item in Model) { 
+				<li class="">
+					<a  class="item-content">
+						<div class="item-media"><i class="icon icon-tongzhi"></i></div>
+						<div class="item-inner">
+
+							<div class="item-title-row">
+								<div class="item-title time"> @item.SubmitDate</div>
+								<div class="item-after"></div>
+							</div>
+							<div class="item-subtitle color-main">@item.TestElement.Test.Name</div>
+							<div class="item-text">用时：@(Convert.ToInt32(item.UseTime.Value.TotalMinutes))分钟 | 成绩： @item.Value 分</div>
+						</div>
+					</a>
+				</li>
+				}
+			</ul>
+			
+		</div>
+		@*<div class="content-block text-center"><button id="moreBtn">更多 >></button></div>*@
+
+
+	</div>
+</div>
+

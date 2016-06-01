@@ -1,0 +1,94 @@
+﻿@using JULONG.TRAIN.Model;
+@model ExamPart
+@{
+    ViewBag.Title = "EditDetails";
+}
+
+<h2>EditDetails</h2>
+
+<div class="row">
+    <div class="col-lg-2">
+        <h5 class="header smaller lighter blue " style="font-weight:bold;margin-top:0px;">
+            <a href="/manage/Exams/Detail/@Model.ExamId"><< 返回套题</a>
+        </h5>
+        <ul id="EditQuestion" class="pageList list-unstyled" style="margin-top:10px;"></ul>
+    </div>
+
+    <div class="col-lg-10" style="border-left:1px solid #f0f0f0; padding-left:20px;">
+        <form id="page_form">
+            <div class="form-group">
+                <label class="control-label col-md-2">套题名称</label>
+                <div class="col-md-10">
+                    <select id="selectGroup" class="form-control" onchange="ChangeGroup()">
+                        <option value="0">请选择套题</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">试题种类</label>
+                <div class="col-md-10">
+                    <select id="selectType" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="button" value="显示试题" onclick="ShowQuestions()" class="btn btn-default" />
+            </div>
+            <div class="form-group" id="Questions">
+            </div>
+        </form>
+        <div class="form-group" style="margin-top:20px">
+            <input type="submit" id="submit" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        myAjaxPost("/Exams/GetName/", null, function (data) {
+            var ContentData = data;
+            for (i in ContentData) {
+                var con = ContentData[i];
+                $("#selectGroup").append("<option value='" + con.Id + "'>" + con.Name + "</option>")
+            }
+        })
+    })
+    function ChangeGroup() {
+        myAjaxPost("/Exams/GetGroupName/", { id: $("#selectGroup").val() }, function (data) {
+            for (j in data) {
+                var type = data[j];
+                $("#selectType").append("<option value='" + type.Type + "'>" + type.Name + "</option>")
+            }
+        })
+    }
+    function ShowQuestions() {
+        document.getElementById('Questions').innerHTML="" ;
+        var m = 0;
+        if ($("#selectType").val() == null) {
+            alert("请选择您需要的问题类型")
+        }
+        else {
+            myAjaxPost("/Exams/GetQuestions/", { id: $("#selectGroup").val(), type: $("#selectType").val() }, function (data) {
+                var questions = data;
+                    for (m in questions) {
+                        if ($("#Questions lable").text().indexOf(questions[m].Content.replace(/<\/?[^>]*>/g, ''))<0) {
+                            $("#Questions").append("<li><lable class = 'control-label col-md-2'>" + questions[m].Content.replace(/<\/?[^>]*>/g, '') + "</lable><input type='checkbox' name='checkbox' value=" + questions[m].Id + " class='.text-danger'/></li>");
+                        }
+                        m++
+                    }
+            })
+        }
+    }
+    $("#submit").click(function () {
+        $(".form-group input:checked").each(function () {
+
+            var qid = $(this).val();
+            myAjaxPost("/Exams/AddQuestions/", { id: qid,PartId:@Model.Id}, function (data) {
+                if ($("#EditQuestion lable").text().indexOf(data.Content.replace(/<\/?[^>]*>/g, '')) < 0) {
+                    $("#EditQuestion").append("<li><lable id=" + data.Id + ">" + data.Content.replace(/<\/?[^>]*>/g, '') + "</lable></li>");
+                }
+                alert("添加成功");
+            })
+        })
+    })
+</script>

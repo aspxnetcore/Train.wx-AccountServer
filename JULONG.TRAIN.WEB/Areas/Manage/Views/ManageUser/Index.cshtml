@@ -1,0 +1,58 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<ManageUser>
+@using JULONG.TRAIN.WEB.Areas.Manage.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    @Html.ActionLink("新建用户", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bak)
+        </th>
+        @if (AccountUser.IsSuper) { 
+        <th>
+            @Html.DisplayNameFor(model => model.IsSuper)
+        </th>
+        }
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bak)
+        </td>
+        @if (AccountUser.IsSuper)
+        {
+            <th>
+                @Html.DisplayFor(model => item.IsSuper, "ace_boolean")
+            </th>
+        }
+        <td>
+            @Html.ActionLink("编辑", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("删除", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

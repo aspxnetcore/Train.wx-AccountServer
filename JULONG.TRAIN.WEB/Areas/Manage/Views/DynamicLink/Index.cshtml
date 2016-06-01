@@ -1,0 +1,94 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<DynamicLink>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@foreach (var item in Model) {
+    
+using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+<input type="hidden" value="@item.Name" name="Name" />
+<input type="hidden" value="@item.Group" name="Group" />
+<div class="widget-box ">
+	<div class="widget-header widget-header-flat">
+
+            <h4 class="smaller col-md-7">
+                <i class="icon-quote-left smaller-80"></i>
+                @item.Name
+            </h4>
+            
+            链接：<input value="@item.Url" placeholder="连接地址" style="width:300px; margin-top:4px;" name="Url" type="text" class="input-sm input-xxlarge" />
+
+         <span class="widget-toolbar">
+            <button class="btn btn-primary btn-xs" onclick="update(this)" type="button"> 更 新 </button>
+            <a href="#" data-action="collapse">
+                <i class="icon-chevron-up"></i>
+            </a>
+        </span>
+	</div>
+
+	<div class="widget-body " style="height:180px">
+        <div class="widget-main alert ">
+            <div class="form-group">
+
+
+                <div class="col-md-7">
+                    <input value="@item.Pic" name="Pic" type="hidden" />
+					<input data-path="DynamicLink" data-target="Pic" class="picUpload"  type="file">
+                    <div class="exp-info">建议图片大小@(item.Bak1)</div>
+                </div>
+                <div class="col-md-5">
+                    <div>
+                        <label class=" control-label no-padding-right">文字</label>
+                        <input value="@item.Title" style="width:300px; margin:4px;" type="text" name="Title" class=" input-xxlarge input-sm" />
+                    </div>
+                    
+                    <div>
+                        <label class="control-label no-padding-right">有效</label>
+                        <input class="ace ace-switch ace-switch-7" name="Enable" type="checkbox" @(item.Enable ? "checked=checked" : "") value="true" />
+                        <span class="lbl"></span>
+                    </div>
+
+     
+
+                </div>
+            </div>
+
+
+        </div>
+	</div>
+</div>
+
+            }
+}
+<style>
+    .ace-file-multiple .file-label{
+        border-width:0px;
+    }
+    .widget-box{border-bottom:0px;}
+    .widget-body {
+        background-color: #f7f7f7;
+    }
+    .widget-box{margin-bottom:20px;}
+</style>
+
+<script>
+	$(function () { regUpload();})
+
+    function update(it) {
+        var postData = $(it).closest("form").serializeObject();
+        $.post("/manage/DynamicLink/edit/", postData, function (json) {
+            if (json.result == "SUCCESS") {
+                myAlert("提示", "修改成功");
+            } else {
+                myAlert("提示", "失败成功");
+            }
+        })
+
+    }
+</script>

@@ -1,0 +1,60 @@
+﻿@using JULONG.TRAIN.Model
+@model IEnumerable<Material>
+@{
+
+	//JULONG.TRAIN.WEB.Models.debug.log("teach_index_page", "");
+	BaseDBContext db = new BaseDBContext();
+	
+    ViewBag.Title = "materials";
+	var i = 0;
+	var groupi = 0;
+}
+
+<div class="page" id="materials">
+
+	<header class="bar bar-nav nav-nice">
+		<a class="icon icon-left pull-left back" href="/"></a>
+		<h1 class="title"></h1>
+		<div class="right-title pull-right">
+			教材列表
+		</div>
+	</header>
+
+	<div class="content">
+		<div class="content-block">
+
+			<div class="material-list">
+				@foreach (var mi in Model)
+				{
+
+					
+					if (i % 3 == 0 && i > 2)
+					{
+						<div class="material-line">
+
+						</div>
+					}
+
+					i++;
+					<a href="/teach/material/@mi.Id" class="material">
+
+						<span class="m-title">
+							@mi.Title
+						</span>
+						<span class="m-index">
+							@i
+						</span>
+						<span class="m-count">
+							(@mi.PageCount)
+						</span>
+
+					</a>
+				}
+				<div class="material-line">
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,114 @@
+﻿@using JULONG.TRAIN.Model;
+@model Student
+
+@{
+
+}
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>Student</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+			<div class="form-group">
+				<label class="control-label col-md-2">学员组</label>
+				<div class="col-md-6">
+					@if (Model.StudentGroup == null)
+					{
+						SelectList sl = new SelectList(ViewBag.groups, "Id", "Name");
+						@Html.DropDownListFor(d => d.StudentGroupId, sl, "请选择");
+						 @Html.ValidationMessageFor(model => model.StudentGroupId, "", new { @class = "text-danger" })
+					}
+					else
+					{
+						<label class="control-label">@Model.StudentGroup.Name</label>
+						@Html.HiddenFor(d => d.StudentGroupId);
+
+					}
+				</div>
+			</div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" }})
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+					@Html.EnumDropDownListFor(d=>Model.Sex)
+                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" }})
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+			<div class="form-group">
+				@Html.LabelFor(model => model.WorkID, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.WorkID, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.WorkID, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.RoleBak, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.RoleBak, new { htmlAttributes = new { @class = "form-control" }})
+					@Html.ValidationMessageFor(model => model.RoleBak, "", new { @class = "text-danger" })
+				</div>
+			</div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Password("Password", Model.Password)
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+					@if (Model.Id != 0) { 
+					<label>
+						<input type="checkbox" name="isChangePassword" value="true" />修改密码
+					</label>
+					}
+					<div class="exp">新建用户时，如果密码为空会采用默认密码 23456</div>
+                </div>
+            </div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.Bak, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.TextAreaFor(model => model.Bak, new { @class = "form-control " })
+					@Html.ValidationMessageFor(model => model.Bak, "", new { @class = "text-danger" })
+				</div>
+			</div>   
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsDisabled, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsDisabled)
+                        @Html.ValidationMessageFor(model => model.IsDisabled, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>

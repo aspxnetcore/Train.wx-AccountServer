@@ -1,0 +1,74 @@
+﻿@using PagedList
+@using PagedList.Mvc;
+@using JULONG.TRAIN.Model;
+@model IEnumerable<JULONG.TRAIN.Model.TestResult>
+
+@{
+
+	ViewBag.Title = "Index";
+	ViewBag.menu1 = "考试管理";
+	ViewBag.menu11 = "过期处理";
+}
+
+
+
+<table class="table">
+    <tr>
+
+        <th>
+           参考时间
+        </th>
+		<th>
+			员工
+		</th>
+		<th>
+			缺省部门
+		</th>
+		<th>
+			考试
+		</th>
+		<th>
+			操作
+		</th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+		<td>
+			@item.TestElement.Student.Name
+		</td>
+		<td>
+			@item.TestElement.Student.GroupName
+		</td>
+		<td>
+			@item.TestElement.Test.Name
+		</td>
+
+        <td>
+           <button onclick="expClear(@item.Id,this)">重新开考</button>
+        </td>
+
+    </tr>
+}
+
+</table>
+@Html.PagedListPager((IPagedList)Model, pageIndex => Url.Action("index", new { pageIndex }))
+@section footer{
+	<script>
+		function expClear(id,it){
+		if (confirm("确认要重置该员工的考试吗")) {
+			myAjaxPost("/manage/test/ExpClear", { id:id}, function (res) {
+				$(it).parents("tr").remove();
+			},
+			function (err) {
+				alert(err);
+			})
+		}
+		}
+	</script>
+}

@@ -1,0 +1,1570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{473C42AF-1A43-40E5-AAF8-00E03807345B}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JULONG.TRAIN.WEB</RootNamespace>
+    <AssemblyName>JULONG.TRAIN.WEB</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CaptchaMvc">
+      <HintPath>..\packages\CaptchaMvc.Mvc5.1.5.0\lib\net45-full\CaptchaMvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="JWT, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\JWT.1.3.4\lib\3.5\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin, Version=4.5.6.41026, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Senparc.Weixin.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP, Version=13.5.4.31859, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Senparc.Weixin.MP.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP.MvcExtension, Version=4.0.1.31986, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.Open, Version=1.6.1.31986, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Senparc.Weixin.Open.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Manage\Controllers\DynamicLinkController.cs" />
+    <Compile Include="Areas\Manage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Manage\Controllers\ManageUserController.cs" />
+    <Compile Include="Areas\Manage\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Manage\Controllers\SampleController.cs" />
+    <Compile Include="Areas\Manage\Controllers\statisticsController.cs" />
+    <Compile Include="Areas\Manage\Controllers\StudentGroupController.cs" />
+    <Compile Include="Areas\Manage\Controllers\StudentsController.cs" />
+    <Compile Include="Areas\Manage\Controllers\SystemConfigController.cs" />
+    <Compile Include="Areas\Manage\Controllers\MaterialController.cs" />
+    <Compile Include="Areas\Manage\Controllers\ExamController.cs" />
+    <Compile Include="Areas\Manage\Controllers\TestController.cs" />
+    <Compile Include="Areas\Manage\Controllers\UploadController.cs" />
+    <Compile Include="Areas\Manage\Controllers\VoteLogController.cs" />
+    <Compile Include="Areas\Manage\Controllers\VoteController.cs" />
+    <Compile Include="Areas\Manage\Controllers\WebconfigController.cs" />
+    <Compile Include="Areas\Manage\Controllers\WxDicManageController.cs" />
+    <Compile Include="Areas\Manage\ManageAreaRegistration.cs" />
+    <Compile Include="Areas\Manage\Models\AccountFilter.cs" />
+    <Compile Include="Areas\Manage\Models\AccountUser.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TeachController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\VoteController.cs" />
+    <Compile Include="Controllers\WxController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ArticleHelper.cs" />
+    <Compile Include="Models\config.cs" />
+    <Compile Include="Models\DB.cs" />
+    <Compile Include="Models\DBfun.cs" />
+    <Compile Include="Models\debug.cs" />
+    <Compile Include="Models\GlobalHelper.cs" />
+    <Compile Include="Models\PageResult.cs" />
+    <Compile Include="Models\PublicCache.cs" />
+    <Compile Include="Models\StudentAccountFilter.cs" />
+    <Compile Include="Models\AccountHelper.cs" />
+    <Compile Include="Models\TestHelper.cs" />
+    <Compile Include="Models\WXAccountAttendFilter.cs" />
+    <Compile Include="Models\WxScope_UserinfoFilter.cs" />
+    <Compile Include="Models\WxAccountFilter.cs" />
+    <Compile Include="Models\WxHandler.cs" />
+    <Compile Include="Models\WxMessageContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\c\demo.css" />
+    <Content Include="Content\c\demo.html" />
+    <Content Include="Content\c\iconfont.css" />
+    <Content Include="Content\c\iconfont.svg" />
+    <Content Include="Content\i\4.svg" />
+    <Content Include="Content\i\6.svg" />
+    <Content Include="Content\i\banner_nice.png" />
+    <Content Include="Content\i\bg.jpg" />
+    <Content Include="Content\i\book.png" />
+    <Content Include="Content\i\chart_bar_head.png" />
+    <Content Include="Content\i\logo_txt.png" />
+    <Content Include="Content\i\material-line.png" />
+    <Content Include="Content\j\d3.v3.min.js" />
+    <Content Include="Content\j\lib.js" />
+    <Content Include="Content\j\Proton.js" />
+    <Content Include="Content\j\teach.js" />
+    <Content Include="Content\c\app.css" />
+    <Content Include="Content\j\angular.min.js" />
+    <Content Include="Content\j\ng-file-upload-all.min.js" />
+    <Content Include="Content\light7Assets\css\light7-swipeout.css" />
+    <Content Include="Content\light7Assets\css\light7-swiper.css" />
+    <Content Include="Content\light7Assets\css\light7-swiper.min.css" />
+    <Content Include="Content\light7Assets\css\light7.css" />
+    <Content Include="Content\light7Assets\css\light7.min.css" />
+    <Content Include="Content\light7Assets\fonts\ratchicons.svg" />
+    <Content Include="Content\light7Assets\img\i-f7.png" />
+    <Content Include="Content\light7Assets\img\i-form-calendar.png" />
+    <Content Include="Content\light7Assets\img\i-form-comment.png" />
+    <Content Include="Content\light7Assets\img\i-form-email.png" />
+    <Content Include="Content\light7Assets\img\i-form-gender.png" />
+    <Content Include="Content\light7Assets\img\i-form-name.png" />
+    <Content Include="Content\light7Assets\img\i-form-password.png" />
+    <Content Include="Content\light7Assets\img\i-form-settings.png" />
+    <Content Include="Content\light7Assets\img\i-form-tel.png" />
+    <Content Include="Content\light7Assets\img\i-form-toggle.png" />
+    <Content Include="Content\light7Assets\img\i-form-url.png" />
+    <Content Include="Content\light7Assets\img\i-list-chevron-right.png" />
+    <Content Include="Content\light7Assets\img\i-sortable-handler.png" />
+    <Content Include="Content\j\app.js" />
+    <Content Include="Content\light7Assets\js\i18n\cn.js" />
+    <Content Include="Content\light7Assets\js\i18n\cn.min.js" />
+    <Content Include="Content\light7Assets\js\light7-city-picker.js" />
+    <Content Include="Content\light7Assets\js\light7-city-picker.min.js" />
+    <Content Include="Content\light7Assets\js\light7-swipeout.js" />
+    <Content Include="Content\light7Assets\js\light7-swiper.js" />
+    <Content Include="Content\light7Assets\js\light7-swiper.min.js" />
+    <Content Include="Content\light7Assets\js\light7.js" />
+    <Content Include="Content\light7Assets\js\light7.min.js" />
+    <Content Include="Content\light7Assets\js\zepto.js" />
+    <Content Include="Content\manage\c\css.css" />
+    <Content Include="Content\manage\i\logo.png" />
+    <Content Include="Content\manage\j\my.js" />
+    <Content Include="Content\metronicAssets\admin\layout\css\custom.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\layout.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\themes\blue.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\themes\darkblue.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\themes\default.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\themes\grey.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\themes\light.css" />
+    <Content Include="Content\metronicAssets\admin\layout\css\themes\light2.css" />
+    <Content Include="Content\metronicAssets\admin\layout\img\ajax-loading.gif" />
+    <Content Include="Content\metronicAssets\admin\layout\img\ajax-modal-loading.gif" />
+    <Content Include="Content\metronicAssets\admin\layout\img\arrow-down.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar1.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar10.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar11.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar1_small.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar2.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar3.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar3_small.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar4.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar5.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar6.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar7.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar8.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\avatar9.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\hor-menu-red-arrow.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\icon-color-close.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\icon-color.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\icon-img-down.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\icon-img-up.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\inbox-nav-arrow-blue.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\loading-spinner-blue.gif" />
+    <Content Include="Content\metronicAssets\admin\layout\img\loading-spinner-default.gif" />
+    <Content Include="Content\metronicAssets\admin\layout\img\loading-spinner-grey.gif" />
+    <Content Include="Content\metronicAssets\admin\layout\img\loading.gif" />
+    <Content Include="Content\metronicAssets\admin\layout\img\logo-big-white.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\logo-big.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\logo-invert.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\logo.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\menu-toggler.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\photo1.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\photo2.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\photo3.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\remove-icon-small.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\search_icon_light.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar-menu-arrow-reverse.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar-menu-arrow-right.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar-menu-arrow.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_arrow_icon_light.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_arrow_icon_light_rtl.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_inline_toggler_icon_blue.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_inline_toggler_icon_darkblue.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_inline_toggler_icon_default.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_inline_toggler_icon_grey.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_inline_toggler_icon_light.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_inline_toggler_icon_light2.jpg" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_toggler_icon_blue.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_toggler_icon_darkblue.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_toggler_icon_default.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_toggler_icon_grey.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_toggler_icon_light.png" />
+    <Content Include="Content\metronicAssets\admin\layout\img\sidebar_toggler_icon_light2.png" />
+    <Content Include="Content\metronicAssets\admin\layout\scripts\demo.js" />
+    <Content Include="Content\metronicAssets\admin\layout\scripts\layout.js" />
+    <Content Include="Content\metronicAssets\admin\layout\scripts\quick-sidebar.js" />
+    <Content Include="Content\metronicAssets\admin\pages\css\profile.css" />
+    <Content Include="Content\metronicAssets\global\css\components-md.css" />
+    <Content Include="Content\metronicAssets\global\css\plugins-md.css" />
+    <Content Include="Content\metronicAssets\global\img\accordion-plusminus.png" />
+    <Content Include="Content\metronicAssets\global\img\ajax-loading.gif" />
+    <Content Include="Content\metronicAssets\global\img\ajax-modal-loading.gif" />
+    <Content Include="Content\metronicAssets\global\img\datatable-row-openclose.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ad.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ae.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\af.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ag.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ai.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\al.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\am.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\an.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ao.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ar.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\as.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\at.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\au.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\aw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ax.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\az.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ba.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bb.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bd.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\be.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bh.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bi.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bj.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bo.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\br.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bs.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bv.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\by.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\bz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ca.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\catalonia.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cd.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ch.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ci.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ck.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cl.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\co.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cs.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cv.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cx.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cy.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\cz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\de.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\dj.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\dk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\dm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\do.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\dz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ec.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ee.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\eg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\eh.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\england.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\er.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\es.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\et.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\europeanunion.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fam.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fi.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fj.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fo.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\fr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ga.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gb.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gd.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ge.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gh.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gi.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gl.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gp.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gq.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gs.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\gy.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\hk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\hm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\hn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\hr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ht.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\hu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\id.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ie.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\il.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\in.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\io.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\iq.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ir.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\is.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\it.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\jm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\jo.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\jp.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ke.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kh.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ki.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\km.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kp.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ky.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\kz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\la.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lb.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\li.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ls.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\lv.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ly.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ma.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\md.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\me.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mh.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ml.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mo.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mp.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mq.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ms.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mv.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mx.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\my.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\mz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\na.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\nc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ne.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\nf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ng.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ni.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\nl.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\no.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\np.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\nr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\nu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\nz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\om.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pa.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pe.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ph.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pl.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ps.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\pw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\py.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\qa.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\re.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\readme.txt" />
+    <Content Include="Content\metronicAssets\global\img\flags\ro.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\rs.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ru.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\rw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sa.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sb.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\scotland.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sd.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\se.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sh.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\si.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sj.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sl.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\so.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\st.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sv.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sy.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\sz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\td.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\th.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tj.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tk.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tl.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\to.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tr.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tv.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tw.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\tz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ua.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ug.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\um.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\us.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\uy.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\uz.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\va.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\vc.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ve.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\vg.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\vi.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\vn.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\vu.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\wales.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\wf.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ws.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\ye.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\yt.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\za.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\zm.png" />
+    <Content Include="Content\metronicAssets\global\img\flags\zw.png" />
+    <Content Include="Content\metronicAssets\global\img\input-spinner.gif" />
+    <Content Include="Content\metronicAssets\global\img\loading-spinner-blue.gif" />
+    <Content Include="Content\metronicAssets\global\img\loading-spinner-default.gif" />
+    <Content Include="Content\metronicAssets\global\img\loading-spinner-grey.gif" />
+    <Content Include="Content\metronicAssets\global\img\loading.gif" />
+    <Content Include="Content\metronicAssets\global\img\overlay-icon.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-collapse-icon-white.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-collapse-icon.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-config-icon-white.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-config-icon.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-expand-icon-white.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-expand-icon.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-reload-icon-white.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-reload-icon.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-remove-icon-white.png" />
+    <Content Include="Content\metronicAssets\global\img\portlet-remove-icon.png" />
+    <Content Include="Content\metronicAssets\global\img\remove-icon-small.png" />
+    <Content Include="Content\metronicAssets\global\img\social\aboutme.png" />
+    <Content Include="Content\metronicAssets\global\img\social\amazon.png" />
+    <Content Include="Content\metronicAssets\global\img\social\behance.png" />
+    <Content Include="Content\metronicAssets\global\img\social\blogger.png" />
+    <Content Include="Content\metronicAssets\global\img\social\deviantart.png" />
+    <Content Include="Content\metronicAssets\global\img\social\dribbble.png" />
+    <Content Include="Content\metronicAssets\global\img\social\dropbox.png" />
+    <Content Include="Content\metronicAssets\global\img\social\evernote.png" />
+    <Content Include="Content\metronicAssets\global\img\social\facebook.png" />
+    <Content Include="Content\metronicAssets\global\img\social\flickr.png" />
+    <Content Include="Content\metronicAssets\global\img\social\forrst.png" />
+    <Content Include="Content\metronicAssets\global\img\social\foursquare.png" />
+    <Content Include="Content\metronicAssets\global\img\social\github.png" />
+    <Content Include="Content\metronicAssets\global\img\social\googleplus.png" />
+    <Content Include="Content\metronicAssets\global\img\social\gravatar.png" />
+    <Content Include="Content\metronicAssets\global\img\social\instagram.png" />
+    <Content Include="Content\metronicAssets\global\img\social\jolicloud.png" />
+    <Content Include="Content\metronicAssets\global\img\social\klout.png" />
+    <Content Include="Content\metronicAssets\global\img\social\last-fm.png" />
+    <Content Include="Content\metronicAssets\global\img\social\linkedin.png" />
+    <Content Include="Content\metronicAssets\global\img\social\myspace.png" />
+    <Content Include="Content\metronicAssets\global\img\social\picasa.png" />
+    <Content Include="Content\metronicAssets\global\img\social\pintrest.png" />
+    <Content Include="Content\metronicAssets\global\img\social\quora.png" />
+    <Content Include="Content\metronicAssets\global\img\social\reddit.png" />
+    <Content Include="Content\metronicAssets\global\img\social\rss.png" />
+    <Content Include="Content\metronicAssets\global\img\social\skype.png" />
+    <Content Include="Content\metronicAssets\global\img\social\spotify.png" />
+    <Content Include="Content\metronicAssets\global\img\social\stumbleupon.png" />
+    <Content Include="Content\metronicAssets\global\img\social\tumblr.png" />
+    <Content Include="Content\metronicAssets\global\img\social\twitter.png" />
+    <Content Include="Content\metronicAssets\global\img\social\vimeo.png" />
+    <Content Include="Content\metronicAssets\global\img\social\vk.png" />
+    <Content Include="Content\metronicAssets\global\img\social\wordpress.png" />
+    <Content Include="Content\metronicAssets\global\img\social\xing.png" />
+    <Content Include="Content\metronicAssets\global\img\social\yahoo.png" />
+    <Content Include="Content\metronicAssets\global\img\social\youtube.png" />
+    <Content Include="Content\metronicAssets\global\img\syncfusion-icons-white.png" />
+    <Content Include="Content\metronicAssets\global\img\syncfusion-icons.png" />
+    <Content Include="Content\metronicAssets\global\plugins\bootbox\bootbox.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepaginator\bootstrap-datepaginator.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepaginator\bootstrap-datepaginator.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\css\datepicker.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\css\datepicker3.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-daterangepicker\daterangepicker-bs2.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-daterangepicker\moment.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\bootstrap-datetimepicker.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.bg.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ca.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.cs.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.da.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.de.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.el.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.es.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.fi.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.fr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.he.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.hr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.hu.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.id.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.is.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.it.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ja.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.kr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.lt.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.lv.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ms.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.nb.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.nl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.pl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.pt-BR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.pt.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ro.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.rs-latin.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.rs.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ru.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sk.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sl.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sv.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sw.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.th.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.tr.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ua.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.uk.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.zh-TW.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-modal\css\bootstrap-modal-bs3patch.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-modal\css\bootstrap-modal.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-modal\js\bootstrap-modal.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-modal\js\bootstrap-modalmanager.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-select\1.7.2\bootstrap-select.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-select\1.7.2\bootstrap-select.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-ar-AR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-ca-ES.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-cs-CZ.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-da-DK.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-de-DE.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-es-ES.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-es-EU.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-fa-IR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-fi-FI.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-fr-FR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-hu-HU.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-id-ID.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-it-IT.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-ja-JP.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-ko-KR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-nb-NO.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-nl-NL.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-pl-PL.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-pt-BR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-ro-RO.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-ru-RU.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-sk-SK.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-sl-SI.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-sr-RS-Latin.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-sr-RS.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-sv-SE.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-th-TH.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-tr-TR.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-uk-UA.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-vi-VN.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-zh-CN.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\lang\summernote-zh-TW.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\summernote.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\summernote.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\summernote.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\js\npm.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\all.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\column_render.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\complex_header.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\defaults.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\dom_multiple_elements.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\dom_toolbar.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\dt_events.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\events_live.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\footer_callback.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\html5-data-attributes.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\language_file.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\length_menu.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\row_callback.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\row_grouping.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\advanced_init\sort_direction_control.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\custom_data_flat.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\custom_data_property.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\arrays.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\arrays_custom_prop.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\arrays_subobjects.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\objects.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\objects_deep.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\objects_root_array.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\objects_subarrays.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\data\orthogonal.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\deep.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\defer_render.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\null_data_source.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\objects.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\objects_subarrays.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\orthogonal-data.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\ajax\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\add_row.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\api_in_init.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\counter_columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\form.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\highlight.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\multi_filter.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\multi_filter_select.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\regex.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\row_details.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\select_row.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\select_single_row.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\show_hide.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\api\tabs_and_scrolling.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\alt_pagination.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\comma-decimal.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\complex_header.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\dom.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\filter_only.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\flexible_width.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\hidden_columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\language.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\multiple_tables.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\multi_col_sort.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\scroll_x.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\scroll_xy.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\scroll_y.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\scroll_y_theme.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\state_save.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\table_sorting.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\basic_init\zero_configuration.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\data_sources\ajax.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\data_sources\dom.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\data_sources\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\data_sources\js_array.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\data_sources\server_side.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\plug-ins\api.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\plug-ins\dom_sort.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\plug-ins\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\plug-ins\range_filtering.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\plug-ins\sorting_auto.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\plug-ins\sorting_manual.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\3\dataTables.bootstrap.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\3\dataTables.bootstrap.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\3\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\images\sort_asc.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\images\sort_asc_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\images\sort_both.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\images\sort_desc.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\bootstrap\images\sort_desc_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\demo.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\demo.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\details_close.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\details_open.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\de_DE.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\dataTables.foundation.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\dataTables.foundation.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\images\sort_asc.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\images\sort_asc_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\images\sort_both.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\images\sort_desc.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\foundation\images\sort_desc_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\jqueryui\dataTables.jqueryui.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\jqueryui\dataTables.jqueryui.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\jqueryui\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\syntax\shCore.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\syntax\shCore.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\custom_vars.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\defer_loading.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\ids.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\jsonp.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\object_data.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\pipeline.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\post.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\row_details.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\mysql.sql" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\postgres.sql" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\sqlite.sql" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\sqlserver.sql" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\select_rows.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\bootstrap.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\cell-border.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\compact.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\display.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\foundation.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\hover.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\jqueryUI.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\no-classes.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\order-column.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\row-border.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\styling\stripe.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\complete-callback.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\fill-both.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\fill-horizontal.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\scrolling.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\examples\step-callback.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\images\filler.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\AutoFill\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\alt_insert.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\colvis.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\col_filter.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\fixedcolumns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\fixedheader.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\jqueryui.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\new_init.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\predefined.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\realtime.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\reset.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\scrolling.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\server_side.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\examples\state_save.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\images\insert.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColReorder\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\css\dataTables.colVis.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\css\dataTables.colvis.jqueryui.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\css\dataTables.colVis.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\button_order.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\exclude_columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\group_columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\jqueryui.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\mouseover.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\new_init.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\restore.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\text.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\title_callback.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\two_tables.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\examples\two_tables_identical.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\js\dataTables.colVis.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\js\dataTables.colVis.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\ColVis\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\bootstrap.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\colvis.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\col_filter.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\css_size.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\index_column.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\left_right_columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\right_column.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\rowspan.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\server-side-processing.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\size_fixed.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\size_fluid.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\examples\two_columns.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedColumns\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\examples\header_footer.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\examples\top_left_right.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\examples\two_tables.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\examples\zIndexes.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\FixedHeader\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\examples\events.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\examples\html.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\examples\scrolling.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\KeyTable\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\css\dataTables.responsive.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\child-rows\column-control.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\child-rows\custom-renderer.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\child-rows\disable-child-rows.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\child-rows\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\child-rows\right-column.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\child-rows\whole-row-control.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\display-control\auto.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\display-control\classes.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\display-control\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\display-control\init-classes.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\initialisation\ajax.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\initialisation\className.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\initialisation\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\initialisation\new.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\initialisation\option.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\styling\bootstrap.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\styling\foundation.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\examples\styling\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\js\dataTables.responsive.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\js\dataTables.responsive.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\css\dataTables.scroller.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\css\dataTables.scroller.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\api_scrolling.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\data\2500.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\large_js_source.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\server-side_processing.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\state_saving.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\images\loading-background.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\js\dataTables.scroller.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\js\dataTables.scroller.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\ajax.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\alter_buttons.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\bootstrap.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\button_text.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\collection.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\defaults.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\jqueryui.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\multiple_tables.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\multi_instance.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\new_init.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\pdf_message.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\plug-in.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\select_column.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\select_multi.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\select_os.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\select_single.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\simple.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\examples\swf_path.html" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\background.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\collection.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\collection_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\copy.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\copy_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\csv.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\csv_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\pdf.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\pdf_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\print.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\print_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\xls.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\xls_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\Readme.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\swf\copy_csv_xls.swf" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\license.txt" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\css\jquery.dataTables.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\css\jquery.dataTables.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\css\jquery.dataTables_themeroller.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\back_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\back_enabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\back_enabled_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\favicon.ico" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\forward_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\forward_enabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\forward_enabled_hover.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\sort_asc.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\sort_asc_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\sort_both.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\sort_desc.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\js\jquery.dataTables.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\js\jquery.dataTables.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\plugins\bootstrap\dataTables.bootstrap.css" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\plugins\bootstrap\dataTables.bootstrap.js" />
+    <Content Include="Content\metronicAssets\global\plugins\excanvas.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\metronicAssets\global\plugins\holder.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\banner.jpg" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\custom.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\icheck.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\arrow-bottom.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\arrow-top.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\header-line.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\icon-fork.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\icon-github.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\icon-lab.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\icon-options.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\ie\icon-star.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-bold.svg" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-regular.svg" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\normalize.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\index.html" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\js\custom.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\js\custom.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\js\jquery.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\js\zepto.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\icheck.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\icheck.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\all.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\aero%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\aero.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\aero.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\blue%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\blue.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\blue.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\flat%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\flat.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\flat.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\green%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\green.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\green.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\grey%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\grey.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\grey.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\orange%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\orange.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\orange.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\pink%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\pink.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\pink.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\purple%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\purple.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\purple.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\red%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\red.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\red.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\yellow%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\yellow.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\yellow.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\flat\_all.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\futurico\futurico%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\futurico\futurico.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\futurico\futurico.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\aero.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\blue.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\green.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\grey.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\line%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\line.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\line.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\orange.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\pink.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\purple.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\red.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\yellow.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\line\_all.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\aero%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\aero.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\aero.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\blue%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\blue.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\blue.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\green%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\green.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\green.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\grey%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\grey.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\grey.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\minimal%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\minimal.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\minimal.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\orange%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\orange.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\orange.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\pink%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\pink.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\pink.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\purple%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\purple.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\purple.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\red%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\red.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\red.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\yellow%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\yellow.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\yellow.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\minimal\_all.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\polaris\polaris%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\polaris\polaris.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\polaris\polaris.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\aero%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\aero.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\aero.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\blue%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\blue.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\blue.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\green%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\green.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\green.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\grey%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\grey.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\grey.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\orange%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\orange.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\orange.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\pink%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\pink.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\pink.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\purple%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\purple.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\purple.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\red%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\red.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\red.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\square%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\square.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\square.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\yellow%402x.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\yellow.css" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\yellow.png" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\skins\square\_all.css" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-migrate.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-nestable\jquery.nestable.css" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-nestable\jquery.nestable.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui-touch-punch\jquery.ui.touch-punch.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\jquery-ui.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.blockui.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.cokie.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.easing.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.input-ip-address-control-1.0.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.mockjax.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.parallax.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.pulsate.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.scrollTo.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.sparkline.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\moment.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.all.js" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.all.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.css" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.js" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.min.js" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.pips.css" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\jquery.nouislider.pips.min.css" />
+    <Content Include="Content\metronicAssets\global\plugins\respond.min.js" />
+    <Content Include="Content\metronicAssets\global\scripts\datatable.js" />
+    <Content Include="Content\metronicAssets\global\scripts\metronic.js" />
+    <Content Include="Content\offcanvas.js" />
+    <Content Include="Content\jquery.min.js" />
+    <Content Include="Content\offcanvas.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\type.html" />
+    <Content Include="DLL\Senparc.Weixin.dll" />
+    <Content Include="DLL\Senparc.Weixin.MP.dll" />
+    <Content Include="DLL\Senparc.Weixin.MP.MvcExtension.dll" />
+    <Content Include="DLL\Senparc.Weixin.MP.MvcExtension.XML" />
+    <Content Include="DLL\Senparc.Weixin.MP.XML">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DLL\Senparc.Weixin.Open.dll" />
+    <Content Include="DLL\Senparc.Weixin.Open.XML" />
+    <Content Include="DLL\Senparc.Weixin.QY.dll" />
+    <Content Include="DLL\Senparc.Weixin.QY.XML" />
+    <Content Include="DLL\Senparc.Weixin.XML" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\manage.css" />
+    <Content Include="Areas\Manage\Views\web.config" />
+    <Content Include="Areas\Manage\Views\DynamicLink\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\home\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\home\login.cshtml" />
+    <Content Include="Areas\Manage\Views\ManageUser\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\ManageUser\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\News\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\News\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\News\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\News\Type.cshtml" />
+    <Content Include="Areas\Manage\Views\News\TypeEdit.cshtml" />
+    <Content Include="Areas\Manage\Views\QuestionGroups\Create.cshtml" />
+    <Content Include="Areas\Manage\Views\QuestionGroups\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\QuestionGroups\Details.cshtml" />
+    <Content Include="Areas\Manage\Views\QuestionGroups\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\QuestionGroups\EditQuestion.cshtml" />
+    <Content Include="Areas\Manage\Views\QuestionGroups\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Sample\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\statistics\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\statistics\online.cshtml" />
+    <Content Include="Areas\Manage\Views\statistics\StudentLogIndex.cshtml" />
+    <Content Include="Areas\Manage\Views\StudentGroup\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\StudentGroup\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\StudentGroup\Export.cshtml" />
+    <Content Include="Areas\Manage\Views\StudentGroup\Home.cshtml" />
+    <Content Include="Areas\Manage\Views\StudentGroup\Import.cshtml" />
+    <Content Include="Areas\Manage\Views\StudentGroup\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Students\AddSuccess.cshtml" />
+    <Content Include="Areas\Manage\Views\Students\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\Students\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\Students\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\SystemConfig\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\TeachDocument\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\TeachDocument\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\TeachDocument\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\TeachDocument\Type.cshtml" />
+    <Content Include="Areas\Manage\Views\TeachDocument\TypeEdit.cshtml" />
+    <Content Include="Areas\Manage\Views\Material\Detail.cshtml" />
+    <Content Include="Areas\Manage\Views\Material\Detail_bak.cshtml" />
+    <Content Include="Areas\Manage\Views\Material\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\Material\editPage.cshtml" />
+    <Content Include="Areas\Manage\Views\Material\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Material\_MaterialPart.cshtml" />
+    <Content Include="Areas\Manage\Views\Exam\Details.cshtml" />
+    <Content Include="Areas\Manage\Views\Exam\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\Exam\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Webconfig\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\Webconfig\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\Webconfig\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\WxDicManage\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\WxDicManage\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\WxDicManage\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\ace_boolean.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\checkbox.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\ace_Fit_checkbox.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\ace_TextArea.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\ace_TextAreaUpload.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\dictKeyValues_select.cshtml" />
+    <Content Include="Content\metronicAssets\global\plugins\bootbox\LICENSE.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootbox\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepaginator\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\CHANGELOG.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\less\datepicker.less" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\less\datepicker3.less" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\LICENSE" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datepicker\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-daterangepicker\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\less\datetimepicker.less" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\LICENSE" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-datetimepicker\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-modal\LICENSE" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-modal\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap-summernote\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\metronicAssets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\examples.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\font\raleway_thin-webfont.eot" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\font\raleway_thin-webfont.ttf" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\font\raleway_thin-webfont.woff" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\jqueryui\dataTables.jqueryui.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\resources\syntax\Syntax Highlighter license" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\ids-arrays.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\ids-objects.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\jsonp.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\objects.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\post.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\server_processing.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\examples\server_side\scripts\ssp.class.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\css\dataTables.responsive.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Responsive\Readme.md" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\Scroller\examples\data\ssp.php" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\psd\collection.psd" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\psd\copy document.psd" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\psd\file_types.psd" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\extensions\TableTools\images\psd\printer.psd" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\media\images\Sorting icons.psd" />
+    <Content Include="Content\metronicAssets\global\plugins\datatables\Readme.md" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\animated.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\core.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\icons.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\larger.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\list.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\mixins.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\path.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\stacked.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\less\variables.less" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_core.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_list.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_path.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\.gitignore" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\bower.json" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\CHANGELOG.md" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\custom.styl" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-bold.eot" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-bold.ttf" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-bold.woff" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-regular.eot" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-regular.ttf" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\demo\css\montserrat-regular.woff" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\icheck.jquery.json" />
+    <Content Include="Content\metronicAssets\global\plugins\icheck\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-nestable\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery-ui-touch-punch\README.md" />
+    <Content Include="Content\metronicAssets\global\plugins\jquery.min.map" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Manage\Views\Default\" />
+    <Folder Include="Areas\Manage\Views\Dynamic\" />
+    <Folder Include="Areas\Manage\Views\Upload\" />
+    <Folder Include="Areas\Manage\Views\WxPayManage\" />
+    <Folder Include="Views\Student\" />
+    <Folder Include="Views\WX\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <Content Include="Areas\Manage\Views\VoteLog\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Vote\Delete.cshtml" />
+    <Content Include="Areas\Manage\Views\Vote\Details.cshtml" />
+    <Content Include="Areas\Manage\Views\Vote\Edit.cshtml" />
+    <Content Include="Areas\Manage\Views\Vote\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Shared\EditorTemplates\select_enum.cshtml" />
+    <Content Include="Areas\Manage\Views\Test\Index.cshtml" />
+    <Content Include="Areas\Manage\Views\Test\detail.cshtml" />
+    <Content Include="Content\light7Assets\fonts\ratchicons.eot" />
+    <Content Include="Content\light7Assets\fonts\ratchicons.ttf" />
+    <Content Include="Content\light7Assets\fonts\ratchicons.woff" />
+    <Content Include="Content\metronicAssets\global\plugins\nouislider\README.md" />
+    <Content Include="Content\c\iconfont.eot" />
+    <Content Include="Content\c\iconfont.ttf" />
+    <Content Include="Content\c\iconfont.woff" />
+    <Content Include="Areas\Manage\Views\Test\Log.cshtml" />
+    <Content Include="Areas\Manage\Views\Test\ExpList.cshtml" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Views\Teach\Index.cshtml" />
+    <Content Include="Views\Teach\Material.cshtml" />
+    <Content Include="Views\Test\TestStar.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\Test.cshtml" />
+    <Content Include="Views\Test\Error.cshtml" />
+    <Content Include="Views\Test\TestResult.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\detail.cshtml" />
+    <Content Include="Views\Vote\Index.cshtml" />
+    <Content Include="Views\Vote\Detial.cshtml" />
+    <None Include="Properties\PublishProfiles\fb.pubxml" />
+    <Content Include="Views\my\Index.cshtml" />
+    <Content Include="Views\my\Bind.cshtml" />
+    <Content Include="Views\my\unBind.cshtml" />
+    <Content Include="Views\my\tests.cshtml" />
+    <Content Include="Views\my\votes.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccountServiceApi\JULONG.AccountServiceSDK.csproj">
+      <Project>{fc3e31a8-cd98-4eed-8ee0-87b2f5d367ba}</Project>
+      <Name>JULONG.AccountServiceSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JULONG.TRAIN.LIB\JULONG.TRAIN.LIB.csproj">
+      <Project>{037fa247-5d6c-46e5-97dd-5ad541dadf8e}</Project>
+      <Name>JULONG.TRAIN.LIB</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,45 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@model News
+
+@{
+	Layout = null;
+	ViewBag.Title = "通知公告";
+
+}
+
+<div class="page">
+	<header class="bar bar-nav nav-nice">
+		<div class="pull-left">
+			<a class="icon icon-left back" href="/">
+			</a>
+
+		</div>
+		<div class="pull-right">
+
+			<span class="right-title">通知公告</span>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="content-block-title">@Model.Title</div>
+
+		<div class="card demo-card-header-pic">
+
+			<div class="card-content">
+				<div class="card-content-inner">
+					<p class="color-gray">@Model.Content</p>
+
+				</div>
+			</div>
+			<div class="card-footer">
+				<span class="time" >@Model.Date.ToString("yyyy/MM/dd HH:mm")</span>
+				<a  class="link">访问量:@Model.VisitCount</a>
+			</div>
+		</div>
+		
+
+	</div>
+</div>
+

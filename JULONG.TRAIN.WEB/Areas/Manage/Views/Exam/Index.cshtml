@@ -1,0 +1,74 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<Exam>
+
+@{
+	ViewBag.menu1 = "考试";
+	ViewBag.menu11 = "试卷管理";
+	ViewBag.menu11ex = "试卷列表";
+}
+
+
+
+<p>
+    @Html.ActionLink("新建", "Edit")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+		<th>
+			@Html.DisplayNameFor(model => model.Value)
+		</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Exp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Index)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsedCount)
+        </th>
+        <th>
+            作废
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Value)
+			</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Exp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Index)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsedCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDisabled)
+            </td>
+            <td>
+                @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("进入", "Details", new { id = item.Id }) |
+                @Html.ActionLink("删除", "Delete", new { id = item.Id }) |
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    function UpdateQ(Id)
+    {
+        myAjaxPost("/Exams/UpdateQ/", { id:Id }, function (data) {
+        })
+    }
+</script>

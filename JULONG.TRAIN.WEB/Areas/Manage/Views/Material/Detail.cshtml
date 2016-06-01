@@ -1,0 +1,182 @@
+﻿@using JULONG.TRAIN.Model;
+@model Material
+@{
+    ViewBag.Title = "Detail";
+
+	ViewBag.menu1 = "培训";
+	ViewBag.menu11 = "教材管理";
+	ViewBag.menu2 = Model.Title;
+	ViewBag.menu21 = "管理";
+
+}
+
+	<div>
+		<h4>
+			
+			<h5>
+				建立时间：<span class="exp-info">@Model.CreateDateTime</span> 最后修改时间：<span class="exp-info">
+					@Model.LastDateTime
+				</span>
+				排序：<code>@Model.Index</code> 有效:<code>@(Model.IsDisabled ? "×" : "√")</code>
+				@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+				@Html.ActionLink("Back to List", "Index")
+			</h5>
+</h4>
+		<hr />
+	</div>
+	<div class="row">
+		<div class="col-lg-8">
+			<div>
+				<button  class=" btn btn-danger" onclick="addTMC()">增加章节</button>
+				<button  class=" btn btn-success " onclick="saveIndex()">保存顺序</button>
+
+				<button class=" btn btn-warning " onclick="self.location.href='../updateStaticTree/@(Model.Id)'">更新结构</button>
+
+
+			</div>
+			<div>&#160;</div>
+			<div class="dd" id="nestable">
+
+					@Html.Partial("_MaterialPart", Model.Chapters)
+
+			</div>
+		</div>
+
+		<div class="col-lg-8">
+
+		</div>
+	</div>
+	<p >
+
+	</p>
+<div class="modal fade" id="myLayoutModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Modal title</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn blue" onclick="panelSubmit()">提交</button>
+				<button type="button" class="btn default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+@*<div class="modal-dialog fade" id="myLayoutModel">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title">学年</h4>
+		</div>
+		<!-- dialog body -->
+		<div class="modal-body">
+
+
+		</div>
+		<!-- dialog buttons -->
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			<button type="button" class="btn btn-primary" onclick="panelSubmit()">提交</button>
+		</div>
+	</div>
+</div>*@
+<div class="template">
+	<form id="tm_form" class="form-horizontal">
+		<div class="form-group">
+			<label class="col-md-2 control-label">名称</label>
+			<div class="col-md-3">
+				<input type="hidden" name="Id" value="0" />
+				<input type="hidden" name="RootId" id="RootId" value="@Model.Id" />
+
+				<input type="hidden" name="ParentId" value="0" />
+				<input class="form-control" type="text" name="Title" />
+			</div>
+			<label class="col-md-2 control-label">有效性</label>
+			<div class="col-md-3">
+				<input name="IsDiabled" type="checkbox" checked="checked" value="true" />
+			</div>
+		</div>
+	</form>
+
+
+</div>
+<style>
+	.dd-handle{
+		font-weight:100;
+		font-size:12px;
+	}
+</style>
+@section footer{
+<link href="~/Content/metronicAssets/global/plugins/jquery-nestable/jquery.nestable.css" rel="stylesheet" />
+<script src="~/Content/metronicassets/global/plugins/jquery-nestable/jquery.nestable.js"></script>
+	<script>
+		$(function () {
+
+			$('.dd').nestable();
+
+			$('.dd-handle a').on('mousedown', function (e) {
+				e.stopPropagation();
+			});
+
+		});
+		//重置表单
+		function resetTMC() {
+			$("#tm_form input[name=Id]").val("0");
+			//$("#tm_form input[name=MaterialId]").val("0");
+			$("#tm_form input[name=ParentId]").val("0");
+			$("#tm_form input[name=Title]").val("");
+			$("#tm_form input[name=IsDiabled]").prop("checked",true)
+		}
+		
+		function addTMC() {
+			resetTMC();
+			panelShow($("#tm_form"), editTMC_submit,"增加章节");
+		}
+		function addSubTMC(it) {
+			resetTMC();
+			$("#tm_form input[name=ParentId]").val($(it).closest(".dd-item").data("id"));
+			panelShow($("#tm_form"), editTMC_submit, "增加子章节");
+		}
+		function editTMC(id) {
+			myAjaxPost("/manage/Material/GetChapter", {Id:id}, function (data) {
+				$("#tm_form").serializeReverseForm(data);
+			})
+			panelShow($("#tm_form"), editTMC_submit, "修改章节");
+		}
+
+		function editTMC_submit() {
+			myAjaxPost("/manage/Material/EditChapter",$("#tm_form").serialize())
+		}
+		function delTMC(it) {
+			if(confirm("确认删除？")){
+				myAjaxPost("/manage/Material/DelChapter", { Id: $(it).closest(".dd-item").data("id") });
+			}
+		}
+		function saveIndex() {
+			//{id:1;charpters:[{id:1,index:1,parentId:1},{.....}]}
+			var data = { MaterialId: $("#RootId").val()};
+			$("#nestable .dd-item").each(function () {
+				var _this = $(this);
+				var _parentId = 0;
+				var _parent = _this.parent().parent(".dd-item");
+				if (_parent.length != 0) {
+					_parentId = _parent.data("id");
+				}
+				//posdata:{MaterialId:1,c1:"1,1",c2:"1,1",c3:"1,2"｝
+				//chapters数据格式 c+id:"index,parentId"
+				data["c"+(_this).data("id")]=$(_this).parent().children().index(_this)+","+ _parentId;
+			});
+			myAjaxPost("/manage/Material/saveIndex", data);
+		}
+		function editContent() {
+
+		}
+	</script>
+}

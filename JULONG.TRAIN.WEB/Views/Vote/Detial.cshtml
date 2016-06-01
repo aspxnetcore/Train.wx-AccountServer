@@ -1,0 +1,108 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@model Vote
+@{
+	Layout = null;
+	
+	ViewBag.Title = "投票";
+	
+	VoteLog myVote = ViewBag.myVote;
+	bool isNew = Model.IsOpen && myVote == null;
+	int i = 5;
+}
+
+<div class="page vote-detial @(isNew?"isNew":"")" id="voteDetial" data-vote-id="@Model.Id">
+	<style>
+	</style>
+	<header class="bar bar-nav nav-nice nav-nice2 nav-nice2-active">
+		<div class="">
+			<div class="n0"></div>
+			<div class="n1"></div>
+			<div class="n2"></div>
+			<div class="n3"></div>
+		</div>
+		<div class="fix">
+			<a class="icon icon-left pull-left back" href="/"></a>
+			<h1 class="title"></h1>
+			<div class="right-title pull-right">
+				调果投票
+			</div>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="content-block" style="margin-top:.5rem;">
+			<div class="vote-header">
+				<svg class="svgBg" width="189px" height="63px" viewBox="0 0 200 63" style="">
+					<polygon fill="transparent" stroke="#2c5c58" stroke-width="3" stroke-miterlimit="10" points="185.621,61.5 63.621,61.5 3.621,1.5 125.621,1.5 " />
+					<text transform="matrix(1 0 0 1 41.1211 17.6665)">
+						<tspan x="0" y="0" font-size="12" fill="#385150">Questionnaire</tspan>
+						<tspan fill="#385150" x="40" y="12.4" font-size="12">survey</tspan>
+					</text>
+				</svg>
+				<div class="vote-title color-main2">
+					@Html.Raw("<span>" + String.Join("</span><span>", Model.Name.ToCharArray()) + "</span>")
+				</div>
+
+			</div>
+			@*@if (myVote != null)
+			{
+				var items = Model.VoteItems.Select(d => d.Count);
+				<div class="vote-chart" data-data="@(string.Join(",", items))"></div>
+			}*@
+
+			<div class="vote-items">
+
+				@foreach (VoteItem vi in Model.VoteItems)
+				{
+					int barValue = Model.Count==0?0: vi.Count * 100 / Model.Count;
+					
+					<a class="vote-item upup upup-s@(i) @((myVote!=null&& vi.Id==myVote.VoteItemId)?"active":"") " data-id="@vi.Id" onclick="ITC.pageAction.selectVoteItme(this)">
+						@if (myVote != null)
+						{
+							<div class="voteItem-count">
+								<div class="voteItem-count-bar" count="@vi.Count" style="width:@(barValue)%"></div>
+							</div>
+
+						}
+						<div class="voteItem-body">
+							<i class="point"></i>
+							<div class="vote-item-title ">
+								@vi.Title
+							</div>
+
+						</div>
+						
+					</a>
+						i++;
+						
+
+				}
+			</div>
+			<hr class="hr-line" />
+			投票人次(@Model.Count)
+
+		</div>
+		<div class="text-center">
+			@if (isNew)
+			{
+				<button class="btn btn-main big" onclick="ITC.pageAction.submitVote()">提交</button>
+			}
+			else if (myVote != null)
+			{
+				<button class="btn btn-main" disabled>已投</button>
+
+			}
+			else
+			{
+				<button class="btn-main" disabled>结束</button>
+			}
+
+
+
+		</div>
+
+	</div>
+</div>
+

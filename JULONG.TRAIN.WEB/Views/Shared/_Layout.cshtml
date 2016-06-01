@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+	<title>聚龙员工培训考试</title>
+
+	<link rel="stylesheet" href="~/Content/light7Assets/css/light7.css">
+	@*<link rel="stylesheet" href="~/Content/light7Assets/css/light7-extend.css">*@
+	<link href="~/Content//c/app.css?v=4" rel="stylesheet" />
+	<link href="~/Content/c/iconfont.css?v=4" rel="stylesheet" />
+</head>
+<body>
+	<div class="panel-overlay"></div>
+	<!-- Views -->
+	@RenderBody()
+
+	<nav class="bar bar-tab">
+		<a class="tab-item active" href="/">
+			<span class="icon  icon-home"></span>
+			<span class="tab-label">首页</span>
+		</a>
+		<a class="tab-item " href="/teach">
+			<span class="icon iconfont icon-shu"></span>
+			<span class="tab-label">培训</span>
+		</a>
+		<a class="tab-item " href="/test">
+			<span class="icon icon-edit"></span>
+			<span class="tab-label">考试</span>
+			@*<span class="badge">2</span>*@
+		</a>
+		<a class="tab-item " href="/vote">
+			<span class="icon icon-star"></span>
+			<span class="tab-label">投票</span>
+		</a>
+		<a class="tab-item " href="/my">
+			<span class="icon icon-me"></span>
+			<span class="tab-label">我的</span>
+		</a>
+
+	</nav>
+
+	<div class="popup popup-login">
+		<div class="content-block">
+			<div class="page-content login-screen-content">
+				<div class="login-screen-title">用户登录</div>
+				<form>
+					<div class="list-block">
+						<ul>
+							<li class="item-content">
+								<div class="item-media"><i class="iconfont icon-shoujirenzheng f3 color-main"></i></div>
+								<div class="item-inner">
+									<input type="text" id="login_phone" placeholder="手机号">
+								</div>
+
+							</li>
+							<li class="item-content">
+								<div class="item-media"><i class="iconfont icon-unlockalt f3 color-main"></i></div>
+								<div class="item-inner">
+									<input type="password" id="login_pwd" placeholder="密码">
+								</div>
+
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-media"><i class="icon ion-ios7-star-outline"></i></div>
+									<div class="item-inner">
+										<div class="item-title">
+											记用账号
+
+										</div>
+										<label class="label-switch">
+											<input type="checkbox">
+											<div class="checkbox"></div>
+										</label>
+										<div class="item-after">
+
+										</div>
+									</div>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+					<div class="list-block">
+						<ul>
+							<li>
+
+								<a href="#" class="button btn-main btn-block" style="width:90%;margin: auto;" onclick="memberAction.login()">
+									登录
+									<span class="preloader preloader-white small"></span>
+								</a>
+
+							</li>
+
+						</ul>
+						<div class="list-block-label">
+
+							<a href="/member/reg" style="width:45%" class="external f2 color-main"> 注册新用户</a> |
+							<a href="/member/reg" style="width:45%" class="external f2">忘记密码</a>
+
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-left panel-cover ">
+		<div class="content-block">
+			<div id="navTreePanel">
+				<div id="tree" style="height:100%;overflow-y:auto; ">
+				</div>
+				<p><a href="#" class="close-panel">关闭</a></p>
+			</div>
+		</div>
+	</div>
+
+	<script src="~/Content/j/d3.v3.min.js"></script>
+	<script src="~/Content/light7Assets/js/zepto.js"></script>
+	<script>
+		$.config = {
+			swipePanelOnlyClose: true
+		}
+	</script>
+	<script type='text/javascript' src='~/Content/light7Assets/js/light7.js' charset='utf-8'></script>
+	<script src="~/Content/j/lib.js?v=3"></script>
+	@*<script type='text/javascript' src='~/Content/light7Assets/js/light7-extend.js' charset='utf-8'></script>*@
+	<script src="~/Content/j/teach.js?v=4"></script>
+	<script type='text/javascript' src="~/Content/j/app.js?v=4" ></script>
+	@RenderSection("footer", false)
+</body>
+</html> 

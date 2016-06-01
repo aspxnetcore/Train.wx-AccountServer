@@ -1,0 +1,80 @@
+﻿@using JULONG.TRAIN.Model
+@using JULONG.TRAIN.LIB
+@using JULONG.TRAIN.WEB.Models
+@model Test
+@{
+
+	ViewBag.Title = "Test";
+	BoolAny<TestVertifyResult> tvr = ViewBag.TestVertifyResult;
+
+}
+<div class="page" id="test">
+
+	<header class="bar bar-nav nav-nice">
+		<a class="icon icon-left pull-left back" href="/"></a>
+		<h1 class="title"></h1>
+		<div class="right-title pull-right">
+			考前阅读
+		</div>
+	</header>
+
+	<div class="content test-detail">
+		<div class="content-block text-center">
+			<div></div>
+			<div class="content-title color-main">@Model.Name</div>
+			<div >@Model.Exp</div>
+			<div class="exp">@Model.OpenDate.Value.ToShortDateString()</div>
+			<div >
+				<div class="box">
+					@(Model.Exam.Parts.Count())部 @Model.Exam.QuestionCount 题
+					<i class="iconfont icon-exam"></i>
+				</div>
+				<div class="box">
+					总分@(Model.Exam.Value)
+					<i class="iconfont icon-fav-1"></i>
+				</div>
+				<div class="box">
+					@(Model.Exam.Time.ToString())
+				<i class="iconfont icon-naozhong"></i>
+			</div>
+			<div class="box">
+				@(Model.Elements.Count())人
+			<i class="iconfont icon-renshu"></i>
+		</div>
+	</div>
+
+	</div>
+		<div class="content-block text-center">
+			@if (tvr)
+			{
+				if (tvr.t.Statue == TestStatue.继续) { 
+					<div>@tvr.t.Message</div>
+					
+				}
+				<div class="content-block">
+					<a class="btn-main big" href="/test/testStar/@(Model.Id)">开始考试</a>
+				</div>
+
+			}
+			else
+			{
+				<div>
+					@tvr.t.Message
+				</div>
+
+
+				if (tvr.t.Statue == TestStatue.超时)
+				{
+					<div>但并没有提交试卷，重新答题，请联系管理管员</div>
+				}
+				else
+				{
+
+					<a class="btn-main big green" href="/my/tests/@(Model.Id)">查看考试成绩</a>
+
+				}
+			}
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,416 @@
+﻿
+@using JULONG.TRAIN.WEB.Models;
+@using System.Web.Script.Serialization;
+
+@{
+    ViewBag.Title = "Index";
+	DBContext db = new DBContext();
+	System.Web.Script.Serialization.JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+	ViewBag.menuName = "统计分析";
+
+}
+<script src="~/Scripts/highcharts.js"></script>
+<div class="alert alert-block alert-success">
+	<button type="button" class="close" data-dismiss="alert">
+		<i class="icon-remove"></i>
+	</button>
+
+	<i class="icon-ok green"></i>
+
+	统计分析，数据原至
+	<strong class="green">
+		学员结构
+	</strong>
+	<strong class="green">
+		学员日志
+	</strong>
+	<strong class="green">
+		网站动作日志等
+	</strong>
+</div>
+<div class="row">
+	<div class="space-6"></div>
+
+	<div class="col-sm-12 infobox-container">
+		<div class="infobox infobox-green  ">
+			<div class="infobox-icon">
+				<i class="icon-comments"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">@db.Student.Count()人</span>
+				<div class="infobox-content">学员</div>
+			</div>
+			<div class="stat stat-success">在线@(GlobalHelper.OnlineUser.Count())</div>
+		</div>
+
+		@*<div class="infobox infobox-blue">
+			<div class="infobox-icon">
+				<i class="icon-twitter"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">@db.StudentGroup.Count()</span>
+				<div class="infobox-content">学员组</div>
+			</div>
+
+			<div class="badge badge-success">
+				+32%
+				<i class="icon-arrow-up"></i>
+			</div>
+		</div>
+
+		<div class="infobox infobox-pink  ">
+			<div class="infobox-icon">
+				<i class="icon-shopping-cart"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">8</span>
+				<div class="infobox-content">新订单</div>
+			</div>
+			<div class="stat stat-important">4%</div>
+		</div>
+
+		<div class="infobox infobox-red  ">
+			<div class="infobox-icon">
+				<i class="icon-beaker"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">7</span>
+				<div class="infobox-content">调查</div>
+			</div>
+		</div>
+
+		<div class="infobox infobox-orange2  ">
+			<div class="infobox-chart">
+				<span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">6,251</span>
+				<div class="infobox-content">页面查看次数</div>
+			</div>
+
+			<div class="badge badge-success">
+				7.2%
+				<i class="icon-arrow-up"></i>
+			</div>
+		</div>
+
+		<div class="infobox infobox-blue2  ">
+			<div class="infobox-progress">
+				<div class="easy-pie-chart percentage" data-percent="42" data-size="46">
+					<span class="percent">42</span>%
+				</div>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-text">交易使用</span>
+
+				<div class="infobox-content">
+					<span class="bigger-110">~</span>
+					剩余58GB
+				</div>
+			</div>
+		</div>
+
+		<div class="space-6"></div>
+
+		<div class="infobox infobox-green infobox-small infobox-dark">
+			<div class="infobox-progress">
+				<div class="easy-pie-chart percentage" data-percent="61" data-size="39">
+					<span class="percent">61</span>%
+				</div>
+			</div>
+
+			<div class="infobox-data">
+				<div class="infobox-content">任务</div>
+				<div class="infobox-content">完成</div>
+			</div>
+		</div>
+
+		<div class="infobox infobox-blue infobox-small infobox-dark">
+			<div class="infobox-chart">
+				<span class="sparkline" data-values="3,4,2,3,4,4,2,2"></span>
+			</div>
+
+			<div class="infobox-data">
+				<div class="infobox-content">获得</div>
+				<div class="infobox-content">$32,000</div>
+			</div>
+		</div>
+
+		<div class="infobox infobox-grey infobox-small infobox-dark">
+			<div class="infobox-icon">
+				<i class="icon-download-alt"></i>
+			</div>
+
+			<div class="infobox-data">
+				<div class="infobox-content">下载次数</div>
+				<div class="infobox-content">1,205</div>
+			</div>
+		</div>*@
+
+	</div>
+
+
+
+
+</div>
+<div class="row">
+	<div class="col-sm-6">
+		<div class="widget-box transparent">
+			<div class="widget-header widget-header-flat">
+				<h4 class="lighter">
+					<i class="icon-signal"></i>
+					学员结构
+				</h4>
+
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse">
+						<i class="icon-chevron-up"></i>
+					</a>
+				</div>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main padding-4">
+					<div id="sgChart"></div>
+				</div><!-- /widget-main -->
+			</div><!-- /widget-body -->
+		</div><!-- /widget-box -->
+	</div>
+	<div class="col-sm-6">
+		<div class="widget-box transparent">
+			<div class="widget-header widget-header-flat">
+				<h4 class="lighter">
+					<i class="icon-signal"></i>
+					活跃用户
+				</h4>
+
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse">
+						<i class="icon-chevron-up"></i>
+					</a>
+				</div>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main padding-4">
+					<div id="activerChart"></div>
+				</div><!-- /widget-main -->
+			</div><!-- /widget-body -->
+		</div><!-- /widget-box -->
+	</div>
+</div>
+
+
+<div class="col-sm-12">
+	<div class="widget-box transparent">
+		<div class="widget-header widget-header-flat">
+			<h4 class="lighter">
+				<i class="icon-signal"></i>
+				活跃用户
+			</h4>
+
+			<div class="widget-toolbar">
+				<a href="#" data-action="collapse">
+					<i class="icon-chevron-up"></i>
+				</a>
+			</div>
+		</div>
+
+		<div class="widget-body">
+			<div class="widget-main padding-4">
+				<div id="actionChart"></div>
+			</div><!-- /widget-main -->
+		</div><!-- /widget-body -->
+	</div><!-- /widget-box -->
+</div>
+
+
+
+<div>
+	<h3>学员考试日志</h3>
+	<div>累计@(db.ExamLog.Count())次</div>
+	<div id="ExamChart0"></div>
+</div>
+<div>
+	男性，女性
+</div>
+
+@section scripts{
+
+	<script>
+	var sgdata0 = { title: "学员组人数最多排名", subtitle: '<a href="###" onclick=sgIndex(eval("sgdata1"))>切换最少排名</a>', data: @Html.Raw(serializer.Serialize(db.StudentGroup.Select(d => new { name = d.Name, y = d.StudentCount }).OrderByDescending(d => d.y).Take(8)))}
+
+	var sgdata1 = { title: "学员组人数最少排名", subtitle: '<a href="###" onclick=sgIndex(eval("sgdata0"))>切换最多排名</a>', data: @Html.Raw(serializer.Serialize(db.StudentGroup.Select(d => new { name = d.Name, y = d.StudentCount }).OrderBy(d => d.y).Take(8)))}
+
+	function sgIndex(sgdata) {
+		$('#sgChart').highcharts({
+			chart: {
+				type: 'column'
+			},
+			title: {
+				useHTML:true,
+				text: sgdata.title
+			},
+			subtitle: {
+				useHTML:true,
+				text: sgdata.subtitle
+			},
+			xAxis: {
+				type: 'category',
+				labels: {
+					rotation: -45,
+					style: {
+						fontSize: '12px'
+					}
+				}
+			},
+			yAxis: {
+				min: 0,
+				title: {
+					text: '人数'
+				}
+			},
+			legend: {
+				enabled: false
+			},
+			tooltip: {
+				pointFormat: '<b>{point.y}</b>人'
+			},
+			series: [{
+				name: '',
+				data: sgdata.data
+			}]
+		});
+	}
+	sgIndex(sgdata0);
+
+	function activerChart() {
+		myAjaxPost("/manage/statistics/StudentLogAction",{},function(data){
+			$('#activerChart').highcharts({
+				chart: {
+					type: 'column'
+				},
+				title: {
+
+					text: "最活跃学员"
+				},
+
+				xAxis: {
+					type: 'category',
+					labels: {
+						rotation: -45,
+
+					}
+				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: '人次'
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				tooltip: {
+					pointFormat:'最近一次:{point.l.date}<br/>'+'<b>{point.y}</b>人'
+				},
+				series: [{
+					name: '',
+					data: data
+				}]
+			});
+		});
+	}
+	activerChart();
+
+	//时间
+	function actionChart(){
+		myAjaxPost('/manage/statistics/StudentLogTime',{}, function (data) {
+
+			$('#actionChart').highcharts({
+				title: {
+					text: '前15天操作统计',
+
+				},
+				subtitle: {
+					useHTML:true,
+					text: '切换<a href="###" onclick="StudentLogAction()">前15天最活跃学员</a>',
+				},
+				xAxis: {
+					categories: data.categories
+				},
+				yAxis: {
+					title: {
+						text: '人次'
+					},
+					plotLines: [{
+						value: 0,
+						width: 1,
+						color: '#808080'
+					}]
+				},
+				tooltip: {
+					valueSuffix: '人次'
+				},
+				legend: {
+					layout: 'vertical',
+					align: 'right',
+					verticalAlign: 'middle',
+					borderWidth: 0
+				},
+				series: data.jsondata
+			});
+		})
+	}
+
+	actionChart();
+
+	var ksdata = @Html.Raw(serializer.Serialize(db.Student.OrderByDescending(d => d.StudentExamResult.TrainingCount).Take(8).Select(d => new { name = d.Name, y = d.StudentExamResult.TrainingCount, id = d.Id })));
+		function ksIndex(ksdata) {
+		$('#sgChart').highcharts({
+			chart: {
+				type: 'column'
+			},
+			title: {
+				useHTML:true,
+				text: "考试最多学员"
+			},
+			xAxis: {
+				type: 'category',
+				labels: {
+					rotation: -45,
+					style: {
+						fontSize: '12px'
+					}
+				}
+			},
+			yAxis: {
+				min: 0,
+				title: {
+					text: '数次'
+				}
+			},
+			legend: {
+				enabled: false
+			},
+			tooltip: {
+				pointFormat: '<b>{point.y}</b>次'
+			},
+			series: [{
+				name: '',
+				data: ksdata
+			}]
+		});
+	}
+	ksIndex(ksdata);
+	</script>
+}
+
+

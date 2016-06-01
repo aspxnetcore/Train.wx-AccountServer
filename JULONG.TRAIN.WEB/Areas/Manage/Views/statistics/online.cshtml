@@ -1,0 +1,50 @@
+﻿@using JULONG.TRAIN.WEB.Models;
+@using JULONG.TRAIN.Model;
+@{
+    ViewBag.Title = "online";
+	ViewBag.menuName = "在线统计";
+}
+
+
+<h4>当前在线人数:@(GlobalHelper.OnlineUser.Count())  <button onclick="self.location.reload()">刷新</button></h4>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				ID
+			</th>
+			<th>
+				姓名
+			</th>
+			<th>
+				登录时间
+			</th>
+			<th>
+				上次登录时间
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+@foreach (var ss in GlobalHelper.OnlineUser._data)
+{
+		<tr>
+			<td>
+				@ss.Value.Id
+
+			</td>
+			<td>
+				@ss.Value.name
+			</td>
+			<td>
+				@ss.Value.LoginDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+			</td>
+			<td>
+				@ss.Value.PrevLoginDateTime.ToShortDateString();
+			</td>
+		</tr>
+}	
+	</tbody>
+
+
+
+</table>

@@ -1,0 +1,62 @@
+﻿@using JULONG.TRAIN.Model;
+@{
+	List<News> news = ViewBag.news ?? default(List<News>);
+
+		}
+		<div class="page page-main" id="main">
+
+			<!-- 这里是页面内容区 -->
+			<div class="content">
+				<div class="banner-nice">
+					<img class="bg" src="~/Content/i/banner_nice.png" />
+					<img class="txt" src="~/Content/i/logo_txt.png" />
+				</div>
+
+				<div class="content-block">
+					<div class="menubar">
+						<a href="/teach" class="menu">
+							<img src="~/Content/i/4.svg" />
+						</a>
+						<span class="line"></span>
+						<a href="/test" class="menu">
+							<img src="~/Content/i/6.svg" />
+						</a>
+
+					</div>
+
+				</div>
+				
+
+				<div class="sign" style=" height:40px; overflow: hidden;" id="signScroller">
+					@foreach (var n in news)
+					{
+						<div style="height:40px">
+							@{
+						var cls = "";
+						switch (n.NewsType)
+						{
+							case NewsType.考试通知:
+								cls = "icon-exam";
+								break;
+							case NewsType.系统:
+								cls = "icon-warningsign";
+								break;
+							case NewsType.新闻公告:
+								cls = "icon-tongzhi";
+								break;
+
+						}
+
+							}
+
+							<i class="iconfont @cls"></i>
+							@n.Title
+							@*<span class="date">
+								@n.UpdateDate.ToString("MM-dd HH:mm")
+							</span>*@
+						</div>
+					}
+</div>
+
+			</div>
+		</div>

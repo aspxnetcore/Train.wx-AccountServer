@@ -1,0 +1,43 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<WxArtcle>
+
+@{
+	BaseDBContext wdb = new BaseDBContext();
+    ViewBag.Title = "Index";
+	var items = wdb.WxArtcle;
+}
+<p>
+    @Html.ActionLink("创建新配置", "Edit")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Key
+        </th>
+        <th>
+            Key值
+        </th>
+        <th>
+            配置内容
+        </th>
+    </tr>
+
+    @foreach (var item in items)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bak)
+            </td>
+            <td>
+                @Html.ActionLink("编 辑", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("删 除", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

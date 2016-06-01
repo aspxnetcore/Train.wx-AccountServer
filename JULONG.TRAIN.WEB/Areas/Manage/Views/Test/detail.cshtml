@@ -1,0 +1,323 @@
+﻿@using JULONG.TRAIN.Model;
+@model JULONG.TRAIN.Model.Test
+@{
+    ViewBag.Title = "detail";
+	ViewBag.menu1 = "考试";
+	ViewBag.menu11 = Model.Name;
+	//var eleCount = Model.Elements==null?0:Model.Elements.Count();
+	
+	BaseDBContext db = new BaseDBContext();
+	
+	int dataIndex= 0;
+	int pageSize = 50;
+	var results = db.TestResult.Where(d => d.TestId == Model.Id && d.SubmitDate != null).OrderByDescending(d => d.SubmitDate).Skip(dataIndex).Take(pageSize); 
+}
+<link href="~/Content/metronicAssets/admin/pages/css/profile.css" rel="stylesheet" />
+<div ng-app="app" ng-controller="main">
+
+
+	<div class="row">
+		<div class="col-md-7">
+			<div class="portlet green box">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i>
+						基本信息
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="profile-usermenu" style="margin-top:0">
+						<ul class="nav">
+							<li>
+								<a>
+									<i class="icon-home"></i>
+									创建时间： @Model.Date
+								</a>
+							</li>
+							<li>
+								<a>
+									<i class="icon-settings"></i>
+									采用试卷： @Model.Exam.Name
+								</a>
+							</li>
+							<li>
+								<a>
+									<i class="icon-check"></i>
+									试卷考题：@Model.Exam.QuestionCount 道 ( @Model.Exam.Value 分)
+								</a>
+							</li>
+							<li>
+								<a>
+									<i class="icon-info"></i>
+									运行状态： @{
+										if (Model.IsOpen)
+										{
+																<button class="btn btn-warning" ng-click="activeTaggle(@Model.Id)">激活中</button>
+
+										}
+										else
+										{
+																<button class="btn btn-primary" ng-click="activeTaggle(@Model.Id)">关闭中</button>
+										}
+									}
+								</a>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div class="portlet green box">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i>
+						基本统计
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="row list-separated profile-stat">
+						<div class="col-md-4 col-sm-4 col-xs-6">
+							<div class="uppercase profile-stat-title">
+								@{
+									if (Model.IsOpen)
+									{
+										<span>@((DateTime.Now - Model.OpenDate.Value).Days)天</span>
+									}
+									else
+									{
+										if (Model.OpenDate.HasValue)
+										{
+											<span>@((Model.EndDate.Value - Model.OpenDate.Value).TotalDays)</span>
+										}
+										else
+										{
+											<span>未激活</span>
+										}
+
+									}
+								}
+							</div>
+							<div class="uppercase profile-stat-text">
+								运行时长
+							</div>
+						</div>
+						@*<div class="col-md-4 col-sm-4 col-xs-6">
+				<div class="uppercase profile-stat-title">
+					@Model.VisitCount
+				</div>
+				<div class="uppercase profile-stat-text">
+					浏览量
+				</div>
+			</div>*@
+						<div class="col-md-4 col-sm-4 col-xs-6">
+							<div class="uppercase profile-stat-title">
+								@Model.JoinCount
+							</div>
+							<div class="uppercase profile-stat-text">
+								参于人次
+							</div>
+						</div>
+					</div>
+					<div class="row list-separated profile-stat">
+						<div class="col-md-4 col-sm-4 col-xs-6">
+							<div class="uppercase profile-stat-title">
+								@(results.Min(d => d.Value).ToString())
+							</div>
+							<div class="uppercase profile-stat-text">
+								最差成绩
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-6">
+							<div class="uppercase profile-stat-title">
+								@(results.Max(d => d.Value).ToString())
+							</div>
+							<div class="uppercase profile-stat-text">
+								最好成绩
+							</div>
+						</div>
+						@*<div class="col-md-4 col-sm-4 col-xs-6">
+				<div class="uppercase profile-stat-title">
+					61
+				</div>
+				<div class="uppercase profile-stat-text">
+					Uploads
+				</div>
+			</div>*@
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet yellow box ">
+				<div class="portlet-title">
+					<div class="caption caption-md">
+						<i class="icon-bar-chart theme-font "></i>
+						运行统计
+
+					</div>
+					<div class="actions">
+
+					</div>
+				</div>
+				<div class="portlet-body">
+					@*<div class="row number-stats margin-bottom-30">
+						<div class="col-md-6 col-sm-6 col-xs-6">
+							<div class="stat-left">
+								<div class="stat-chart">
+									<!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
+									<div id="sparkline_bar"><canvas width="90" height="45" style="display: inline-block; width: 90px; height: 45px; vertical-align: top;"></canvas></div>
+								</div>
+								<div class="stat-number">
+									<div class="title">
+										Total
+									</div>
+									<div class="number">
+										2460
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-6">
+							<div class="stat-right">
+								<div class="stat-chart">
+									<!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
+									<div id="sparkline_bar2"><canvas width="90" height="45" style="display: inline-block; width: 90px; height: 45px; vertical-align: top;"></canvas></div>
+								</div>
+								<div class="stat-number">
+									<div class="title">
+										New
+									</div>
+									<div class="number">
+										719
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>*@
+					<div class="table-scrollable table-scrollable-borderless">
+						<table class="table table-hover table-light" border="1">
+							<thead>
+								<tr class="uppercase">
+									<th >
+										交卷时间
+									</th>
+									<th>
+										员工
+									</th>
+									<th>
+										工号
+									</th>
+									<th>
+										部门
+									</th>
+									<th>
+										用时
+									</th>
+									<th>
+										正确数
+									</th>
+									<th>
+										成绩
+									</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								@foreach (var item in results)
+								{
+									Student s = item.TestElement.Student;
+								<tr>
+									<td class="fit">
+										@item.SubmitDate.Value
+									</td>
+									<td>
+										@s.Name
+									</td>
+									<td>
+										@s.WorkID
+									</td>
+									<td>
+										@s.GroupName
+									</td>
+									<td>
+										@item.UseTime.Value.TotalMinutes.ToString("0.00") 分钟
+									</td>
+									<td>
+										@item.RightCount
+									</td>
+									<td>
+										@item.Value.Value
+									</td>
+
+								</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			@*<div class="portlet">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-gift"></i>
+							运行统计
+						</div>
+					</div>
+					<div class="portlet-body">
+						<table class="list">
+							<thead>
+								<tr>
+									<th>时间</th>
+									<th>员工名</th>
+									<th>部门</th>
+									<th>用时</th>
+									<th>值</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (eleCount != 0)
+								{
+									foreach (var item in Model.Elements.Select(d => new { d.Student, TestResult = d.TestResults.FirstOrDefault() }))
+									{
+										<tr>
+
+											<td>@item.TestResult.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+											<td>@item.Student.Name</td>
+											<td>@item.Student.StudentGroup.Name</td>
+											<td>@item.TestResult.UseTime.TotalMinutes</td>
+											<td>@item.TestResult.Value</td>
+										</tr>
+
+									}
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>*@
+		</div>
+	</div>
+</div>
+@section footer{
+	<script src="~/Content/j/angular.min.js"></script>
+	<script>
+		var mxApp = angular.module("app", []);
+		mxApp.controller("main", ["$scope", "$http", function ($scope, $http) {
+			ngInit($scope, $http);
+			$scope.activeTaggle = function (id) {
+				$scope.myAjax($http.post("/manage/test/activeTaggle/" + id), function () {
+					self.location.reload();
+				})
+			}
+
+		}])
+	</script>
+}

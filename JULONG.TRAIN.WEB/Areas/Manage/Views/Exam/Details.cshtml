@@ -1,0 +1,524 @@
+﻿@using JULONG.TRAIN.Model;
+@model Exam
+
+@{
+	ViewBag.menu1 = "考试";
+	ViewBag.menu11 = Model.Name+"   "+Model.QuestionCount+ "道" +" ("+Model.Value+"分)";
+	ViewBag.menu21 = "编辑";
+
+	int? id = ViewBag.id;
+	if (Model.Parts == null) { Model.Parts = new List<ExamPart>(); }
+}
+
+<style>
+	.table-frame td {
+		padding: 0px;
+		vertical-align: top;
+	}
+
+	.parts {
+		padding: 0px;
+		margin: 0px;
+		list-style: none;
+		position: relative;
+		right: -1px;
+	}
+
+		.parts li {
+			border: 1px solid #E7EAEC;
+			border-bottom: 0px;
+			padding: 5px;
+			/* background: #EEF8FF; */
+			padding-right: 8px;
+			text-align: right;
+			display: block;
+			cursor: pointer;
+			border-left: 0;
+			border-right: 0;
+		}
+
+			.parts li:last-child {
+				/*border-bottom:1px solid #a6cce8 !important;*/
+			}
+
+			.parts li a {
+				float: left;
+				padding-left: 5px;
+			}
+
+			.parts li.disabled {
+				background: #b68787;
+			}
+
+			.parts li:hover {
+				background: #f0f0f0;
+			}
+
+			.parts li.active {
+				background: #fff;
+				border-right-color: transparent;
+			}
+
+	.selectQuestions, .partQuestions {
+		list-style: none;
+		padding: 0px;
+		margin: 5px;
+	}
+
+		.selectQuestions li, .partQuestions li {
+			padding: 2px;
+			cursor: pointer;
+			-moz-user-select: none;
+			-khtml-user-select: nono;
+			-webkit-user-select: none;
+		}
+
+			.selectQuestions li.selected {
+				font-weight: bold;
+				color: #4C8FBD;
+			}
+
+			.selectQuestions li:hover, .partQuestions li:hover {
+				background-color: #f0f0f0;
+			}
+
+			.selectQuestions li .icon, .partQuestions li .icon {
+				margin-right: 5px;
+				color: #e0e0e0;
+			}
+
+			.selectQuestions li:hover .icon, .partQuestions li:hover .icon {
+				color: #4C8FBD;
+			}
+</style>
+<div ng-app="app" ng-controller="main">
+	<table style="min-height:500px;" class="table-frame">
+		<tr style="color:#4C8FBD; ">
+			<td height="40">
+				<button class="btn btn-xs green" style="vertical-align:bottom" ng-click="Part_edit()"><i class="fa fa-plus"></i></button>
+				<b style="display:inline-block;margin-top:12px">试题组成</b>
+			</td>
+			<td height="40" style="border-left:1px solid #a6cce8;padding-left:1rem;">
+				<button class="btn btn-xs purple" style="vertical-align:bottom" ng-click="Question_edit()"><i class="fa fa-plus"></i></button>
+				<b style="display:inline-block;margin-top:12px">试题列表</b>
+			</td>
+
+		</tr>
+		<tr>
+			<td width="140" style="position:relative">
+				<ul class="parts" id="partsPanel">
+
+					@foreach (ExamPart ttp in Model.Parts.OrderByDescending(d => d.Index))
+					{
+						<li ng-click="Part_select(@ttp.Id,$event)" data-id="@ttp.Id" data-index="@ttp.Index" title="@ttp.Exp" class="@(ttp.IsDisabled?"disabled":"")">
+							<a href="#!" title="修改" ng-click="Part_edit(@ttp.Id,'@ttp.Name',@ttp.Index)"><i class="fa fa-pencil-square"></i></a>
+							<a href="#! " title="删除" ng-click="Part_del(@ttp.Id)"><i class="fa fa-times"></i></a>
+							<span class="name" >@ttp.Name</span>
+
+						</li>
+					}
+
+				</ul>
+			</td>
+			<td style="border-left:1px solid #a6cce8;">
+				<ul class="partQuestions">
+
+					<li ng-repeat="q in PartQuestions | orderBy:'-Index'" ng-click="Question_edit(q)" ng-class="{true:'question alert-info',false:'question'}[q.IsDisabled]">
+						@*<i class='fa fa-edit' ng-click="Question_edit(q)"></i>*@
+						<i class='fa  fa-times' ng-click="Question_del(q,$event)"></i>
+						<span ng-bind="q.Content"></span>
+					</li>
+
+				</ul>
+			</td>
+
+		</tr>
+	</table>
+
+
+	<div id="PPanel" class="modal fade" style="overflow:hidden" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="partPanl-title"><span></span> 试题组成部分</h4>
+				</div>
+				<!-- dialog body -->
+				<form id="part_form" class="modal-body">
+
+					<div class="form-horizontal">
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">名称</label>
+							<div class="col-md-4">
+								<input class="form-control" type="text" placeholder="名称" name="Name" ng-model="Part.Name">
+							</div>
+						</div>
+						<div class="form-group">
+
+								<label class="control-label col-md-2">排序</label>
+								<div class="col-md-2">
+									<input type="number" class="form-control" ng-model="Part.Index" />
+
+								</div>
+						</div>
+						@*<div class="form-group">
+				<label class="col-md-2 control-label">备注</label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" placeholder="名称" name="Exp" ng-model="Part.Exp">
+				</div>
+			</div>*@
+
+						@*<div class="form-group">
+				<label class="col-md-2 control-label">无效的</label>
+				<div class="col-md-4">
+					<label>
+						<input class="ace ace-switch ace-switch-7" type="checkbox" name="IsDisabled" value="false" />
+						<span class="lbl"></span>
+					</label>
+				</div>
+			</div>*@
+					</div>
+
+
+</form>
+				<!-- dialog buttons -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" ng-click="Part_submit()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="QPanel" class="modal fade" style="overflow:hidden" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="partPanl-title"><span></span> 试题编辑</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal">
+
+
+						<div class="form-group">
+							<label class="control-label col-md-2">题干</label>
+							<div class="col-md-10">
+								<textarea class="form-control" ng-model="Question.Content" style="min-height:100px;width:100%"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-md-2">类型</label>
+							<div class="col-md-4">
+
+
+								<div class="input-group-btn">
+									<button type="button" class="btn green" tabindex="-1" id="QuestionType" value="{{::Question.Type}}">
+										{{::Question.Type?$('#QuestionTypeSelect a').eq(Question.Type).html():'选择题类型'}}
+									</button>
+									<button type="button" class="btn green dropdown-toggle" data-toggle="dropdown" tabindex="-1" aria-expanded="false">
+										<span class="md-click-circle md-click-animate" style="height: 43px; width: 43px; top: -12.5px; left: -0.84375px;"></span>
+										<i class="fa fa-angle-down"></i>
+									</button>
+									<ul class="dropdown-menu" role="menu" id="QuestionTypeSelect">
+										<li>
+											<a href="#!" data-value="0" ng-click="Question_type_handle($event)">
+												单选
+											</a>
+										</li>
+										<li>
+											<a href="#!" data-value="1" ng-click="Question_type_handle($event)">
+												多选
+											</a>
+										</li>
+										<li>
+											<a href="#!" data-value="2" ng-click="Question_type_handle($event)">
+												判断
+											</a>
+										</li>
+										<li class="divider">
+										</li>
+										<li>
+											<a href="#!" data-value="3" ng-click="Question_type_handle($event)">
+												问答
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-md-2">排序</label>
+							<div class="col-md-2">
+								<input type="number" class="form-control" ng-model="Question.Index" />
+
+							</div>
+							<label class="control-label col-md-2">隐藏</label>
+							<div class="col-md-2">
+								<div class="md-checkbox" style="margin-top:7px">
+									<input type="checkbox" id="checkbox2" class="md-check" ng-checked="Question.IsDisabled" ng-model="Question.IsDisabled" value="true" />
+									<label for="checkbox2">
+										<span class="inc"></span>
+										<span class="check"></span>
+										<span class="box"></span>
+
+									</label>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-md-2">分值</label>
+							<div class="col-md-2">
+								<input type="number" class="form-control" ng-model="Question.Value" />
+							</div>
+						</div>
+
+						<input type="hidden" name="AnswerReals" />
+						<div id="AnswerList">
+
+							<div class="form-group" ng-repeat="a in Question.Answers">
+								<label class="control-label col-md-2">答案</label>
+								<div class="col-md-10">
+									<div class="input-group" style="text-align:left">
+										<input type="text" class="form-inline form-control" ng-model="a.text" />
+										<span class="input-group-btn ">
+											<a href="javascript:;" ng-class="{true:'btn red',false:'btn grey'}[a.isValid]" style="position:relative">
+												<i ng-if="a.isValid" class="fa fa-check"></i> 答案
+												<input type="checkbox" class="md-check my-input-group-checkbox" ng-checked="a.isValid" ng-model="a.isValid">
+											</a>
+											
+											<input ng-if="a.isDefault || $index==0" type="button" ng-click="Answer_add()" value="+" class="btn green " />
+											<input ng-if="!a.isDefault && $index!=0" type="button" ng-click="Answer_del(a)" value="-" class="btn green" />
+										</span>
+									</div>
+									
+									@*<input type="checkbox" class="form-control" ng-checked="a.isValid" ng-model="a.isValid">*@ 
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+					<div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" ng-click="Question_submit()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@section footer{
+<script src="~/Content/j/angular.min.js"></script>
+	<script>
+	var examId =@(Model.Id);
+	var nowPartId=0;
+	var stopEvent= function (e) {
+		if (e && e.stopPropagation) {
+			e.stopPropagation();
+		}
+		else {
+			window.event.cancelBubble = true;
+		}
+		if (e && e.preventDefault) {
+			e.preventDefault()
+		} else {
+			window.event.returnValue = false;
+		}
+	}
+	var mxApp = angular.module("app", []);
+	mxApp.controller("main", ["$scope", "$http", function ($scope, $http) {
+		ngInit($scope, $http);
+
+		$scope.Answer_add = function (q) {
+			$scope.Question.Answers.push({ text: "", isValid: false });
+		}
+		$scope.Answer_del = function (item) {
+			$scope.Question.Answers.forEach(function (v, i) {
+				if (v == item) {
+					$scope.Question.Answers.splice(i, 1); return false;
+				}
+			})
+		}
+
+		$scope.Question = {Answers:[]};
+
+		$scope.Question_edit = function (q) {
+			var _questionDefault={
+				Id:0,
+				Type:0,
+				Index:0,
+				Value:2,
+				Answers0:[{ text: "", isValid: false,isDefault:true}],//单选
+				Answers1:[{ text: "", isValid: false,isDefault:true}],//多选
+				Answers2:[{ text: "正确", isValid: false},{text: "错误", isValid: false}],//判断
+				Answers3:[]//问答
+			}
+			if(nowPartId==0){
+				bootbox.alert("需要先选择试卷章节");
+				return;
+			}
+			if(!q){
+				$scope.Question = _questionDefault;
+				$scope.Question.ExamPartId=nowPartId;
+			}else{
+				$scope.Question = angular.extend(_questionDefault,q);
+				revQuestionByType();
+			}
+
+			$scope.Question.ExamId = examId;
+
+			var target = $("#QuestionTypeSelect a[data-value="+$scope.Question.Type+"]")
+
+			$("#QuestionType").html(target.html());
+
+			setQuestionByType()
+
+			$("#QPanel").modal({});
+		}
+		$scope.Question_type_handle=function(evt){
+
+			$scope.Question.Type=parseInt($(evt.target).data('value'),10);
+			$("#QuestionType").html(evt.target.innerHTML);
+			setQuestionByType();
+		}
+
+		function setQuestionByType(){
+			$scope.Question.Answers=$scope.Question["Answers"+$scope.Question.Type];
+		}
+		function revQuestionByType(){
+			$scope.Question["Answers"+$scope.Question.Type]=$scope.Question.Answers;
+		}
+
+		$scope.Question_del = function (item,evt) {
+			stopEvent(evt)
+			bootbox.confirm("确认删除?",function(res){
+				if(res){
+					$scope.myAjax($http.post("/manage/exam/delExamQuestion/"+item.Id),function(){
+						$scope.Part_select(item.partId);
+					})
+				}
+
+			})
+
+		}
+		$scope.Question_submit = function () {
+
+			var error=null;
+			if($scope.Question.Content==""){
+
+				error="题干不能为空";
+				return;
+			}
+			switch($scope.Question.Type){
+				case 0: //单选
+					var _am=0
+					$scope.Question.Answers.forEach(function(v,i){
+						if(v.text==""){error="有选项内容为空值";return false}
+						if(v.isValid===true)_am++;
+					})
+					if(_am!=1){
+						error="请确认正确答案的唯一"
+					}
+					break;
+				case 1://多选
+					var _am=0
+					$scope.Question.Answers.forEach(function(v,i){
+						if(v.text==""){error="有选项内容为空值";return false}
+						if(v.isValid===true)_am++;
+					})
+					if(!(_am>1)){
+						error="多选题的正确答案需至少两个"
+					}
+					break;
+				case 2://判断
+					var _am=0
+					$scope.Question.Answers.forEach(function(v,i){
+						if(v.isValid===true)_am++;
+					})
+					if(_am!=1){
+						error="请明确判断题的对错"
+					}
+					break;
+			}
+			if(error!=null){
+				bootbox.alert(error);
+				return;
+			}
+			$scope.myAjax($http.post('/manage/exam/editExamQuestion', $scope.Question), function (res) {
+				$("#QPanel").modal('hide');
+				$scope.Part_select(nowPartId);
+			})
+		}
+
+		$scope.Part={}
+		$scope.Part_edit = function (id,name,index) {
+			if (id) {
+				$scope.Part = {Id:id,Name:name,Index:index};
+
+			} else {
+				$scope.Part = { Id: 0, Name: "",ExamId:examId,Index:0 };
+			}
+			$("#PPanel").modal();
+		}
+		$scope.Part_del = function (id, name) {
+			bootbox.confirm("确该节的同时，将同时删除其下的考题，确认删除?",function(result){
+				if(result){
+					$scope.myAjax($http.post('/manage/exam/delPart', {id:id}), function () {
+						self.location.href="/manage/exam/Details/"+examId;
+					})
+				}
+			})
+
+		}
+		$scope.Part_submit = function () {
+
+			$scope.myAjax($http.post('/manage/exam/editPart', $scope.Part),function(){
+				self.location.href="/manage/exam/Details/"+examId+"?part";
+			})
+		}
+		$scope.PartQuestions = [];
+		$scope.Part_select = function (id) {
+			var parts = $("#partsPanel");
+			var _parts = parts.children();
+			var _id;
+			if(id){
+				_id=id;
+			}else{
+				_id = @(string.IsNullOrWhiteSpace(Request.QueryString["part"])?-1:int.Parse(Request.QueryString["part"]))
+				if(_id<0){
+					if(_parts.length>0){
+						_id=parseInt(_parts.first().data("id"))
+					}
+				}
+			}
+			if(_id<0){return;}
+
+
+			parts.find('[data-id='+_id+']').addClass("active").siblings().removeClass("active");
+
+
+			$scope.myAjax($http.post("/manage/Exam/getPartQuestions", { partId: _id }),
+				function (res) {
+					nowPartId = _id;
+					$scope.PartQuestions = res;
+				})
+		}
+
+		$scope.Part_select()
+	}]);
+
+
+
+	</script>
+}

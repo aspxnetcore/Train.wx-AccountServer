@@ -1,0 +1,77 @@
+﻿@using PagedList
+@using PagedList.Mvc;
+@using JULONG.TRAIN.Model;
+@model IEnumerable<Question>
+@using JULONG.TRAIN.LIB
+@{
+    QuestionGroup qg = ViewBag.qg;
+    ViewBag.Title = "Details";
+    ViewBag.menuName = "试题组";
+    ViewBag.subMenuName = qg.Name;
+}
+
+
+<p>
+    @Html.ActionLink("新建试题", "EditQuestion")
+    @using (Html.BeginForm("Index", "QuestionGroups/Details", FormMethod.Get))
+    {
+    <p>
+        搜索问题：@Html.TextBox("keyword")<br />
+        <input type="hidden" name="id" value="@qg.Id" />
+        <input type="submit" value="搜索" />
+    </p>
+    }
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                问题
+            </th>
+            <th>
+                类型
+            </th>
+            <th>
+                Index
+            </th>
+            <th>
+                是否可用
+            </th>
+            <th>
+                选项数量
+            </th>
+            <th>
+                答案
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+					@{
+						string content = item.Content==null?"":item.Content.reHtmlCode();
+					}	
+                    @(content.reSubstring(20))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Index)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDisabled)
+                </td>
+                <td>
+                    @item.Answers.Count()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._AnswerReals)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditQuestion", new { id = item.Id }) |
+                    @Html.ActionLink("删除", "deleteQuestion", new { id = item.Id, qgId = qg.Id })
+                </td>
+            </tr>
+        }
+    </table>
+    @Html.PagedListPager((IPagedList)Model, pageIndex => Url.Action("Details", new { keyword = ViewBag.keyword, pageIndex, id = ViewBag.id }))

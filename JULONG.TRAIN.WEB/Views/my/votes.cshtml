@@ -1,0 +1,53 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@model IEnumerable<VoteLog>
+@{
+	Layout = null;
+	ViewBag.Title = "历史成绩";
+
+}
+
+<div class="page" id="myVotes">
+	<header class="bar bar-nav nav-nice">
+		<div class="pull-left">
+			<a class="icon icon-left back" href="/">
+			</a>
+
+		</div>
+		<div class="pull-right">
+
+			<span class="right-title">历史投票</span>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="list-block media-list news-list" style="margin:0">
+
+			<ul>
+				@foreach (VoteLog item in Model)
+				{ 
+				<li class="">
+					<a href="/vote/deatil/@item.Id" class="item-content item-link">
+						<div class="item-media"></div>
+						<div class="item-inner">
+
+							<div class="item-title-row">
+								<div class="item-title time">时间 @item.Date</div>
+								<div class="item-after"></div>
+							</div>
+							<div class="item-subtitle color-main"> @item.Vote.Name</div>
+							<div class="item-text">总投票 @item.Vote.Count</div>
+						</div>
+					</a>
+				</li>
+				}
+			</ul>
+			
+		</div>
+		@*<div class="content-block text-center"><button id="moreBtn">更多 >></button></div>*@
+
+
+	</div>
+</div>
+

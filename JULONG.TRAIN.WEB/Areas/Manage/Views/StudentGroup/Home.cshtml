@@ -1,0 +1,112 @@
+﻿@using JULONG.TRAIN.Model;
+
+@using PagedList
+@using PagedList.Mvc
+@model StudentGroup
+@{
+    ViewBag.Title = "Home";
+	ViewBag.menuName = "学员";
+	ViewBag.subMenuName = "学员组";
+}
+<style>
+	.disabled{ text-decoration:line-through}
+</style>
+<div>
+	<h4 >
+		<span class="@(Model.IsDisabled ? "disabled" : "")">@Model.Name</span> [@Model.StudentCount] <button class="btn btn-info"  onclick="window.location.href = '../edit?Id=@Model.Id'">修改</button> <button class="btn btn-success" onclick="window.location.href='../../students/edit?groupId=@Model.Id'">新建学员</button>
+
+		<h5>
+
+			@*建立时间：<span class="exp-info">@Model.RegDate</span> 模拟考试时间：<span class="exp-info">
+						@if (Model.Exam_startDate == null || Model.Exam_endDate == null)
+						{
+						<span>无限制</span>
+						}
+						else
+						{
+						@(Model.Exam_startDate.Value.ToShortDateString())
+						<span> - </span>
+						@(Model.Exam_startDate.Value.ToShortDateString())
+						}
+			</span>*@
+
+		</h5>
+		<h5>
+			  考试次数:<code>@(Model.ExamCount == 0 ? "无限制" : Model.ExamCount.ToString())</code>
+		</h5>
+	</h4>
+
+
+	<table class="table">
+		<tr >
+
+			<th>
+				编 号
+			</th>
+			<th>
+				姓名
+			</th>
+
+			<th>
+				性别
+			</th>
+			<th>
+				电话
+			</th>
+			<th>
+				注册时间
+			</th>
+			<th>
+				最后登录时间
+			</th>
+			<th>
+				考试次数
+			</th>
+			<th>
+				最好成绩
+			</th>
+			<th>
+
+			</th>
+			<th></th>
+		</tr>
+
+		@foreach (Student item in ViewBag.students)
+		{
+			<tr class="@(item.IsDisabled?"disabled":"")">
+
+				<td>
+					@item.Id
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Sex)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Phone)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.RegDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.LastLoginDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.StudentExamResult.TrainingCount)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.StudentExamResult.GoodTrainingResult)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "../students/Edit", new { id = item.Id }) |
+
+					@Html.ActionLink("Delete", "../students/Delete", new { id = item.Id })
+				</td>
+			</tr>
+		}
+
+	</table>
+@Html.PagedListPager((IPagedList)ViewBag.students, pageIndex => Url.Action("home", new { pageIndex }))
+</div>

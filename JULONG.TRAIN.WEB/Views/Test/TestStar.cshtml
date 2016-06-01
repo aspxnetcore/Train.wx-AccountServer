@@ -1,0 +1,106 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@using JULONG.TRAIN.WEB.Models;
+@model JULONG.TRAIN.Model.Test
+
+@{
+	Layout = null;
+	ViewBag.Title = "考试";
+	string[] abc = new String[] { "A", "B", "C", "D", "E", "D", "F"};
+
+	double sValue = Convert.ToDouble(ViewBag.a);
+	var kk = 0;
+	var jj = 1;
+	string[] kks = new String[] { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
+
+	TimeSpan Time = ViewBag.Time;
+
+}
+<div class="page page-testStart no-tabbar" id="testStart" data-time="@Time.TotalSeconds" data-testid="@Model.Id">
+
+	<header class="bar bar-nav nav-nice">
+		<div class="pull-left">
+			<a class="icon icon-left back" href="/">
+			</a>
+			<a class="back" href="/">
+				@Model.Name
+			</a>
+		</div>
+		<div class="pull-right">
+			<div class="test-time">
+				<span class="title"><i class="am-icon-history"></i></span>
+				<span id="hour_show">0</span>:
+				<span id="minute_show">00</span>:
+				<span id="second_show">00</span>
+			</div>
+			<span class="right-title">考试</span>
+		</div>
+	</header>
+	<div class="content">
+
+		<div class="line" style=" width:100%; border-top:2px solid #06ac90"></div>
+
+		<div class="table">
+			<ul id="qList" class="q-list" onclick="Test.doingQuestion(event)">
+				@foreach (var part in Model.Exam.Parts.Where(d => !d.IsDisabled).OrderByDescending(d => d.Index))
+				{
+					<li class="q-part">@kks[kk]、 @part.Name</li>
+					foreach (var item in part.Questions.Where(d=>!d.IsDisabled).OrderByDescending(d=>d.Index))
+					{
+						List<int> an = new List<int>();
+						var answers = item.Answers;
+						<li class="q-item" an="">
+							<a class="q-i">@jj</a>
+							<div class="q-c">
+								@Html.Raw(@item.Content)
+							</div>
+							<div class="q-a-list" >
+								@for (int i = 0; i < answers.Count; i++)
+								{
+									if (answers[i].isValid)
+									{
+										an.Add(i);
+									}
+									<label class="q-a">
+										
+										@if (item.Type == QuestionType.单选 || item.Type == QuestionType.判断)
+										{
+											<input name="answersR@(jj)"  type="radio" value="@(i+1)" />
+										}
+										else
+										{
+											<input name="answersR@(jj)" type="checkbox" value="@(i+1)" />
+										}
+										@if (item.Type == QuestionType.判断)
+										{
+
+											<span id="Answers[@i]" class="q-a-i">@answers[i].text</span>
+										}
+										else
+										{
+											<span class="q-a-i">
+												@(abc[i])
+											</span>
+											<span id="Answers[@i]">@answers[i].text</span>
+										}
+
+
+									</label>
+								}
+							</div>
+						</li>
+						jj++;
+						//TrueAnswerIndexs.Add(new ExamQuestionAnswersValue() { Value = item.Value});
+					}
+
+					kk++;
+				}
+			</ul>
+			<div class="content-block text-center">
+				<button type="button" onclick="Test.submit(@Model.Id)" class="btn-main big" id="submit" >交 卷</button>
+			</div>
+		</div>
+	</div>
+
+
+</div>

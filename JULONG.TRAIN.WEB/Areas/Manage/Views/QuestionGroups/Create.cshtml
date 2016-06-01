@@ -1,0 +1,122 @@
+﻿@using JULONG.TRAIN.Model;
+@model Question
+@{
+    ViewBag.Title = "Create";
+    //var groups = ViewBag.groups as IEnumerable<SelectListItem>;
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Question</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">套题名称</label>
+            <div class="col-md-10">
+                @Html.DropDownList("QuestionGroupId")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea name="Content" data-toggle="redactor" style="min-height:100px;width:100%">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Index, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="number" name="Index" value="0" class="form-control" />
+                @*@Html.EditorFor(model => model.Index, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Index, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsDisabled, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsDisabled)
+                    @Html.ValidationMessageFor(model => model.IsDisabled, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Answers</label>
+            <div class="col-md-10">
+                <input name="Answers[0]" type="text" class='.text-danger' />
+                <input name="answersR" type="checkbox" value="1" class=".text-danger" />
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" onclick="Addoptions()" value="增加选项" class="btn btn-default" />
+                <input type="button" onclick="Removeoptions()" value="删除选项" class="btn btn-default" />
+            </div>
+        </div>
+        <input type="hidden" name="AnswerReals" />
+        <div id="AnswerList"></div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="formSubmitBtn" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Details")
+</div>
+<script type="text/javascript">
+    $(function () {
+        //在线编辑器，带上传
+        var r_edit = $('textarea[data-toggle=redactor]').redactor({
+            focus: true,
+            uploadImageFields: { path: "QuestionImg" },
+            plugins: ['fontcolor'],
+            imageUpload: '/Manage/Upload/ImageUpload',
+            minHeight: 200
+        });
+    })
+    var i = 1;
+    function Addoptions() {
+        $("#AnswerList").get(0).innerHTML += "<div id=txt" + i + " class='form-group'><label class='control-label col-md-2'>Answers</label><div class='col-md-10'><input type='text' name=Answers[" + i + "] class='text-danger' /><input name='answersR' type='checkbox' value=" + (i + 1) + " class='.text-danger' /></div></div>";
+        i++;
+    };
+    function Removeoptions() {
+        if (1 < i) {
+            --i;
+            $("#txt" + i + "").remove();
+        }
+        else {
+            i = 1;
+        }
+    };
+
+    $("#formSubmitBtn").click(function (e) {
+        var obj = document.getElementsByName("answersR");
+        var vals = [];
+        for (var j = 0; j < obj.length; j++) {
+            if (obj[j].checked) {
+                vals.push(obj[j].value)
+            }
+        }
+        $("input[name=AnswerReals]").val(vals.join(","));
+        document.forms[0].submit();
+    });
+
+</script>

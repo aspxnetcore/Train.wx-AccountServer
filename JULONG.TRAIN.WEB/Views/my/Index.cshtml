@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "我的";
+	JULONG.TRAIN.WEB.Models.AccountSession account = ViewBag.account;
+	JULONG.TRAIN.Model.WxAccount accountDB = ViewBag.accountDB;
+}
+
+<div class="page page-my-index" id="myIndex">
+	<header class="bar bar-nav nav-nice">
+		<a class="icon icon-left pull-left back" href="/"></a>
+		<h1 class="title"></h1>
+		<div class="right-title pull-right">
+			个人中心 
+		</div>
+	</header>
+
+	<div class="content">
+
+
+		<div class="content-block" style="margin-bottom:.5rem;">
+			<div class="avatar" style="background-image:url(@accountDB.headimgurl)">
+			</div>
+			<div style="display:inline-block;vertical-align: middle;">
+
+				<span class="f2">@account.name (@accountDB.nickname)</span>
+				<div class="color-brown">@account.workId</div>
+			</div>
+			<div style="display:inline-block">
+
+			</div>
+		</div>
+
+		<div class="list-block my-menu">
+			<ul>
+				@if (account.studentId != 0) { 
+				<li>
+					<a href="/news" class="item-content item-link">
+						<div class="item-media"><i class="iconfont icon-tongzhi f5"></i></div>
+						<div class="item-inner">
+							<div class="item-title">新闻公告</div>
+							@*<div class="item-after"><span class="badge">5</span></div>*@
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/my/tests" class="item-content item-link">
+						<div class="item-media"><i class="iconfont icon-exam f4"></i></div>
+						<div class="item-inner">
+							<div class="item-title">我的成绩</div>
+							<div class="item-after"></div>
+						</div>
+						</a>
+				</li>
+				<li >
+					<a href="/my/votes" class="item-content item-link">
+						<div class="item-media"><i class="iconfont icon-fav-1 f4"></i></div>
+						<div class="item-inner">
+							<div class="item-title">我的投票</div>
+							<div class="item-after"></div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/my/unbind" class="item-content item-link">
+						<div class="item-media"><i class="iconfont icon-jiebang f4"></i></div>
+						<div class="item-inner">
+							<div class="item-title">解绑工号</div>
+							<div class="item-after"></div>
+						</div>
+					</a>
+				</li>
+				}
+
+				else { 
+				<li >
+					<a href="/my/bind" class="item-content item-link">
+						<div class="item-media"><i class="iconfont icon-bangding f4"></i></div>
+						<div class="item-inner">
+							<div class="item-title">绑定工号</div>
+							<div class="item-after"></div>
+						</div>
+					</a>
+				</li>
+				}
+				<li>
+					
+					<a href="/home/UpdateSession" class="item-content item-link">
+						<div class="item-media"><i class="iconfont icon-warningsign f4"></i></div>
+						<div class="item-inner">
+							<div class="item-title">UpdateSession</div>
+							<div class="item-after"></div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+

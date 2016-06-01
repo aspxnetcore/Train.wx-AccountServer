@@ -1,0 +1,11 @@
+﻿@model Boolean
+
+<div class="md-checkbox">
+	<input type="checkbox" id="checkbox_@ViewData.TemplateInfo.HtmlFieldPrefix" name="@ViewData.TemplateInfo.HtmlFieldPrefix" class="md-check" @(Model ? "checked=checked" : "") value="true" />
+	<label for="checkbox_@ViewData.TemplateInfo.HtmlFieldPrefix">
+		<span class="inc"></span>
+		<span class="check"></span>
+		<span class="box"></span>
+		@*@ViewData.TemplateInfo.HtmlFieldPrefix*@
+	</label>
+</div>

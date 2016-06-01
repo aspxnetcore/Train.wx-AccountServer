@@ -1,0 +1,75 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@model TestResult
+@{
+	Layout = null;
+    ViewBag.Title = "考试结果";
+	Test test = ViewBag.test;
+}
+
+<div class="page">
+	<header class="bar bar-nav nav-nice">
+		<div class="pull-left">
+			<a class="icon icon-left back" href="/">
+			</a>
+
+		</div>
+		<div class="pull-right">
+			<div>
+
+			</div>
+			<span class="right-title">考试结果</span>
+		</div>
+	</header>
+
+	<div class="content test-detail">
+
+		@if (Model != null)
+		{
+			<div class="content-block-title">考卷:@test.Name</div>
+			<div class="list-block">
+				<ul>
+					<li class="item-content">
+						<div class="item-media"><i class="icon icon-clock"></i></div>
+						<div class="item-inner">
+							<div class="item-title">时间</div>
+							<div class="item-after">@Model.Date.ToMyString()</div>
+						</div>
+					</li>
+					<li class="item-content">
+						<div class="item-media"><i class="iconfont icon-exam"></i></div>
+						<div class="item-inner">
+							<div class="item-title">得分</div>
+							<div class="item-after">@Model.Value / @test.Exam.Value</div>
+						</div>
+					</li>
+
+					<li class="item-content">
+						<div class="item-media"><i class="iconfont icon-right"></i></div>
+						<div class="item-inner">
+							<div class="item-title">答案</div>
+							<div class="item-after">@Model.RightCount / @test.Exam.QuestionCount</div>
+						</div>
+					</li>
+					<li class="item-content">
+						<div class="item-media"><i class="iconfont icon-naozhong"></i></div>
+						<div class="item-inner">
+							<div class="item-title">用时</div>
+							<div class="item-after">@Model.UseTime.ToString()</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	<div class="content-block"><a href="#" class="button button-fill">返回全部答题记录</a></div>
+
+
+		}
+		else
+		{
+			<div class="content-block text-center">
+			未找到考试结果
+			</div>
+		}
+	</div>
+</div>
+

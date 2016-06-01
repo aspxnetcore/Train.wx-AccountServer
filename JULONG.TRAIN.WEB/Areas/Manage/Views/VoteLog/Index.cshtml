@@ -1,0 +1,159 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IEnumerable<JULONG.TRAIN.Model.VoteLog>
+
+@{
+    ViewBag.Title = "Index";
+	ViewBag.menu1 = "调查投票";
+	ViewBag.menu11 = "投票日志";
+
+	string studentName = ViewBag.studentName;
+    int voteItemId = ViewBag.voteItemId;
+    int orderBy = ViewBag.orderBy;
+    string ip = ViewBag.ip;
+    DateTime? sDate = ViewBag.sDate;
+    DateTime? eDate = ViewBag.eDate;
+    string count = "";
+
+    count = ((string)ViewBag.count)+"条";
+    
+}
+<div class="portlet bordered">
+	<div class="portlet-title">
+		<div class="caption font-red-sunglo">
+			<i class="icon-settings font-red-sunglo"></i>
+			<span class="caption-subject bold uppercase">筛选</span>
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="expand" data-original-title="" title="">
+			</a>
+		
+		</div>
+		<div class="actions">
+			
+		</div>
+	</div>
+	<div class="portlet-body form" style="display: none;">
+		<form method="post">
+			<input name="pageIndex" value="1" type="hidden" />
+			<input type="hidden" name="orderBy" value="@(orderBy == 1 ? 1 : 0)">
+			投票ID:
+			<input class="form-control input-inline input-sm" style="width:100px" name="voteId" value="@(voteItemId==0?"":voteItemId.ToString())" />
+			投票项ID:
+			<input class="form-control input-inline input-sm" style="width:120px" name="voteItemId" value="@(voteItemId==0?"":voteItemId.ToString())" />
+			员工名:<input class="form-control input-inline input-sm" name="studentName" value="@studentName" />
+			ip:<input class="form-control input-inline input-sm" name="ip" value="@ip" />
+			<hr />
+
+			<div class="form-group clearfix">
+				时间:
+				<div class="" style="display:inline-block;vertical-align: middle;">
+					<div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+						<input type="text" class="form-control datepicker input-inline input-sm " name="sDate" value="@sDate">
+						<span class="input-group-addon input-sm">
+							to
+						</span>
+						<input type="text" class="form-control datepicker input-inline input-sm" name="eDate" value="@eDate">
+					</div>
+				</div>
+				<div class="btn-group">
+					<a class="btn yellow dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+						@(orderBy == 1 ? "时间升序'" : "时间降序")
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu pull-right">
+						<li>
+							<a href="javascript:;">
+								<i class="fa fa-pencil"></i> 时间升序
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;">
+								<i class="fa fa-trash-o"></i> 时间降序
+							</a>
+						</li>
+
+					</ul>
+				</div>
+				@count
+				<button class="btn  green " style="margin-right:10px" type="submit">查询</button>
+
+			</div>
+
+
+		</form>
+	</div>
+</div>
+
+@Html.PagedListPager((IPagedList)Model, pageIndex => Url.Action("index", new { pageIndex, ip, studentName, voteItemId, sDate, eDate, orderBy }))
+<table style="width:100%" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            时间
+        </th>
+        <th>
+            投票
+        </th>
+		<th>
+			投票项
+		</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ip)
+        </th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(model => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentId)
+        </td>
+        <td>
+            @item.Date.ToString("yyyy-MM-dd HH:mm:ss")
+        </td>
+        <td>
+            @item.VoteItem.Vote.Name
+        </td>
+		<td>
+			@Html.DisplayFor(modelItem => item.VoteItem.Title)
+		</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ip)
+        </td>
+
+    </tr>
+}
+
+</table>
+@Html.PagedListPager((IPagedList)Model, pageIndex => Url.Action("index", new { pageIndex, ip, studentName, voteItemId, sDate, eDate, orderBy }))
+@section footer{
+	
+<link href="~/Content/metronicAssets/global/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
+<script src="~/Content/metronicAssets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script>
+		(function ($) {
+			$.fn.datepicker.dates['zh-CN'] = {
+				days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+				daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+				daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
+				months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+				monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+				today: "今日",
+				format: "yyyy年mm月dd日",
+				weekStart: 1
+			};
+		}(jQuery));
+
+
+		$('.datepicker').datepicker({ autoclose: true, language: 'zh-CN', todayBtn: 'linked'});
+	</script>
+}

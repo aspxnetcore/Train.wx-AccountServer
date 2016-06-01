@@ -1,0 +1,310 @@
+﻿@model JULONG.TRAIN.Models.DB.Material
+@{
+	ViewBag.Title = "Detail";
+	ViewBag.menuName = "在线教材";
+	ViewBag.subMenuName = "教材详情 > " + Model.Title;
+
+}
+<html>
+<body>
+	<div>
+		<h4>
+			@Model.Title 建立时间：<code style="font-size:12px; padding:5px; background:#c2eae9; color:#2aa89c">@Model.CreateDateTime</code> 最后修改时间：<code style="font-size:12px; padding:5px;">@Model.LastDateTime</code>
+			排序：<code>@Model.Index</code> 有效:<code>@(Model.IsDisabled ? "×" : "√")</code>
+		</h4>
+		<hr />
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div><button id="createChaptersBtn" class="createChaptersBtn">增加章节</button></div>
+			<div>&#160;</div>
+			<div id="MaterialTree">
+
+				<div class="node">
+					<span class="badge">第一章</span>
+					<div class="subs">
+						<div class="node"><span class="badge">第一节</span></div>
+					</div>
+				</div>
+				<div class="node">
+					<span class="badge">第二章</span>
+					<div class="subs">
+						<div class="node"><span class="badge">第一节</span></div>
+						<div class="node"><span class="badge">第二节</span></div>
+						<div class="node">
+							<span class="badge">第三节</span>
+							<div class="subs">
+								<div class="node"><span class="badge">第一小节</span></div>
+								<div class="node"><span class="badge">第二小节</span></div>
+								<div class="node"><span class="badge">第三小节</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="node"><span class="badge">第三章</span></div>
+
+
+				@{		 if (Model.Chapters != null)
+						 {
+							 int i = 1; foreach (var c in Model.Chapters)
+							 {
+								 i++;
+								<div class="chaptersTreeNode"><span class="badge">@i</span><span>@c.Title</span></div>
+							 }
+						 }
+				}
+			</div>
+		</div>
+
+		<div class="col-lg-8">
+
+		</div>
+	</div>
+	<p>
+		@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+		@Html.ActionLink("Back to List", "Index")
+	</p>
+
+
+	<style>
+		.createChaptersBtn {
+			border: 1px solid #a73800;
+			background: #ff6a00;
+			border-radius: 5px;
+			line-height: 20px;
+			color: white;
+		}
+
+			.createChaptersBtn.fly, .badge.fly {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9999;
+				opacity: 0.4;
+				cursor: pointer;
+			}
+
+		.node {
+			margin-top: 4px;
+			margin-bottom: 4px;
+		}
+
+			.node > .subs {
+				padding-left: 40px;
+			}
+
+			.node:hover > .badge {
+				background-color: #2aa89c !important;
+			}
+
+			.node > .badge {
+				border: 1px solid #abbac3;
+				cursor: pointer;
+			}
+
+		.chaptersTreeNode.line {
+			height: 2px;
+			margin: 2px;
+		}
+
+		.node.hot > .badge {
+			border: 1px dotted #15415b;
+			background-color: #7d99aa !important;
+		}
+
+		.node > .space {
+			float: left;
+		}
+
+		.node > .space {
+			display: block;
+			width: 20px;
+			float: left;
+		}
+
+			.node > .space::after {
+				content: "●";
+				text-align: center;
+				margin-left: 6px;
+				color: #c1d2dc;
+				vertical-align: middle;
+				height: 22px;
+			}
+
+		.node > input, .node > button {
+			height: 22px;
+			margin: 2px 1px;
+			vertical-align: middle;
+			line-height: 18px;
+		}
+
+		.node * {
+			vertical-align: middle;
+		}
+
+		.node .fa-2x {
+			font-size: 1.5em;
+		}
+
+		.iconBtn {
+			color: gray;
+			margin: 4px auto;
+			opacity: 0.6;
+			padding: 0px 4px 0px 4px;
+			cursor: pointer;
+		}
+
+			.iconBtn:hover {
+				opacity: 1;
+			}
+
+			.iconBtn:active {
+				color: #ff6a00 !important;
+			}
+
+		.node > .iconBtn-hide {
+			color: white;
+		}
+
+		.node:hover > .iconBtn-hide {
+			color: gray;
+		}
+
+		.hotLink {
+			width: 100px;
+			height: 2px;
+			overflow: hidden;
+			position: absolute;
+			background-color: #abbac3;
+		}
+	</style>
+</body>
+</html>
+<script>
+
+
+	$(function () {
+
+
+		var dragging = false;
+		var iX = 0, iY = 0;
+		var createChaptersBtn_fly = $(".createChaptersBtn").clone().addClass("fly").appendTo(document.body).hide();//新建按钮的复刻目标
+		var hotLink_fly = $("<div class='hotLink'></div>").appendTo(document.body).hide()
+		var chaptersTreeNode_fly = null;
+		var chaptersTree = []; //[{obj,thickness}]
+		var oldHotChapter = null;
+		$(document).scroll(function (e) {
+			//iY = iY+document.body.scrollTop;
+		});
+		$("#createChaptersBtn").on("mousedown", { org: $(".createChaptersBtn"), target: createChaptersBtn_fly }, ChapterBtnDragStart);
+		bulidXYData();
+		function bulidXYData() {
+			chaptersTree = [];
+			$("#MaterialTree .badge").each(function () {
+				var _this = $(this);
+				var _off = _this.offset();
+				var _left = _off.left;
+				var _top = _off.top - document.body.scrollTop;
+				var _right = _off.left + _this.width();
+				var _bottom = _off.top + _this.height() - document.body.scrollTop;
+
+				if ($(this).prev().length == 0) {
+					chaptersTree.push({ obj: null, thickness: [_left, top - 2, _right, top] })
+				}
+				chaptersTree.push({ obj: _this.parent(), thickness: [_left, _top, _right, _bottom] })
+				chaptersTree.push({ obj: null, thickness: [_left, _bottom, _right, _bottom + 2] })
+
+				//[left,top,right,bottom]
+			})
+		}
+
+		function ChapterBtnDragStart(e) {
+			var dragOrg = e.data.org;//点击原始目标
+			var dragTarget = e.data.target;//托动复刻的目标
+			var off = dragOrg.offset();
+			iX = e.offsetX;
+			iY = e.offsetY;
+			$(document).on("mousemove", dragTarget, ChapterBtnDrag);
+			$(document).on("mouseup", dragTarget, ChapterBtnDragEnd);
+
+
+			dragTarget.show();
+		};
+
+		function ChapterBtnDrag(e) {
+			var e = e || window.event;
+			var dragTarget = e.data;
+			var oX = e.clientX - iX;
+			var oY = e.clientY - iY;
+			dragTarget.css({ "left": oX + "px", "top": oY + "px" });
+
+			for (var i = 0; i < chaptersTree.length; i++) {
+				var _c = chaptersTree[i];
+				if (_c.thickness[0] < oX && _c.thickness[2] > oX && _c.thickness[1] <= oY && _c.thickness[3] >= oY) {
+
+					if (oldHotChapter != null) {
+						if (_c.obj != null && _c.obj.hasClass("hot")) return; //已经指在原来的上面了;
+
+						oldHotChapter.removeClass("hot");
+					}
+					if (_c.obj == null) {
+						hotLink_fly.css({ left: _c.thickness[0], top: _c.thickness[1] }).show();
+					} else {
+						hotLink_fly.hide();
+						_c.obj.addClass("hot");
+					}
+
+					oldHotChapter = _c.obj;
+					return;
+				}
+			}
+			if (oldHotChapter != null) {
+				oldHotChapter.removeClass("hot");
+			}
+		};
+		function ChapterBtnDragEnd(e) {
+			var dragTarget = e.data;
+
+			$(document).off("mousemove", ChapterBtnDrag);
+			$(document).off("mouseup", ChapterBtnDragEnd);
+			dragTarget.closest(".node");
+			dragTarget.hide();
+
+			if (oldHotChapter != null && oldHotChapter.hasClass("line")) {//是不是新同级节点
+				oldHotChapter.removeClass("line").addClass("node").remove(".line").removeClass("hot");
+				oldHotChapter.append("<input type='text' class=''></input><i class='iconBtn fa fa-times fa-2x cancel'></i><i class='iconBtn green fa fa-check fa-2x'></i>");
+			}
+			bulidXYData();
+		};
+		//MaterialTree事件
+		$("#MaterialTree").on("mousedown", function (e) {
+			var _node = $(e.target).closest(".node");
+
+			if ($(e.target).hasClass("cancel")) {//取消
+				_node.removeClass("node").addClass("line");
+				_node.find("input,i").remove();
+				_node.append("<span class='line'></span>");
+
+			}
+
+			if ($(e.target).hasClass("badge")) {//托动
+
+				if (_node.hasClass("root")) { return; }//是根
+				if (_node.length > 0) {
+					var _nodeTxt = _node.find(".badge");
+					if (chaptersTreeNode_fly != null) {
+						chaptersTreeNode_fly.remove();
+						chaptersTreeNode_fly = null;
+					}
+					chaptersTreeNode_fly = _node.clone().addClass("fly").appendTo(document.body)
+					e.data = { org: _nodeTxt, target: chaptersTreeNode_fly };
+					ChapterBtnDragStart(e);
+				}
+			}
+		});
+
+
+		function cancel() { }
+	})
+
+</script>

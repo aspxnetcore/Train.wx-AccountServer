@@ -1,0 +1,96 @@
+﻿@using JULONG.TRAIN.Model;
+@model IEnumerable<StudentGroup>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.menuName = "学员";
+    ViewBag.subMenuName = "学员组";
+}
+
+
+<p>
+    @Html.ActionLink("新建", "Edit")|
+    @Html.ActionLink("导入用户", "import")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            人数
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Exp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegDate)
+        </th>
+        @*<th>
+                考试时间
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ExamCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDisabled)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Exp)
+            </td>
+            <td>
+                @item.RegDate.ToString("yyyy-MM-dd")
+            </td>
+            @*<td>
+                        <span>无限制</span>
+                        @if (item.Permissions.FirstOrDefault().Exam_startDate == null || item.Permissions.FirstOrDefault().Exam_endDate == null)
+                    {
+                        <span>无限制</span>
+                    }
+                    else
+                    {
+                        @(item.Permissions.FirstOrDefault().Exam_startDate.Value.ToShortDateString())
+                        <span> - </span>
+                        @(item.Permissions.FirstOrDefault().Exam_startDate.Value.ToShortDateString())
+                    }
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDisabled)
+            </td>
+            <td>
+                @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
+                @if (item.StudentCount != 0)
+                {
+                    <span class="exp">删除 </span>
+                }
+                else
+                {@Html.ActionLink("删除", "Delete", new { id = item.Id }) }
+                |
+                @Html.ActionLink("进入", "Home", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
