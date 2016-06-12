@@ -25,7 +25,8 @@
 	}
 
 		.parts li {
-			border: 1px solid #E7EAEC;
+            margin-right: -1px;
+			border: 2px solid #E7EAEC;
 			border-bottom: 0px;
 			padding: 5px;
 			/* background: #EEF8FF; */
@@ -120,12 +121,13 @@
 
 				</ul>
 			</td>
-			<td style="border-left:1px solid #a6cce8;">
+			<td style="border-left:2px solid #a6cce8;">
 				<ul class="partQuestions">
 
 					<li ng-repeat="q in PartQuestions | orderBy:'-Index'" ng-click="Question_edit(q)" ng-class="{true:'question alert-info',false:'question'}[q.IsDisabled]">
 						@*<i class='fa fa-edit' ng-click="Question_edit(q)"></i>*@
 						<i class='fa  fa-times' ng-click="Question_del(q,$event)"></i>
+                        <span class="" ng-bind="q.type"></span>
 						<span ng-bind="q.Content"></span>
 					</li>
 

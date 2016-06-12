@@ -13,13 +13,14 @@ namespace JULONG.TRAIN.LIB
 {
     public static class RenderViewHelper
     {
-        public static string ToFilePath = @"/Views/RenderResult/";
+        public static string ToFilePath = @"/Content/RenderRes/";
+        public static string FromFilePath = @"~/views/RenderTemplate/";
+        public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
 
-
-        public static string ToFile(Controller controller, string viewName, object model)
+        public static string ToFile(Controller controller, string viewName, object model,string newFileName= null)
         {
-            string str = ToString(controller, viewName, model);
-            System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + ToFilePath + Path.GetFileName(viewName), str, Encoding.UTF8);
+            string str = ToString(controller, FromFilePath +viewName, model);
+            System.IO.File.WriteAllText(BasePath + ToFilePath +( newFileName!=null? newFileName:Path.GetFileName(viewName)), str, Encoding.UTF8);
             return str;
 
         }

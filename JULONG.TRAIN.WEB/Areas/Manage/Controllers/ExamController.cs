@@ -10,14 +10,108 @@ using JULONG.TRAIN.Model;
 using JULONG.TRAIN.WEB.Models;
 using JULONG.TRAIN.LIB;
 
+
 namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 {
     using TRAIN.LIB;
     using Models;
+    using System.Text;
+    using GemBox.Document;
     [AccountFilter]
     public class ExamController : Controller
     {
+        [NonAction]
+        public string ExprotTxt(Exam exam)
+        {
+            string[] ti = { "", "一", "二", "三", "四", "五", "六", "七" };
+            string[] ABC = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+            StringBuilder sb = new StringBuilder();
+
+
+                sb.Append(exam.Name);
+                var i = 1;
+                var j = 1;
+                foreach (var p in exam.Parts)
+                {
+
+                    sb.Append("\n");
+                    try
+                    {
+                        sb.Append(ti[i] + "、" + p.Name);
+                    }
+                    catch
+                    {
+                        sb.Append(p.Name);
+                    }
+
+
+                    foreach (var q in p.Questions)
+                    {
+                        sb.Append("\n");
+                        sb.Append(j + "." + q.Content);
+                        var m = 0;
+                        foreach (var a in q.Answers)
+                        {
+                            sb.Append("\n");
+                            sb.Append(ABC[m] + "." + a.text);
+                            m++;
+                        }
+                    }
+                    i++;
+
+                }
+
+            return sb.ToString();
+        }
         private DBContext db = new DBContext();
+        /// <summary>
+        /// 导出文件
+        /// </summary>
+        /// <returns></returns>
+        public FileResult Export(int id,string type="txt")
+        {
+
+            BaseDBContext db = new BaseDBContext();
+            var exam = db.Exam.Find(id);
+            
+
+            switch (type)
+            {
+
+                case "doc":
+                    return File(Encoding.Default.GetBytes(ExprotTxt(exam)), "application/msword", exam.Name + ".doc");
+                case "html":
+
+                    var s = RenderViewHelper.ToString(this, RenderViewHelper.FromFilePath + "试卷html导出模板.cshtml", exam);
+                    return File(System.Text.Encoding.Default.GetBytes(s), "text/html", exam.Name + ".html");
+                case "htmldoc":
+
+                    var ss = RenderViewHelper.ToString(this, RenderViewHelper.FromFilePath + "试卷htmldoc导出模板.cshtml", exam);
+                    return File(System.Text.Encoding.Default.GetBytes(ss), "application/msword", exam.Name + ".doc");
+
+                case "word":
+                    ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                    var s1 = RenderViewHelper.ToString(this, RenderViewHelper.FromFilePath + "试卷html导出模板.cshtml", exam);
+                    var t1 = new System.IO.MemoryStream();
+                    var hd = LoadOptions.HtmlDefault;
+                    hd.Encoding = Encoding.UTF8;
+                    var doc = SaveOptions.DocxDefault;
+                    
+                    DocumentModel.Load(new System.IO.MemoryStream(Encoding.UTF8.GetBytes(s1)), hd).Save(Server.MapPath("/Content/temp.docx"), doc);
+                    return File(t1, "application/msword", exam.Name + ".doc");
+
+                default:
+                    return File(Encoding.Default.GetBytes(ExprotTxt(exam)), "text/plain");
+
+            }
+
+        }
+
+
+        public void htmltoWord()
+        {
+        }
+
 
         // GET: Manage/Exams
         public ActionResult Index()

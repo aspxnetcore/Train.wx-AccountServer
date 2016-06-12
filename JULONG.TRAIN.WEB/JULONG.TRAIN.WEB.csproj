@@ -59,6 +59,10 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GemBox.Document, Version=25.3.30.1185, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\GemBox.Document.dll</HintPath>
+    </Reference>
     <Reference Include="JWT, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\JWT.1.3.4\lib\3.5\JWT.dll</HintPath>
@@ -1281,6 +1285,7 @@
     <Content Include="Content\offcanvas.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\type.html" />
+    <Content Include="DLL\GemBox.Document.dll" />
     <Content Include="DLL\Senparc.Weixin.dll" />
     <Content Include="DLL\Senparc.Weixin.MP.dll" />
     <Content Include="DLL\Senparc.Weixin.MP.MvcExtension.dll" />
@@ -1515,6 +1520,9 @@
     <Content Include="Views\my\unBind.cshtml" />
     <Content Include="Views\my\tests.cshtml" />
     <Content Include="Views\my\votes.cshtml" />
+    <Content Include="Views\RenderTemplate\试卷html模板.cshtml" />
+    <Content Include="Views\RenderTemplate\试卷htmldoc导出模板.cshtml" />
+    <Content Include="Views\RenderTemplate\试卷html导出模板.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccountServiceApi\JULONG.AccountServiceSDK.csproj">

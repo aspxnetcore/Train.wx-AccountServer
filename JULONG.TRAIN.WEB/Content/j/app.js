@@ -585,6 +585,9 @@ $(function () {
 $(document).on("pageInit", function (e, pageId, $page) {
 	ITC._pageInitAction(e, pageId, $page);
 });
+$(document).on("pageReinit", function (e, pageId, $page) {
+    
+});
 
 //增强控制中心
 var ITC = {
@@ -764,24 +767,32 @@ var ITC = {
 	
 }
 
-var _home_c, _home__ = Function;
-var _home_o,_home_h;
+
+
+
+var _home_o_timer;
 function homeAction() {
 
-	setTimeout(function () {
-
-		_home_o = document.getElementById("signScroller")
-		if (!_home_o) { return;}
-			_home_h = _home_o.children[0].offsetHeight;
-			_home_o.innerHTML += _home_o.innerHTML;
-			_home_o.onmouseover = _home__("_home_c=1");
-			_home_o.onmouseout = _home__("_home_c=0");
-
-
-		(F = _home__("if(#%_home_h||!_home_c)#++,#%=_home_o.scrollHeight>>1;setTimeout(F,#%_home_h?10:2500);".replace(/#/g, "_home_o.scrollTop")))();
-
-	},5000)
+    var _home_o = $("#signScroller");
+    var _home_n = _home_o.children().length;
+    var _home_h = _home_o.children().eq(0).height();
+    var _home_i = 0;
+    if (_home_o_timer) {
+        clearTimeout(_home_o_timer);
+    }
+    _home_o_timer = setTimeout(function () {
 
 
+        if (!_home_o.parent()) { return; }
+
+        if (_home_i == _home_n) { _home_i = 0; }
+
+        _home_o.css({ transform: "translateY(-" + _home_i * _home_h + "px)" });
+
+        _home_i++;
+
+        _home_o_timer = setTimeout(arguments.callee, 5000);
+
+        }, 5000)
 
 }

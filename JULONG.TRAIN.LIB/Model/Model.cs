@@ -323,6 +323,9 @@ namespace JULONG.TRAIN.Model
         public virtual ExamPart ExamPart { get; set; }
         public int ExamId { get; set; }
         public virtual ICollection<QuestionTag> Tags { get; set; }
+        /// <summary>
+        /// 选择项 json
+        /// </summary>
         [JsonIgnore]
         [MaxLength(4000)]
         public String _Answers { get; set; }
@@ -353,19 +356,19 @@ namespace JULONG.TRAIN.Model
                 }
             }
         }
-
+        /// <summary>
+        /// 本题答案 index数组
+        /// </summary>
         public string _TrueAnswers { get; set; }
-        //[NotMapped]
-        //public virtual int[] TrueAnswers { get { 
-        //    if(string.IsNullOrWhiteSpace(_TrueAnswers)) return new int[]{};
-        //    return _TrueAnswers.Split(',').Select(d => int.Parse(d)).ToArray();
-        //} }
 
         public QuestionType Type { get; set; }
         public int Index { get; set; }
         public Boolean IsDisabled { get; set; }
         [DisplayName("分数")]
         public int Value { get; set; }
+        /// <summary>
+        /// 选择项的模
+        /// </summary>
         public class Answer
         {
             public bool isValid { get; set; }

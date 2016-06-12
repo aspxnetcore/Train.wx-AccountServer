@@ -30,8 +30,9 @@
             @Html.DisplayNameFor(model => model.UsedCount)
         </th>
         <th>
-            作废
+            无效
         </th>
+
         <th></th>
     </tr>
 
@@ -60,6 +61,9 @@
                 @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("进入", "Details", new { id = item.Id }) |
                 @Html.ActionLink("删除", "Delete", new { id = item.Id }) |
+                <button class="btn btn-warning btn-xs" onclick="examExport(@item.Id,'html')">html</button>
+                <button class="btn btn-success btn-xs" onclick="examExport(@item.Id,'txt')">txt</button>
+                <button class="btn btn-danger btn-xs" onclick="examExport(@item.Id,'doc')">doc</button>
             </td>
         </tr>
     }
@@ -70,5 +74,12 @@
     {
         myAjaxPost("/Exams/UpdateQ/", { id:Id }, function (data) {
         })
+    }
+    function examExport(id, type) {
+        if(type=="txt"){
+            window.open( "/manage/Exam/export/"+id+"?type="+type);
+            return;
+        }
+        self.location.href = "/manage/Exam/export/"+id+"?type="+type
     }
 </script>

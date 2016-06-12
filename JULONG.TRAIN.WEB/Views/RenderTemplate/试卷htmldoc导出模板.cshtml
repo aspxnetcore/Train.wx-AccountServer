@@ -1,0 +1,41 @@
+﻿@using JULONG.TRAIN.Model;
+@using JULONG.TRAIN.LIB;
+@using JULONG.TRAIN.WEB.Models;
+@model JULONG.TRAIN.Model.Exam
+@{
+    Layout = null;
+    Layout = null;
+    ViewBag.Title = "考试";
+
+
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>题卷导出html模板</title>
+</head>
+<body>
+    <div> 
+        @Model.Name
+    </div>
+
+
+   
+        <div class="content">
+
+            <div class="line" style="width:100%; border-top:2px solid #06ac90"></div>
+
+            <div class="table">
+                @Html.Partial("~/views/renderTemplate/试卷html模板.cshtml", Model)
+            </div>
+        </div>
+
+
+
+
+</body>
+</html>

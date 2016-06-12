@@ -12,7 +12,8 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Models
     public class AccountUser
     {
 
-        
+        public static double cookieExpDay = 1;
+        public static string cookieKey = "manageuser";
         public static Boolean WithOutLogin = true;
         public static bool IsLogin
         {
@@ -34,15 +35,15 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Models
             get
             {
 
-                ManageUser mu = HttpContext.Current.Session["manageUserInfo"] as ManageUser;
-                //测试时
-                //if(mu==null && WithOutLogin==true){
-                //    mu = new ManageUser() { Name = "test", Password = "test", Enable = true, IsSuper = true, Create_datetime = DateTime.Now, LastLogin_dateTime = DateTime.Now, Id = 0 };
-
-                //    SetSession(mu);
-                //}
-
-                return mu;
+                var mu = HttpContext.Current.Request.Cookies[cookieKey];
+                if (mu != null)
+                {
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<ManageUser>(mu.Value);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
         public static bool Login(string loginname="", string password="")
@@ -61,12 +62,22 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Models
 
         public static void logout()
         {
-            HttpContext.Current.Session.Remove("manageUserInfo");
+            HttpContext.Current.Session.Remove(cookieKey);
+            var hc = new HttpCookie(cookieKey, "");
+            hc.Expires = DateTime.Now.AddDays(-1);
+            hc.HttpOnly = true;
+            hc.Path = "/";
+            HttpContext.Current.Response.SetCookie(hc);
         }
 
         static void SetSession(ManageUser user)
         {
-            HttpContext.Current.Session["manageUserInfo"] = user;
+            HttpContext.Current.Response.Cookies.Remove(cookieKey);
+            var hc = new HttpCookie(cookieKey, Newtonsoft.Json.JsonConvert.SerializeObject(user));
+            hc.Expires = DateTime.Now.AddDays(cookieExpDay);
+            hc.Path = "/";
+            hc.HttpOnly = true;
+            HttpContext.Current.Response.SetCookie(hc);
         }
 
 

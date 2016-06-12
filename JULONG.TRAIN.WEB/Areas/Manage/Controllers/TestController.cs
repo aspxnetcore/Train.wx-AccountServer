@@ -141,5 +141,6 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 
             return myJson.success();
         }
+
     }
 }

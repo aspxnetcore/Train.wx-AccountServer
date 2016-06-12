@@ -21,42 +21,40 @@
 						<a href="/test" class="menu">
 							<img src="~/Content/i/6.svg" />
 						</a>
-
 					</div>
-
 				</div>
 				
 
-				<div class="sign" style=" height:40px; overflow: hidden;" id="signScroller">
-					@foreach (var n in news)
-					{
-						<div style="height:40px">
-							@{
-						var cls = "";
-						switch (n.NewsType)
-						{
-							case NewsType.考试通知:
-								cls = "icon-exam";
-								break;
-							case NewsType.系统:
-								cls = "icon-warningsign";
-								break;
-							case NewsType.新闻公告:
-								cls = "icon-tongzhi";
-								break;
+				<div class="sign" style="height:40px; overflow: hidden;" >
+                    <div style="transform:translateY(0);transition:transform .3s" id="signScroller">
+                        @foreach (var n in news)
+                        {
+                            <div style="height:40px">
+                                @{
+                                    var cls = "";
+                                    switch (n.NewsType)
+                                    {
+                                        case NewsType.考试通知:
+                                            cls = "icon-exam";
+                                            break;
+                                        case NewsType.系统:
+                                            cls = "icon-warningsign";
+                                            break;
+                                        case NewsType.新闻公告:
+                                            cls = "icon-tongzhi";
+                                            break;
+                                    }
 
-						}
+                                }
 
-							}
-
-							<i class="iconfont @cls"></i>
-							@n.Title
-							@*<span class="date">
-								@n.UpdateDate.ToString("MM-dd HH:mm")
-							</span>*@
-						</div>
-					}
-</div>
+                                <i class="iconfont @cls"></i>
+                                @n.Title
+                                @*<span class="date">@n.UpdateDate.ToString("MM-dd HH:mm")</span>*@
+                            </div>
+                        }
+                    </div>
+					
+                </div>
 
 			</div>
 		</div>
