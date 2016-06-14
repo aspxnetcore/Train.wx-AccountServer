@@ -26,7 +26,7 @@
 			<div class="exp">@Model.OpenDate.Value.ToShortDateString()</div>
 			<div >
 				<div class="box">
-					@(Model.Exam.Parts.Count())部 @Model.Exam.QuestionCount 题
+					 @Model.Exam.QuestionCount 题
 					<i class="iconfont icon-exam"></i>
 				</div>
 				<div class="box">
@@ -38,7 +38,7 @@
 				<i class="iconfont icon-naozhong"></i>
 			</div>
 			<div class="box">
-				@(Model.Elements.Count())人
+				@(Model.StudentCount)人
 			<i class="iconfont icon-renshu"></i>
 		</div>
 	</div>
@@ -65,7 +65,7 @@
 
 				if (tvr.t.Statue == TestStatue.超时)
 				{
-					<div>但并没有提交试卷，重新答题，请联系管理管员</div>
+					<div>重新答题，请联系管理管员</div>
 				}
 				else
 				{

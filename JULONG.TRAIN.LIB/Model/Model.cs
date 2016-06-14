@@ -53,7 +53,7 @@ namespace JULONG.TRAIN.Model
         public virtual DbSet<ExamPart> ExamPart { get; set; }
         public virtual DbSet<ExamQuestion> ExamQuestion { get; set; }
         public virtual DbSet<Test> Test { get; set; }
-        public virtual DbSet<TestElement> TestElement { get; set; }
+        //public virtual DbSet<TestElement> TestElement { get; set; }
         public virtual DbSet<TestResult> TestResult { get; set; }
         public virtual DbSet<StudentBookmark> StudentBookmark { get; set; }
         public virtual DbSet<Material> Material { get; set; }
@@ -282,6 +282,17 @@ namespace JULONG.TRAIN.Model
         public TimeSpan Time { get; set; }
 
         public int TimeStamp { get; set; }
+        /// <summary>
+        /// 答案缓存
+        /// </summary>
+        public string AnswerCache { get; set; }
+        /// <summary>
+        /// 多选择计分
+        /// false: 多选题满分必须大于等于正确答案数，每答对一个给1分，全部答对给满分，打错一个不计分
+        /// true:全答对满分，少答错答0分
+        /// </summary>
+        [DisplayName("多选全对积分")]
+        public bool MultipleQuestionCelValue { get; set; }
     }
     /// <summary>
     /// 测试题组成部分
@@ -362,6 +373,7 @@ namespace JULONG.TRAIN.Model
         public string _TrueAnswers { get; set; }
 
         public QuestionType Type { get; set; }
+        [Index]
         public int Index { get; set; }
         public Boolean IsDisabled { get; set; }
         [DisplayName("分数")]
@@ -409,18 +421,18 @@ namespace JULONG.TRAIN.Model
         public virtual Exam Exam { get; set; }
         public int? ExamId { get; set; }
         [JsonIgnore]
-        public virtual ICollection<TestElement> Elements { get; set; }
+        public virtual ICollection<TestResult> TestResults { get; set; }
         public Boolean IsOpen { get; set; }
         public DateTime? OpenDate { get; set; }
         public DateTime? EndDate { get; set; }
 
         /// <summary>
-        /// 总人数
+        /// 参与人数
         /// </summary>
         public int StudentCount { get; set; }
         public int VisitCount{get;set;}
         /// <summary>
-        /// 已经参加考试人数
+        /// 参加考试人次(因为可以重置某人考试(清空)功能存在，数据可能存在大于实际参于人数，
         /// </summary>
         public int JoinCount { get; set; }
         /// <summary>
@@ -429,15 +441,15 @@ namespace JULONG.TRAIN.Model
         public int Index { get; set; }
 
     }
-    public class TestElement
-    {
-        public int Id { get; set; }
-        public virtual Student Student { get; set; }
-        public int StudentId { get; set; }
-        public virtual ICollection<TestResult> TestResults { get; set; }
-        public virtual Test Test { get; set; }
-        public int TestId { get; set; }
-    }
+    //public class TestElement
+    //{
+    //    public int Id { get; set; }
+    //    public virtual Student Student { get; set; }
+    //    public int StudentId { get; set; }
+    //    public virtual ICollection<TestResult> TestResults { get; set; }
+    //    public virtual Test Test { get; set; }
+    //    public int TestId { get; set; }
+    //}
     /// <summary>
     /// 学员考试结果
     /// </summary>
@@ -451,8 +463,9 @@ namespace JULONG.TRAIN.Model
         /// </summary>
         public TimeSpan? UseTime { get; set; }
         public DateTime? SubmitDate { get; set; }
-        public virtual TestElement TestElement { get; set; }
-        public int TestElementId { get; set; }
+        public virtual Student Student { get; set; }
+        [Index]
+        public int StudentId { get; set; }
         /// <summary>
         /// 成绩
         /// </summary>
@@ -460,6 +473,8 @@ namespace JULONG.TRAIN.Model
         [MaxLength(200)]
         public string Answers { get; set; }
         public int? RightCount { get; set; }
+        public virtual Test Test { get; set; }
+        [Index]
         public int TestId { get; set; }
         public int ExamId { get; set; }
 

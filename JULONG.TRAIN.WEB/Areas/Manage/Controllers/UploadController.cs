@@ -8,7 +8,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 {
     using JULONG.TRAIN.LIB;
     using Models;
-    //[AccountFilter]
+    [AccountFilter]
     public class UploadController : Controller
     {
         //

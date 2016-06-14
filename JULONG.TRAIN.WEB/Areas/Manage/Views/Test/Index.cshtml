@@ -31,9 +31,9 @@
         <th>
             状态
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.StudentCount)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.JoinCount)
         </th>
@@ -71,9 +71,9 @@
 			}
 
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.StudentCount)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.JoinCount)
         </td>
@@ -87,7 +87,7 @@
 			<button class="btn red btn-xs" ng-click="Test_del(@(item.Id),'@item.Name',$event)"><i class="fa fa-remove"></i></button> 
 
 
-            @Html.ActionLink("进入", "Detail", new { id=item.Id }) |
+            @Html.ActionLink("进入", "Detail", new { id=item.Id }) 
 
         </td>
     </tr>

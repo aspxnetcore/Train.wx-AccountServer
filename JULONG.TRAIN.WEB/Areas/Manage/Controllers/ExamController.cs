@@ -108,9 +108,6 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
         }
 
 
-        public void htmltoWord()
-        {
-        }
 
 
         // GET: Manage/Exams
@@ -226,7 +223,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Exp,Index,UsedCount,IsDisabled,Time")] Exam Exam)
+        public ActionResult Edit([Bind(Include = "Id,Name,Exp,Index,UsedCount,IsDisabled,Time,MultipleQuestionCelValue")] Exam Exam)
         {
             if (ModelState.IsValid)
             {
@@ -316,7 +313,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 
                 if (examQuestion.Id == 0)
                 {
-
+                    examQuestion.Index = -DateTime.Now.ToTimeStamp();
                     db.ExamQuestion.Add(examQuestion);
                 }
                 else
@@ -324,7 +321,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 
                     var tq = db.ExamQuestion.Where(d => d.Id == examQuestion.Id).FirstOrDefault();
 
-                    tq.Index = examQuestion.Index;
+                    //tq.Index = examQuestion.Index;
                     tq.Content = examQuestion.Content;
                     tq.Answers = examQuestion.Answers;
                     tq.Type = examQuestion.Type;
@@ -344,16 +341,10 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 
                     db.SaveChanges();
 
+                    //cel
+
                     var exam = db.ExamPart.Find(examQuestion.ExamPartId).Exam;
-
-                    exam.TimeStamp = DateTime.Now.ToTimeStamp();//更新种子
-
-                    exam.Value = exam.Parts == null ? 0 : exam.Parts.Select(d => d.Questions.Where(s => !s.IsDisabled).Sum(f => f.Value)).Sum();
-
-                    exam.QuestionCount = exam.Parts==null?0:
-                        exam.Parts
-                        .Select(d => d.Questions.Where(s => !s.IsDisabled).Count()).Sum();
-
+                    updateExam(exam);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -364,19 +355,57 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
             }
             return myJson.error("验证错误");
         }
+        [NonAction]
+        public void updateExam(Exam exam)
+        {
+            var questions = exam.Parts.SelectMany(d => d.Questions).Where(s => !s.IsDisabled).ToList();
+            exam.QuestionCount = exam.Parts == null ? 0 : questions.Count;
+            exam.TimeStamp = DateTime.Now.ToTimeStamp();//更新种子
+            exam.Value = exam.Parts == null ? 0 : questions.Sum(f => f.Value);
 
+            exam.AnswerCache = exam.Parts == null ? "" :  String.Join("|", questions.OrderByDescending(d => d.ExamPart.Index).ThenByDescending(d => d.Index).Select(s =>s.Value +"-" + s._TrueAnswers));
+        }
+        /// <summary>
+        /// 提升顺序
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public JsonResult upExamQuestion(int id)
+        {
+            var q = db.ExamQuestion.Find(id);
+            q.Index = DateTime.Now.ToTimeStamp();
+
+            var exam = q.ExamPart.Exam;
+            exam.TimeStamp = DateTime.Now.ToTimeStamp();
+
+            db.SaveChanges();
+            updateExam(exam); ;
+            db.SaveChanges();
+            return myJson.success();
+        }
         /// <summary>
         /// 删除问题
         /// </summary>
         /// <param nickname="id">问题ID</param>
         /// <param nickname="qgId">套题ID</param>
         /// <returns></returns>
-        public ActionResult delExamQuestion(int id)
+        public JsonResult delExamQuestion(int id)
         {
-            db.ExamQuestion.Remove(db.ExamQuestion.Find(id));
+            var q = db.ExamQuestion.Find(id);
+            var exam = q.ExamPart.Exam;
+            
+
+            db.ExamQuestion.Remove(q);
+            exam.TimeStamp = DateTime.Now.ToTimeStamp();
+            db.SaveChanges();
+            updateExam(exam);
             db.SaveChanges();
             return myJson.success();
         }
-
+        public JsonResult getExamQuickInfo(int id)
+        {
+            var exam = db.Exam.Find(id);
+            return myJson.success(new { questionCount = exam.QuestionCount, allValue = exam.Value });
+        }
     }
 }

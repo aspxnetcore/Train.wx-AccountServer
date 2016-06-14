@@ -71,7 +71,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
                 test.Index = DateTime.Now.ToTimeStamp();
                 test.Date = DateTime.Now;
                 db.Test.Add(test);
-                test.Elements = default(ICollection<TestElement>);
+                test.TestResults = default(ICollection<TestResult>);
                 test.IsOpen =false ;
             }
             else
@@ -82,8 +82,8 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
                 {
                     t.ExamId = test.ExamId;
                 }
-                if (t.Elements == null) { 
-                    t.Elements = default(ICollection<TestElement>);
+                if (t.TestResults == null) { 
+                    t.TestResults = default(ICollection<TestResult>);
                 }
                 t.Exp = test.Exp;
                 t.Index = test.Index;
@@ -122,7 +122,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
         public ActionResult ExpList(int pageIndex = 1, int pageSize = 12)
         {
             var now = DateTime.Now;
-            ViewData.Model = db.TestResult.Where(d => !d.Value.HasValue).Where(d=>d.TestElement.Test.IsOpen).Join(db.Exam, a => a.ExamId, b => b.Id, (a, b) => new { a, b }).Where(d=>d.b.IsDisabled!=true).ToList().Where(d => d.a.Date.Add(d.b.Time) < now).Select(d => d.a).OrderByDescending(d => d.Id).ToPagedList(pageIndex, pageSize);
+            ViewData.Model = db.TestResult.Where(d => !d.Value.HasValue).Where(d=>d.Test.IsOpen).Join(db.Exam, a => a.ExamId, b => b.Id, (a, b) => new { a, b }).Where(d=>d.b.IsDisabled!=true).ToList().Where(d => d.a.Date.Add(d.b.Time) < now).Select(d => d.a).OrderByDescending(d => d.Id).ToPagedList(pageIndex, pageSize);
 
             return View();
         }
@@ -133,7 +133,13 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
                 var tr = db.TestResult.Find(id);
 
                 var test = db.Test.Find(tr.TestId);
-                test.JoinCount--;
+                //该考试该学员，有几个考试成绩
+                var count = test.TestResults.Count((d => d.StudentId == tr.StudentId));
+                if (count == 1)
+                {
+                    test.StudentCount--;
+                }
+                
                 db.TestResult.Remove(tr);
                 db.SaveChanges();
                 
@@ -141,6 +147,55 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 
             return myJson.success();
         }
+        public JsonResult getTestResults(int testID,int pageindex=0,int pageSize = 20,bool hasValue=true) {
 
+
+
+            var data = db.TestResult.Where(d => d.TestId == testID && d.Value.HasValue == hasValue).OrderByDescending(d => d.Id).AsEnumerable();
+
+
+            if (pageindex>- 1)
+            {
+               data = data.Skip(pageindex * pageSize).Take(pageSize);
+            }
+
+           var ss = data.Select(d => new
+                {
+                    d.Id,
+                    d.Answers,
+                    d.Value,
+                    d.RightCount
+                    ,
+                    SubmitDate=d.SubmitDate.HasValue?d.SubmitDate.Value.ToString("yyyy/MM/dd HH:mm:ss"):"-"
+                    ,
+                    d.Date,
+                    UseTime = d.UseTime.HasValue?d.UseTime.Value.TotalMinutes.ToString("0.00"):"-",
+                    d.Student.Name,
+                    d.Student.WorkID,
+                    d.Student.StudentGroup
+                });
+            return myJson.success(ss);
+        }
+        public JsonResult clearALLResutls(int id)
+        {
+            var test = db.Test.Find(id);
+            test.TestResults.Clear();
+            test.JoinCount = 0;
+            test.StudentCount = 0;
+            db.SaveChanges();
+            return myJson.success();
+        }
+
+
+        public ActionResult ResultView(int id)
+        {
+            var tr = db.TestResult.Find(id);
+            if (tr == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tr);
+            
+        }
     }
 }

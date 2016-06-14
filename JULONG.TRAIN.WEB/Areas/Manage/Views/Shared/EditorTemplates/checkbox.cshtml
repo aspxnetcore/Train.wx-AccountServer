@@ -1,7 +1,10 @@
 ﻿@model Boolean
-
+@{ 
+    bool disable = false;
+    if (ViewData["disable"] != null) { disable = (Boolean)ViewData["disable"]; }
+}
 <div class="md-checkbox">
-	<input type="checkbox" id="checkbox_@ViewData.TemplateInfo.HtmlFieldPrefix" name="@ViewData.TemplateInfo.HtmlFieldPrefix" class="md-check" @(Model ? "checked=checked" : "") value="true" />
+	<input @(disable?"disabled":"") type="checkbox" id="checkbox_@ViewData.TemplateInfo.HtmlFieldPrefix" name="@ViewData.TemplateInfo.HtmlFieldPrefix" class="md-check" @(Model ? "checked=checked" : "") value="true" />
 	<label for="checkbox_@ViewData.TemplateInfo.HtmlFieldPrefix">
 		<span class="inc"></span>
 		<span class="check"></span>

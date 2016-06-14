@@ -60,6 +60,8 @@
 																<button class="btn btn-primary" ng-click="activeTaggle(@Model.Id)">关闭中</button>
 										}
 									}
+                                    <button class="btn btn-danger" ng-click="activeTaggle(@Model.Id)">清楚考试记录</button>
+
 								</a>
 							</li>
 						</ul>
@@ -89,7 +91,7 @@
 									{
 										if (Model.OpenDate.HasValue)
 										{
-											<span>@((Model.EndDate.Value - Model.OpenDate.Value).TotalDays)</span>
+											<span>@((Model.EndDate.Value - Model.OpenDate.Value).Days)天</span>
 										}
 										else
 										{
@@ -100,7 +102,7 @@
 								}
 							</div>
 							<div class="uppercase profile-stat-text">
-								运行时长
+								激活时长
 							</div>
 						</div>
 						@*<div class="col-md-4 col-sm-4 col-xs-6">
@@ -161,7 +163,8 @@
 				<div class="portlet-title">
 					<div class="caption caption-md">
 						<i class="icon-bar-chart theme-font "></i>
-						运行统计
+						考试记录 >> <button class="btn btn-xs btn-danger" ng-click="getResults(-1)">全部有效记录</button>
+                        <button class="btn btn-xs btn-default" ng-click="getResults(-1,false)">全部无成绩记录</button>
 
 					</div>
 					<div class="actions">
@@ -169,40 +172,7 @@
 					</div>
 				</div>
 				<div class="portlet-body">
-					@*<div class="row number-stats margin-bottom-30">
-						<div class="col-md-6 col-sm-6 col-xs-6">
-							<div class="stat-left">
-								<div class="stat-chart">
-									<!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-									<div id="sparkline_bar"><canvas width="90" height="45" style="display: inline-block; width: 90px; height: 45px; vertical-align: top;"></canvas></div>
-								</div>
-								<div class="stat-number">
-									<div class="title">
-										Total
-									</div>
-									<div class="number">
-										2460
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6 col-xs-6">
-							<div class="stat-right">
-								<div class="stat-chart">
-									<!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-									<div id="sparkline_bar2"><canvas width="90" height="45" style="display: inline-block; width: 90px; height: 45px; vertical-align: top;"></canvas></div>
-								</div>
-								<div class="stat-number">
-									<div class="title">
-										New
-									</div>
-									<div class="number">
-										719
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>*@
+					
 					<div class="table-scrollable table-scrollable-borderless">
 						<table class="table table-hover table-light" border="1">
 							<thead>
@@ -228,81 +198,47 @@
 									<th>
 										成绩
 									</th>
+                                    <th></th>
 								</tr>
 							</thead>
 
 							<tbody>
-								@foreach (var item in results)
-								{
-									Student s = item.TestElement.Student;
-								<tr>
-									<td class="fit">
-										@item.SubmitDate.Value
+
+								<tr ng-repeat="r in testResults">
+									<td ng-bind="r.SubmitDate" >
+
 									</td>
-									<td>
-										@s.Name
+									<td ng-bind="r.Name" >
+										
 									</td>
-									<td>
-										@s.WorkID
+									<td ng-bind="r.WorkID">
+									
 									</td>
-									<td>
-										@s.GroupName
+									<td ng-bind="r.GroupName">
+
 									</td>
-									<td>
-										@item.UseTime.Value.TotalMinutes.ToString("0.00") 分钟
+									<td ng-bind="r.UseTime">
+
 									</td>
-									<td>
-										@item.RightCount
+									<td ng-bind="r.RightCount"> 
+
 									</td>
-									<td>
-										@item.Value.Value
+									<td ng-bind="r.Value">
+
 									</td>
+                                    <td>
+                                        <button ng-click="expClear(r.Id,$event)">重置</button>
+                                        <button ng-if="r.Value!=null" ng-click="resultView(r.Id)">查看结果</button>
+                                    </td>
 
 								</tr>
-								}
+
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			@*<div class="portlet">
-					<div class="portlet-title">
-						<div class="caption">
-							<i class="fa fa-gift"></i>
-							运行统计
-						</div>
-					</div>
-					<div class="portlet-body">
-						<table class="list">
-							<thead>
-								<tr>
-									<th>时间</th>
-									<th>员工名</th>
-									<th>部门</th>
-									<th>用时</th>
-									<th>值</th>
-								</tr>
-							</thead>
-							<tbody>
-								@if (eleCount != 0)
-								{
-									foreach (var item in Model.Elements.Select(d => new { d.Student, TestResult = d.TestResults.FirstOrDefault() }))
-									{
-										<tr>
-
-											<td>@item.TestResult.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
-											<td>@item.Student.Name</td>
-											<td>@item.Student.StudentGroup.Name</td>
-											<td>@item.TestResult.UseTime.TotalMinutes</td>
-											<td>@item.TestResult.Value</td>
-										</tr>
-
-									}
-								}
-							</tbody>
-						</table>
-					</div>
-				</div>*@
+			
 		</div>
 	</div>
 </div>
@@ -317,7 +253,27 @@
 					self.location.reload();
 				})
 			}
-
+			$scope.testResults = [];
+			$scope.getResults = function ( pageIndex,hasValue) {
+			    if(hasValue===undefined){hasValue=true;}
+			    $scope.myAjax($http.post("/manage/test/getTestResults", { testid: @Model.Id, pageIndex: pageIndex ,pageSize:10,hasValue:hasValue}), function (res) {
+			        $scope.testResults = res;
+			    })
+			};
+		    $scope.getResults(0);
+		    $scope.expClear=function(id,evt){
+		        if (confirm("确认要重置该员工的考试吗")) {
+		            myAjaxPost("/manage/test/ExpClear", { id:id}, function (res) {
+		                $(evt.target).parents("tr").remove();
+		            },
+                    function (err) {
+                        alert(err);
+                    })
+		        }
+		    }
+		    $scope.resultView=function(id){
+		        window.open("/manage/test/ResultView/"+id)
+		    }
 		}])
 	</script>
 }

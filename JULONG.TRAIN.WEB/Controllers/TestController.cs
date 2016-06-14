@@ -71,7 +71,7 @@ namespace JULONG.TRAIN.WEB.Controllers
         [HttpPost]
         public ActionResult TestSubmit(int id, string answers)
         {
-                        var account = AccountHelper.account;
+            var account = AccountHelper.account;
             //需要改进缓存式
             var test = db.Test.Find(id);
             if(test==null){
@@ -81,13 +81,16 @@ namespace JULONG.TRAIN.WEB.Controllers
                 return myJson.error("该考试的活动已经结束");
             }
 
-            var tr = test.Elements.FirstOrDefault(d => d.StudentId == account.studentId).TestResults.FirstOrDefault();
+            var tr = test.TestResults.FirstOrDefault(d => d.StudentId == account.studentId);
+
             TimeSpan time = DateTime.Now - tr.Date;
-            //id正序排序
-            var ans = db.ExamQuestion.Where(d=>d.ExamId==test.Exam.Id && !d.IsDisabled && !d.ExamPart.IsDisabled).OrderBy(d=>d.Id).ToList();
+            var etime = (time - test.Exam.Time);
+            if (etime.TotalSeconds> 0) { return myJson.error("您已经超出最后交卷 " + etime.ToString("hh")+":"+ etime.ToString("mm")+":"+ etime.ToString("ss")+ " 时间"); }
+
+
             TestResult _tr = default(TestResult);
             try { 
-                _tr = TestHelper.CalTestResult(ans, answers);
+                _tr = TestHelper.CalTestResult(test.Exam, answers);
             }
             catch (Exception e)
             {
@@ -118,12 +121,12 @@ namespace JULONG.TRAIN.WEB.Controllers
             {
                 var tr = db.TestResult.Find(id);
                 ViewData.Model = tr;
-                ViewBag.test = tr.TestElement.Test;
+                ViewBag.test = tr.Test;
             }
             
             return View();
         }
-       
+
     }
 
 }

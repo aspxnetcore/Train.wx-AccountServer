@@ -1,0 +1,193 @@
+﻿@using JULONG.TRAIN.Model
+@model TestResult
+@{
+    Layout = null;
+    Test tt = Model.Test;
+    Exam exam = tt.Exam;
+    var userAnswers = Model.Answers;
+
+
+    ViewBag.Title = "成绩查看";
+    string[] abc = new string[] { "A", "B", "C", "D", "E", "F", "G", "H" }; ;
+    double sValue = Convert.ToDouble(ViewBag.a);
+    var kk = 0;
+    var jj = 1;
+    string[] kks = new String[] { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
+
+    //string usingtime = Model.UseTime==null?"未答完":Model.UseTime.Value.ToString("hh:mm:ss")
+    string usingtime = "未答完";
+    if (Model.UseTime != null)
+    {
+        usingtime = Model.UseTime.Value.ToString("hh") + ":" + Model.UseTime.Value.ToString("mm") + ":" + Model.UseTime.Value.ToString("ss");
+    }
+
+}
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>聚龙员工培训考试</title>
+
+
+    <link href="~/Content/c/app.css?v=4" rel="stylesheet" />
+    <link href="~/Content/c/iconfont.css?v=4" rel="stylesheet" />
+    <script src="~/Content/metronicAssets/global/plugins/jquery.min.js"></script>
+    <style>
+        /*错误答案对比 之 缺少*/
+        .q-a.real {
+            border: 1px dotted rgb(6, 172, 144);
+            color: rgb(86, 86, 86);
+            background-color: rgb(186, 229, 222);
+        }
+        /*错误答案对比 之 答错*/
+        .q-a.error {
+            color: #A14F4F;
+            background-color: #DFAFAF;
+            text-decoration: line-through;
+            border: 1px solid rgb(219, 146, 146);
+        }
+
+        .q-a input {
+        }
+
+        .dl-horizontal {
+    color: #BCDED8;
+    right: 0;
+    border-radius: 10px 0px 0px 10px;
+    width: 150px;
+    position: fixed;
+    /* display: inline-block; */
+    background-color: rgba(46, 53, 61, 0.95);
+    padding: 10px;
+    border: 3px solid rgb(0, 90, 74);
+    z-index: 111;
+        }
+
+            .dl-horizontal dt {
+                float: left;
+                margin-right: 12px;
+            }
+
+            .dl-horizontal dd:after {
+                content: "";
+                clear: both;
+            }
+    </style>
+</head>
+
+
+<body>
+    <i class="icon icon-trainingtest"></i>
+    <div class="line" style="width:100%; border-top:2px solid #06ac90"></div>
+    <h3 style="text-align:center">@tt.Name</h3>
+    <dl class="dl-horizontal" style="margin:auto">
+        <dt>姓名：</dt>
+        <dd>@Model.Student.Name</dd>
+        <dt>工号：</dt>
+
+        <dd>@exam.QuestionCount 道</dd>
+        <dt>正确：</dt>
+        <dd>@Model.RightCount / @exam.QuestionCount 道</dd>
+        <dt>得分：</dt>
+        <dd>@Model.Value</dd>
+        <dt>用时：</dt>
+        <dd>@(usingtime)</dd>
+    </dl>
+
+    <div class="table">
+        <ul class="q-list">
+            @foreach (var part in exam.Parts.OrderByDescending(d => d.Index))
+            {
+                <li class="q-part">@kks[kk]、 @part.Name</li>
+                foreach (var item in part.Questions.Where(d=>!d.IsDisabled).OrderByDescending(d => d.Index))
+                {
+                    <li class="q-item">
+                        <a class="q-i">@jj</a>
+                        <div class="q-c">
+                            @Html.Raw(@item.Content)
+                        </div>
+                        <div class="q-a-list" data-answerreals="@item._TrueAnswers">
+                            @for (int i = 0; i < item.Answers.Count; i++)
+                            {
+                                <label class="q-a">
+                                    @if (item.Type == QuestionType.单选 || item.Type == QuestionType.判断)
+                                    {
+                                        <input name="answersR@(jj)" disabled="disabled" type="radio"  />
+                                    }
+                                    else
+                                    {
+                                        <input name="answersR@(jj)" disabled="disabled" type="checkbox"/>
+                                    }
+
+                                    @(abc[i])：
+                                    <span id="Answers[@i]">@item.Answers[i].text</span>
+                                </label>
+                            }
+                        </div>
+                    </li>
+                    jj++;
+                }
+
+                kk++;
+            }
+        </ul>
+
+    </div>
+
+</body>
+</html>
+
+    <script>
+            var userAnswers = ('@userAnswers').split("|");
+
+            //写回用户答案，并验证
+            var markAnswer = function () {
+                $(".q-a-list").each(function (iz, v) {
+                    var an = userAnswers[iz];
+                    var ans = an.split(',');
+                    var origValue = $(this).data("answerreals").toString();
+
+                    var options = $(this).find("input");
+
+                    for (var l = 0; l < ans.length; l++) {
+                        if (ans[l] != "")
+                        options.eq(parseInt(ans[l], 10)).attr('checked', true);
+                    }
+
+                    if (origValue === an) {
+                        return true;
+                    } else {
+                        $(this).parent().addClass("error");
+                        var _real_an = origValue.toString().split(",");
+                        var _arrDom = $(this).find("input");
+                        _arrDom.each(function (i, it) {
+                            _arrDom[i].parentNode.className = "q-a"
+                            var _index = _real_an.indexOf(i.toString());
+                            if (_index >= 0) {
+                                _real_an.splice(_index, 1)
+                                if (_arrDom[i].checked != true) {
+                                    _arrDom[i].parentNode.className = "q-a real"
+                                }
+                            } else {
+                                if (_arrDom[i].checked == true) {
+                                    _arrDom[i].parentNode.className = "q-a error"
+                                }
+                            }
+
+                        })
+                    }
+
+
+
+                })
+            }
+
+            markAnswer();
+    </script>
+

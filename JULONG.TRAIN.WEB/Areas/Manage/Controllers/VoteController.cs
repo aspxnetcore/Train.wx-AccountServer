@@ -12,7 +12,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
     using Model;
     using Models;
     using TRAIN.LIB;
-    //[AccountFilter]
+    [AccountFilter]
     public class VoteController : Controller
     {
         private BaseDBContext db = new BaseDBContext();

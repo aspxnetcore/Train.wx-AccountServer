@@ -54,7 +54,15 @@
 				<input id="slider_0_value" name="Time" type="text" class="form-control" />
 			</div>
 		</div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">多选全对计分</label>
+            <div class="col-md-10"  >
+                @Html.EditorFor(model => model.MultipleQuestionCelValue, "checkbox",new { disable = Model.Id == 0 ? false :true })
 
+                <span>默认(不选中)： 多选题满分必须大于等于正确答案数，每答对一个给1分，全部答对给满分，打错一个不计分；
+        (选中):全答对满分，少答错答0分</span>
+            </div>
+        </div>
         <div class="form-group">
 			<label class="col-md-2 control-label">作废</label>
 

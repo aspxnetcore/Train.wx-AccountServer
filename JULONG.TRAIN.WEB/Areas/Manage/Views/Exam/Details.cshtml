@@ -3,7 +3,7 @@
 
 @{
 	ViewBag.menu1 = "考试";
-	ViewBag.menu11 = Model.Name+"   "+Model.QuestionCount+ "道" +" ("+Model.Value+"分)";
+	ViewBag.menu11 = Model.Name;
 	ViewBag.menu21 = "编辑";
 
 	int? id = ViewBag.id;
@@ -91,9 +91,24 @@
 			.selectQuestions li:hover .icon, .partQuestions li:hover .icon {
 				color: #4C8FBD;
 			}
+    .question{
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        max-width:900px;
+        margin:5px;
+        
+        border-top:1px solid #f0f0f0;
+    }
+    .question.disabled .q-c,.question.disabled .q-t{
+        text-decoration:line-through;
+        color:gray;
+    }
 </style>
-<div ng-app="app" ng-controller="main">
-	<table style="min-height:500px;" class="table-frame">
+<div ng-app="app" ng-controller="main" style="position:relative">
+    <div style="position:absolute;right:10px;top:-55px;">共： <span  ng-bind="examQuickInfo.questionCount"></span>道 <span ng-bind="examQuickInfo.allValue"></span>分</div>
+
+	<table style="min-height:500px;" class="table-frame" >
 		<tr style="color:#4C8FBD; ">
 			<td height="40">
 				<button class="btn btn-xs green" style="vertical-align:bottom" ng-click="Part_edit()"><i class="fa fa-plus"></i></button>
@@ -112,8 +127,8 @@
 					@foreach (ExamPart ttp in Model.Parts.OrderByDescending(d => d.Index))
 					{
 						<li ng-click="Part_select(@ttp.Id,$event)" data-id="@ttp.Id" data-index="@ttp.Index" title="@ttp.Exp" class="@(ttp.IsDisabled?"disabled":"")">
-							<a href="#!" title="修改" ng-click="Part_edit(@ttp.Id,'@ttp.Name',@ttp.Index)"><i class="fa fa-pencil-square"></i></a>
-							<a href="#! " title="删除" ng-click="Part_del(@ttp.Id)"><i class="fa fa-times"></i></a>
+							<a href="#!" title="修改" ng-click="Part_edit(@ttp.Id,'@ttp.Name',@ttp.Index)"><i class="fa fa-pencil-square" style="color:#26A69A"></i></a>
+							<a href="#! " title="删除" ng-click="Part_del(@ttp.Id)"><i class="fa fa-times" style="color:gray"></i></a>
 							<span class="name" >@ttp.Name</span>
 
 						</li>
@@ -124,11 +139,11 @@
 			<td style="border-left:2px solid #a6cce8;">
 				<ul class="partQuestions">
 
-					<li ng-repeat="q in PartQuestions | orderBy:'-Index'" ng-click="Question_edit(q)" ng-class="{true:'question alert-info',false:'question'}[q.IsDisabled]">
-						@*<i class='fa fa-edit' ng-click="Question_edit(q)"></i>*@
+					<li ng-repeat="q in PartQuestions | orderBy:'-Index'" ng-click="Question_edit(q)" ng-class="{true:'question disabled',false:'question'}[q.IsDisabled]">
+						<i class='fa fa-arrow-circle-up' ng-click="Question_up(q)"></i>
 						<i class='fa  fa-times' ng-click="Question_del(q,$event)"></i>
-                        <span class="" ng-bind="q.type"></span>
-						<span ng-bind="q.Content"></span>
+                        <span class="q-t" ng-bind="'['+ (q.Type | questionType)+']'"></span>
+						<span  class="q-c" ng-bind="q.Content"></span>
 					</li>
 
 				</ul>
@@ -253,11 +268,11 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-2">排序</label>
+							@*<label class="control-label col-md-2">排序</label>
 							<div class="col-md-2">
 								<input type="number" class="form-control" ng-model="Question.Index" />
 
-							</div>
+							</div>*@
 							<label class="control-label col-md-2">隐藏</label>
 							<div class="col-md-2">
 								<div class="md-checkbox" style="margin-top:7px">
@@ -278,6 +293,11 @@
 							<div class="col-md-2">
 								<input type="number" class="form-control" ng-model="Question.Value" />
 							</div>
+                            <div class="col-md-8">
+                                <span ng-if="Question.Type==2">
+                                    该卷采用“部分答对计分”，多选题分值必须大于等于正确答案数，每对1题给1分，全部答对满分，打错1个0分
+                                </span>
+                            </div>
 						</div>
 
 						<input type="hidden" name="AnswerReals" />
@@ -323,7 +343,9 @@
 @section footer{
 <script src="~/Content/j/angular.min.js"></script>
 	<script>
-	var examId =@(Model.Id);
+
+    var examId =@(Model.Id);
+    var mulitQuestionCelValue=@(Model.MultipleQuestionCelValue? "true" : "false"); // true:多选全答对计分 false:多选部分答对计分
 	var nowPartId=0;
 	var stopEvent= function (e) {
 		if (e && e.stopPropagation) {
@@ -339,6 +361,22 @@
 		}
 	}
 	var mxApp = angular.module("app", []);
+	mxApp.filter('questionType',function(){
+	    return function(v){
+	        switch(v){
+	            case 0:
+	                return "单选";
+	            case 1:
+	                return "多选";
+	            case 2:
+	                return "判断";
+	            case 3:
+	                return "问答";
+	            default:
+	                return "未知";
+	        }
+	    }
+	});
 	mxApp.controller("main", ["$scope", "$http", function ($scope, $http) {
 		ngInit($scope, $http);
 
@@ -352,14 +390,22 @@
 				}
 			})
 		}
-
+		$scope.examQuickInfo={
+		    questionCount:0,
+            allValue:0
+		}
+		$scope.getExamQuickInfo=function(){
+		    $scope.myAjax($http.post("/manage/exam/getExamQuickInfo/"+examId),function(data){
+		        $scope.examQuickInfo = data;
+		    })
+		}
 		$scope.Question = {Answers:[]};
 
 		$scope.Question_edit = function (q) {
 			var _questionDefault={
 				Id:0,
 				Type:0,
-				Index:0,
+				//Index:0,
 				Value:2,
 				Answers0:[{ text: "", isValid: false,isDefault:true}],//单选
 				Answers1:[{ text: "", isValid: false,isDefault:true}],//多选
@@ -367,7 +413,7 @@
 				Answers3:[]//问答
 			}
 			if(nowPartId==0){
-				bootbox.alert("需要先选择试卷章节");
+				bootbox.alert("请先选择试卷章节");
 				return;
 			}
 			if(!q){
@@ -407,21 +453,42 @@
 			bootbox.confirm("确认删除?",function(res){
 				if(res){
 					$scope.myAjax($http.post("/manage/exam/delExamQuestion/"+item.Id),function(){
-						$scope.Part_select(item.partId);
+					    $scope.Part_select(item.partId);
+					    $scope.getExamQuickInfo();
 					})
 				}
 
 			})
 
 		}
+		$scope.Question_up = function (item,evt) {
+		    stopEvent(evt)
+
+		    $scope.myAjax($http.post("/manage/exam/upExamQuestion/"+item.Id),function(){
+		        $scope.Part_select(item.partId);
+		    })
+		}
 		$scope.Question_submit = function () {
 
 			var error=null;
 			if($scope.Question.Content==""){
 
-				error="题干不能为空";
+			    bootbox.alert("题干不能为空");
 				return;
 			}
+			var val;
+
+            try{
+                val = parseInt($scope.Question.Value);
+            }catch(e){
+                bootbox.alert("请输入正确的分值");
+                return;
+            }
+            if($scope.Question.Type!=3 && $scope.Question.Value<=0 ){
+                bootbox.alert("请输入正确的分值");
+                return;
+			}
+
 			switch($scope.Question.Type){
 				case 0: //单选
 					var _am=0
@@ -430,7 +497,7 @@
 						if(v.isValid===true)_am++;
 					})
 					if(_am!=1){
-						error="请确认正确答案的唯一"
+					    error="请确认正确答案的唯一";
 					}
 					break;
 				case 1://多选
@@ -440,7 +507,13 @@
 						if(v.isValid===true)_am++;
 					})
 					if(!(_am>1)){
-						error="多选题的正确答案需至少两个"
+					    error="多选题的正确答案需至少两个";
+					}
+
+					if(!mulitQuestionCelValue){//多选采用部分答对计分
+					    if(val<_am){
+					        error="由于该试卷采用“多选部分答对计分方式”，该题分值不得少于对正确答案数";
+					    }
 					}
 					break;
 				case 2://判断
@@ -460,6 +533,7 @@
 			$scope.myAjax($http.post('/manage/exam/editExamQuestion', $scope.Question), function (res) {
 				$("#QPanel").modal('hide');
 				$scope.Part_select(nowPartId);
+				$scope.getExamQuickInfo()
 			})
 		}
 
@@ -517,7 +591,8 @@
 				})
 		}
 
-		$scope.Part_select()
+	    $scope.Part_select()
+	    $scope.getExamQuickInfo();
 	}]);
 
 

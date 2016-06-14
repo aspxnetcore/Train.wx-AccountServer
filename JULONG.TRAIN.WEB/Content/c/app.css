@@ -746,11 +746,11 @@ font-size:70%;
 	color:#2e353d;
 	font-family:Arial;
 	font-size:.7rem;
-	transition:all .3s;
+	/*transition:all .3s;*/
 	overflow:hidden;
 }
 .q-item .q-i:before{
-	left:2.4rem;
+	/*left:2.4rem;
 	width:3rem;
 	height:3rem;
 	line-height:3rem;
@@ -758,7 +758,7 @@ font-size:70%;
 	transition:all  .3s;
 	background-color:#06ac90;
 	color:#fff;
-	position:absolute;
+	position:absolute;*/
 }
 .q-item.error{
 	background-color: #f6e9e9;
@@ -787,11 +787,11 @@ font-size:70%;
 	/*background-color:#f2f2f2;*/
 }
 .q-item.error:hover .q-i{
-	top:2px;
+	/*top:2px;
 	left:3.3rem;
 	width:3rem;
 	height:3rem;
-	line-height:3rem;
+	line-height:3rem;*/
 }
 .q-item.error:hover .q-i:before{
 	left:0;
@@ -821,7 +821,7 @@ font-size:70%;
 
 	border:2px solid #bfb868;
 	background-color:#bfb868;
-	/*position:relative;*/
+	position:relative;
 }
 .q-a:hover input[type=checkbox],.q-a:hover input[type=radio]{
 	border:2px solid #06ac90;

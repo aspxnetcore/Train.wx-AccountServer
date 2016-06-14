@@ -15,7 +15,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
     using JULONG.TRAIN.WEB.Models;
     using JULONG.TRAIN.LIB;
         using Models;
-            //[AccountFilter]
+            [AccountFilter]
 
 
     public class NewsController : Controller

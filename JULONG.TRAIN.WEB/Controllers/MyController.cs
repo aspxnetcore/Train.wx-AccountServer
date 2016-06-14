@@ -26,7 +26,7 @@ namespace JULONG.TRAIN.WEB.Controllers
         }
         public ActionResult Tests()
         {
-            ViewData.Model = db.TestResult.Where(d => d.TestElement.StudentId == account.studentId).OrderByDescending(d => d.SubmitDate).Take(12);
+            ViewData.Model = db.TestResult.Where(d => d.StudentId == account.studentId).OrderByDescending(d => d.SubmitDate).Take(12);
             return View();
         }
         public ActionResult votes()

@@ -24,30 +24,37 @@ namespace JULONG.TRAIN.WEB.Models
         public static BoolAny<TestVertifyResult> Start(Controller cc, BaseDBContext db, int studentId, Test test)
         {
             var result = Verify(cc, db, studentId, test);
-            var element = test.Elements.FirstOrDefault(d => d.StudentId == studentId);
+            var tesresult = test.TestResults.FirstOrDefault(d => d.StudentId == studentId);
             if (result.t.Statue == TestStatue.新的)
             {
                
-                if (element == null)
-                {
-                    element = new TestElement();
-                    element.StudentId = studentId;
-                    element.TestResults = new List<TestResult>();
-                    test.Elements.Add(element);
-                    db.SaveChanges();
-                }
+                //if (element == null)
+                //{
+                //    element = new TestElement();
+                //    element.StudentId = studentId;
+                //    element.TestResults = new List<TestResult>();
+                //    test.Elements.Add(element);
+                //    db.SaveChanges();
+                //}
+
                 var tr = new TestResult()
                 {
                     TestId = test.Id,
                     ExamId = test.ExamId.Value,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    StudentId = studentId
                 };
-                element.TestResults.Add(tr);
+                test.TestResults.Add(tr);
                 test.JoinCount++;
-
+                test.StudentCount++;
+                try { 
                 db.SaveChanges();
+                }catch(Exception e)
+                {
 
-                cc.Session["TestSession"] = new TestSession()
+                }
+
+                setTestSession(test,cc, new TestSession()
                 {
                     DateBegin = result.t.DateBegin,
                     DateEnd = result.t.DateEnd,
@@ -55,22 +62,22 @@ namespace JULONG.TRAIN.WEB.Models
                     studentId = studentId,
                     openid = "",
                     TestResultId = tr.Id
-                };
+                });
                 //写记录
 
                 //var xx = test.Elements.FirstOrDefault(d => d.StudentId == studentId).TestResults;
             }
             if (result.t.Statue == TestStatue.继续)
             {
-                cc.Session["TestSession"] = new TestSession()
+                setTestSession(test, cc, new TestSession()
                 {
                     DateBegin = result.t.DateBegin,
                     DateEnd = result.t.DateEnd,
                     TestId = test.Id,
                     studentId = studentId,
                     openid = "",
-                    TestResultId = element.TestResults.FirstOrDefault().Id,
-                };
+                    TestResultId = tesresult.Id,
+                });
             }
             return result;
         }
@@ -89,16 +96,10 @@ namespace JULONG.TRAIN.WEB.Models
         public static BoolAny<TestVertifyResult> Verify(Controller cc, BaseDBContext db, int studentId, Test test)
         {
             TestResult testResult = null;
-            var element = test.Elements.FirstOrDefault(d => d.Student.Id == studentId);
-            if (element != null)
-            {
-                testResult = element.TestResults.FirstOrDefault();
-            }
-
-            TestSession testSession = cc.Session["TestSessin"] as TestSession;
+            testResult = test.TestResults.FirstOrDefault(d => d.Student.Id == studentId);
 
 
-            if (testResult == null) //没有记录，第一次进入时必有记录, 因此必是第一次进入
+            if (testResult == null) //没有记录，
             {
                 var now = DateTime.Now;
                 return BoolAny<TestVertifyResult>.succeed(new TestVertifyResult()
@@ -111,8 +112,9 @@ namespace JULONG.TRAIN.WEB.Models
             }
             else //有记录
             {
+                TestSession testSession = getTestSession(test,cc);
 
-                if (testSession == null) //没有session 从数据库中读取
+                if (testSession == null || testSession.TestResultId != testResult.Id) //没有session,或seesion中 指定考试的id不匹配， 从数据库中读取
                 {
                     if (testResult.SubmitDate == null)
                     {//上次没有答完
@@ -125,6 +127,7 @@ namespace JULONG.TRAIN.WEB.Models
                                 Statue = TestStatue.超时,
                                 DateBegin = testResult.Date,
                                 DateEnd = testResult.Date.Add(test.Exam.Time),
+                                resultID = testResult.Id,
                                 Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")未打答完，现已超时"
                             });
 
@@ -137,8 +140,9 @@ namespace JULONG.TRAIN.WEB.Models
                             {
                                 Statue = TestStatue.继续,
                                 DateBegin = testResult.Date,
+                                resultID = testResult.Id,
                                 DateEnd = testResult.Date.Add(test.Exam.Time),
-                                Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")未打答完，现继续考试，剩余约" + (testResult.Date.Add(test.Exam.Time) - DateTime.Now).TotalMinutes + "分钟"
+                                Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")未打答完，现继续考试，剩余约" +  ((testResult.Date.Add(test.Exam.Time) - DateTime.Now).TotalMinutes).ToString("0.0") + "分钟"
                             });
                         }
                     }
@@ -148,6 +152,7 @@ namespace JULONG.TRAIN.WEB.Models
                         {
                             Statue = TestStatue.完成,
                             DateBegin = testResult.Date,
+                            resultID = testResult.Id,
                             DateEnd = testResult.SubmitDate.Value,
                             Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")，已答完"
                         });
@@ -166,6 +171,7 @@ namespace JULONG.TRAIN.WEB.Models
                             {
                                 Statue = TestStatue.超时,
                                 DateBegin = testSession.DateBegin,
+                                resultID = testResult.Id,
                                 DateEnd = testSession.DateEnd,
                                 Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")未打答完，现已超时"
                             });
@@ -179,6 +185,7 @@ namespace JULONG.TRAIN.WEB.Models
                                 Statue = TestStatue.继续,
                                 DateBegin = testSession.DateBegin,
                                 DateEnd = testSession.DateEnd,
+                                resultID = testResult.Id,
                                 Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")未打答完，现继续考试，剩余约" + (testSession.DateEnd - DateTime.Now).TotalMinutes + "分钟"
                             });
                         }
@@ -190,6 +197,7 @@ namespace JULONG.TRAIN.WEB.Models
                             Statue = TestStatue.完成,
                             DateBegin = testResult.Date,
                             DateEnd = testResult.SubmitDate.Value,
+                            resultID = testResult.Id,
                             Message = "上次考试(" + testResult.Date.ToString("yyyy-MM-dd HH:mm") + ")，已答完"
                         });
                     }
@@ -204,21 +212,70 @@ namespace JULONG.TRAIN.WEB.Models
         /// <param nickname="studentAnswers"></param>
         /// <param nickname="rightCount"></param>
         /// <param nickname="value"></param>
-        public static TestResult CalTestResult(List<ExamQuestion> questions, string studentAnswers)
+        public static TestResult CalTestResult(Exam exam, string studentAnswers)
         {
-            int value = 0,rightCount = 0;
-            string[] idx = studentAnswers.Split('|');
+            int value = 0, rightCount = 0;
+            string[] user_ans = studentAnswers.Split('|');
+            string[] true_ans = exam.AnswerCache.Split('|');
 
-            if (questions.Count != idx.Length)
+            if (true_ans.Length != user_ans.Length)
             {
                 throw new Exception("答案与题数不符");
             }
 
-            for(int i=0;i<idx.Length;i++){
-                if( questions[i]._TrueAnswers == idx[i]){
-                    value += questions[i].Value;
-                    rightCount++;
+
+
+            for (int i = 0; i < user_ans.Length; i++) {
+                var true_an = true_ans[i].Split('-');
+                var q_value = int.Parse(true_an[0]);
+                var q_an = true_an[1];
+
+                if (exam.MultipleQuestionCelValue)
+                {//第一种方式 全答对满分，少答错答0分
+                    if (q_an == user_ans[i])
+                    {//完全正确
+                        value += q_value;
+                        rightCount++;
+                    }
                 }
+                else
+                {//第二部方式计算：多选题满分必须大于等于正确答案数，每答对一个给1分，全部答对给满分，打错一个不计分
+
+                    if (true_an[1] != "")
+                    {//不是问答题
+
+                        if (q_an == user_ans[i])
+                        {//完全正确
+                            value += q_value;
+                            rightCount++;
+                        }
+                        else
+                        {
+                            if (true_an[1].IndexOf(",") > -1)
+                            { //多选 计分
+                                var q_ans = true_an[1].Split(',');
+                                var ans = user_ans[i].Split(',');
+                                if (q_ans.Length > ans.Length)
+                                {//可能存答对一部分
+                                    int _value = 0;
+                                    foreach (var a in ans)
+                                    {
+                                        if (q_ans.Contains(a)) {
+                                            _value++;
+                                        } else
+                                        {
+                                            _value = 0;
+                                            break;
+                                        }
+                                    }
+                                    value += _value;
+                                }
+
+                            }
+                        }
+                    }
+                }
+
             }
             return new TestResult()
             {
@@ -227,6 +284,14 @@ namespace JULONG.TRAIN.WEB.Models
             };
         }
         public static string AnswersTokenKey="windbell2";
+        public static void setTestSession(Test test, Controller cc, TestSession ts) 
+        {
+            cc.Session["TestSession_" + test.Id] = new TestSession();
+        }
+        public static TestSession getTestSession(Test test, Controller cc)
+        {
+            return (cc.Session["TestSession_" + test.Id] as TestSession);
+        }
     }
     /// <summary>
     /// session模型
@@ -238,7 +303,7 @@ namespace JULONG.TRAIN.WEB.Models
         public int studentId { get; set; }
         public string openid { get; set; }
         public int TestId { get; set; }
-        public int TestElementId { get; set; }
+
         public int TestResultId { get; set; }
     }
     public enum TestStatue
@@ -257,6 +322,7 @@ namespace JULONG.TRAIN.WEB.Models
         public DateTime DateBegin { get; set; }
         public DateTime DateEnd { get; set; }
         public String Message { get; set; }
+        public int? resultID { get; set; }
     }
 
 

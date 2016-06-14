@@ -12,7 +12,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
     using JULONG.TRAIN.WEB.Models;
     using Newtonsoft.Json;
     using System.Text;
-    //[AccountFilter]
+    [AccountFilter]
     public class MaterialController : Controller
     {
         DBContext db = new DBContext();

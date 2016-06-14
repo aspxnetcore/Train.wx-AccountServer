@@ -10,7 +10,7 @@ namespace JULONG.TRAIN.WEB.Areas.Manage.Controllers
 
     using Model;
     using Models;
-    //[AccountFilter]
+    [AccountFilter]
     public class VoteLogController : Controller
     {
         //

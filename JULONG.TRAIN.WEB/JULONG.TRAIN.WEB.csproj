@@ -1313,12 +1313,6 @@
     <Content Include="Areas\Manage\Views\News\Index.cshtml" />
     <Content Include="Areas\Manage\Views\News\Type.cshtml" />
     <Content Include="Areas\Manage\Views\News\TypeEdit.cshtml" />
-    <Content Include="Areas\Manage\Views\QuestionGroups\Create.cshtml" />
-    <Content Include="Areas\Manage\Views\QuestionGroups\Delete.cshtml" />
-    <Content Include="Areas\Manage\Views\QuestionGroups\Details.cshtml" />
-    <Content Include="Areas\Manage\Views\QuestionGroups\Edit.cshtml" />
-    <Content Include="Areas\Manage\Views\QuestionGroups\EditQuestion.cshtml" />
-    <Content Include="Areas\Manage\Views\QuestionGroups\Index.cshtml" />
     <Content Include="Areas\Manage\Views\Sample\Index.cshtml" />
     <Content Include="Areas\Manage\Views\statistics\Index.cshtml" />
     <Content Include="Areas\Manage\Views\statistics\online.cshtml" />
@@ -1523,6 +1517,7 @@
     <Content Include="Views\RenderTemplate\试卷html模板.cshtml" />
     <Content Include="Views\RenderTemplate\试卷htmldoc导出模板.cshtml" />
     <Content Include="Views\RenderTemplate\试卷html导出模板.cshtml" />
+    <Content Include="Areas\Manage\Views\Test\ResultView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccountServiceApi\JULONG.AccountServiceSDK.csproj">
